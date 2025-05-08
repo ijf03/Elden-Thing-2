@@ -65,8 +65,8 @@ public class Inheritree extends Ground implements Plantable {
         else if (this.isBloomed()) {
             for (Exit exit : location.getExits()) {
                 Location surroundLocation = exit.getDestination();
-                if (surroundLocation.getActor() instanceof Player) { // TEMP FIX
-                    surroundLocation.getActor().heal(5);
+                surroundLocation.getActor().heal(5);
+                if (surroundLocation.getActor().hasAttribute(BaseActorAttributes.STAMINA)) {
                     surroundLocation.getActor().modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, 5);
                 }
             }

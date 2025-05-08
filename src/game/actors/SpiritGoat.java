@@ -10,6 +10,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.AttackAction;
 import game.actions.CureAction;
+import game.actors.behaviours.NPCController;
+import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.actors.behaviours.WanderBehaviour;
 
@@ -21,20 +23,18 @@ import java.util.Map;
  * @author Trinh Nguyen
  */
 public class SpiritGoat extends Actor implements Curable {
-    /**
-     * A Hashmap storing all the behaviours
-     */
-    private Map<Integer, Behaviour> behaviours = new HashMap<>();
+
 
     /**
      * Integer to keep count of how many turns have gone
      */
     private int turnCounter;
+    private final NPCController NPCController;
 
     public SpiritGoat() {
         super("SpiritGoat",'y', 50);
-        this.behaviours.put(999, new WanderBehaviour());
         this.turnCounter = 10;
+        this.NPCController = new StandardNPCController();
     }
     /**
      * At each turn, select a valid action to perform.
@@ -52,13 +52,11 @@ public class SpiritGoat extends Actor implements Curable {
             map.removeActor(this);
             return new DoNothingAction();
         }
-        for (Behaviour behaviour : behaviours.values()) {
-            Action action = behaviour.getAction(this, map);
-            if(action != null)
-                return action;
+        if (NPCController.retrieveNextAction(this, map) == null) {
+            return new DoNothingAction();
+        } else {
+            return NPCController.retrieveNextAction(this, map);
         }
-
-        return new DoNothingAction();
     }
 
     /**
@@ -77,7 +75,7 @@ public class SpiritGoat extends Actor implements Curable {
             actions.add(new AttackAction(this, direction));
         }
         if (otherActor.hasCapability(Status.CURE)){
-            actions.add(new CureAction(this, map.locationOf(otherActor), direction));
+            actions.add(new CureAction(this, map.locationOf(this), direction));
         }
         return actions;
     }
