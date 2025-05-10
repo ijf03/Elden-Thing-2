@@ -8,5 +8,7 @@ package game.capabilities;
 public enum Status {
     HOSTILE_TO_ENEMY,
     PLANTABLE_TERRAIN,
-    CURE // When an actor has an item that has this capability, this is copied up to the actors' list of capabilities
+    CURE, // When an actor has an item that has this capability, this is copied up to the actors' list of capabilities
+    BLESSED,
+    INCREASE_MAX_HEALTH
 }
