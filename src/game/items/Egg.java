@@ -89,7 +89,7 @@ public class Egg extends Item implements Hatchable, Consumable {
     @Override
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = super.allowableActions(owner, map);
-        actions.add(new EatAction(this, getMaxHealthBoost()));
+        actions.add(new EatAction(this));
         return actions;
     }
 }

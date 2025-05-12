@@ -12,11 +12,9 @@ import game.capabilities.Status;
 public class EatAction extends Action {
 //    private Item item;
     private Consumable consumable;
-    private int maxHealthBoost;
 
-    public EatAction(Consumable consumable, int maxHealthBoost) {
+    public EatAction(Consumable consumable) {
         this.consumable = consumable;
-        this.maxHealthBoost = maxHealthBoost;
     }
 
     // Getters & Setters
@@ -26,14 +24,6 @@ public class EatAction extends Action {
 
     public void setConsumable(Consumable consumable) {
         this.consumable = consumable;
-    }
-
-    public int getMaxHealthBoost() {
-        return maxHealthBoost;
-    }
-
-    public void setMaxHealthBoost(int maxHealthBoost) {
-        this.maxHealthBoost = maxHealthBoost;
     }
 
     @Override
