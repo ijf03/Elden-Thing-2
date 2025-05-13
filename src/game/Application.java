@@ -4,10 +4,9 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
-import game.actors.OmenSheep;
-import game.actors.Player;
-import game.actors.SpiritGoat;
+import game.actors.*;
 import game.items.Seed;
 import game.terrain.Bloodrose;
 import game.terrain.Inheritree;
@@ -73,6 +72,13 @@ public class Application {
         player.addItemToInventory(new Talisman());
         player.addAttribute(STAMINA ,new BaseActorAttribute(100));
         world.addPlayer(player, gameMap.at(25, 13));
+
+        Location kaleLocation = gameMap.at(10, 5);
+        gameMap.addActor(new Kale(), kaleLocation);
+
+        Location sellenLocation = gameMap.at(12, 5);
+        gameMap.addActor(new Sellen(sellenLocation), sellenLocation);
+
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
