@@ -12,13 +12,19 @@ public class KaleDragonslayerPurchaseAction extends PurchaseAction {
         super(new DragonslayerGreatsword(), 1700);
     }
 
-    @Override
+    /*@Override
     protected void applyGlobalEffect(Player player) {
         player.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 15);
-    }
-
+    }*/
     @Override
     protected void applyMerchantBonus(Player player, GameMap map) {
+        int currentHp = player.getAttribute(BaseActorAttributes.HEALTH);
+
+        // Step 2: Increase max HP (overwrites current)
+        player.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 15);
+
+        // Step 3: Restore original current HP (capped to new max)
+        player.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, currentHp);
         player.restoreStamina(20);
     }
 

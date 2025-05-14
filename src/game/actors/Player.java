@@ -3,6 +3,7 @@ package game.actors;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
@@ -28,9 +29,6 @@ import java.util.Map;
  */
 public class Player extends Actor {
 
-
-    private Map<BaseActorAttributes, BaseActorAttribute> attributes = new HashMap<>();
-
     /**
      * Constructor.
      *
@@ -40,8 +38,8 @@ public class Player extends Actor {
      */
     public Player(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
-        attributes.put(BaseActorAttributes.HEALTH, new BaseActorAttribute(100));
-        attributes.put(BaseActorAttributes.STAMINA, new BaseActorAttribute(200));
+        this.addAttribute(BaseActorAttributes.HEALTH, new BaseActorAttribute(100));
+        this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(200));
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.setIntrinsicWeapon(new BareFist());  // Default weapon
 
@@ -57,7 +55,8 @@ public class Player extends Actor {
     @Override
     public String toString() {
         return super.toString() +
-                " | Stamina: " + getStamina() + "/" + attributes.get(BaseActorAttributes.STAMINA).getMaximum();
+                " | Stamina: " + this.getAttribute(BaseActorAttributes.STAMINA) + "/" +
+                this.getAttributeMaximum(BaseActorAttributes.STAMINA);
     }
 
     /**
@@ -83,8 +82,11 @@ public class Player extends Actor {
         if (lastAction.getNextAction() != null)
             return lastAction.getNextAction();
 
+        display.println("--- Your Runes: " + this.getBalance() + " ---");
+
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
+
     }
 
     /**
@@ -94,24 +96,27 @@ public class Player extends Actor {
      */
 
     public int getStamina() {
-        return attributes.get(BaseActorAttributes.STAMINA).get();
+        return this.getAttribute(BaseActorAttributes.STAMINA);
     }
+
     /**
      * Reduces the player's stamina by a specific amount.
      *
      * @param amount the amount of stamina decrease
      */
     public void reduceStamina(int amount) {
-        attributes.get(BaseActorAttributes.STAMINA).decrease(amount);
+        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, amount);
     }
+
     /**
      * Restores the player's staminaa by a specific amount.
      *
      * @param amount the amount of stamina increase
      */
     public void restoreStamina(int amount) {
-        attributes.get(BaseActorAttributes.STAMINA).increase(amount);
+        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, amount);
     }
+
 
     /**
      * Heals the Player by the specified amount of health points.

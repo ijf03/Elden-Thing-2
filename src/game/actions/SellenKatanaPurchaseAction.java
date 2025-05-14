@@ -28,16 +28,25 @@ public class SellenKatanaPurchaseAction extends PurchaseAction {
 
     @Override
     protected void applyMerchantBonus(Player player, GameMap map) {
-        List<Location> nearby = TileLocation.getNearbyTiles(map, merchantLocation);
-        for (Location loc : nearby) {
-            if (!loc.containsAnActor()) {
+        Location playerLoc = map.locationOf(player);
+        int currentStamina = player.getAttribute(BaseActorAttributes.STAMINA);
+
+        for (Location loc : TileLocation.getNearbyTiles(map, playerLoc)) {
+            boolean isSoil = loc.getGround().toString().equalsIgnoreCase("Soil");
+            boolean isFree = !loc.containsAnActor();
+
+            if (isSoil && isFree) {
                 loc.addActor(new OmenSheep());
                 break;
             }
         }
 
         player.heal(10);
+        // Step 1: Increase max (this resets current to 220)
         player.modifyAttributeMaximum(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, 20);
+
+// Step 2: Restore the original value (e.g. 125)
+        player.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, currentStamina);
     }
 
     @Override

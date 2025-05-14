@@ -65,18 +65,19 @@ public class Application {
         }
 
         Player player = new Player("Farmer", '@', 100);
+        player.addBalance(3500);
         Seed InheritreeSeed = new Seed("Inheritree Seed", new Inheritree("Inheritree"));
         Seed BloodroseSeed = new Seed("Bloodrose Seed", new Bloodrose("Bloodrose"));
         player.addItemToInventory(InheritreeSeed);
         player.addItemToInventory(BloodroseSeed);
         player.addItemToInventory(new Talisman());
-        player.addAttribute(STAMINA ,new BaseActorAttribute(100));
+        player.addAttribute(STAMINA ,new BaseActorAttribute(200));
         world.addPlayer(player, gameMap.at(25, 13));
 
-        Location kaleLocation = gameMap.at(10, 5);
+        Location kaleLocation = gameMap.at(20, 10);
         gameMap.addActor(new Kale(), kaleLocation);
 
-        Location sellenLocation = gameMap.at(12, 5);
+        Location sellenLocation = gameMap.at(20, 11);
         gameMap.addActor(new Sellen(sellenLocation), sellenLocation);
 
 

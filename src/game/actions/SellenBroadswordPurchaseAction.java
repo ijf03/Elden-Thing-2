@@ -14,14 +14,22 @@ public class SellenBroadswordPurchaseAction extends PurchaseAction {
     }
 
     @Override
-    protected void applyGlobalEffect(Player player) {
-        player.heal(10); // universal to all broadswords
+    protected void applyMerchantBonus(Player player, GameMap map) {
+        int originalHp = player.getAttribute(BaseActorAttributes.HEALTH); // e.g. 95
+
+        // Step 1: Increase max HP (this resets current HP to new max)
+        player.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 20);
+
+        // Step 2: Restore intended HP (original + 10), capped to new max
+        int desiredHp = Math.min(originalHp + 10, player.getAttributeMaximum(BaseActorAttributes.HEALTH));
+        player.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, desiredHp);
     }
 
-    @Override
-    protected void applyMerchantBonus(Player player, GameMap map) {
-        player.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 20);
-    }
+
+    /*@Override
+    protected void applyGlobalEffect(Player player) {
+        player.heal(10);
+    }*/
 
     @Override
     public String menuDescription(Actor actor) {

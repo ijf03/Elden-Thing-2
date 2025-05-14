@@ -17,23 +17,36 @@ public class SellenDragonslayerPurchaseAction extends PurchaseAction {
         super(new DragonslayerGreatsword(), 1500);
     }
 
-    @Override
+    /*@Override
     protected void applyGlobalEffect(Player player) {
         player.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 15);
-    }
+    }*/
 
     @Override
     protected void applyMerchantBonus(Player player, GameMap map) {
-        // spawn Golden Beetle
-        Location center = map.locationOf(player);
-        for (Location loc : TileLocation.getNearbyTiles(map, center)) {
-            if (!loc.containsAnActor()) {
-                loc.addActor(new GoldenBeetle());
-                break;
+        // Step 1: Preserve current HP
+        int currentHp = player.getAttribute(BaseActorAttributes.HEALTH);
+
+        // Step 2: Increase max HP
+        player.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 15);
+
+        // Step 3: Restore current HP
+        player.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, currentHp);
+
+        // Step 4: Spawn Golden Beetles on adjacent Soil tiles without actors
+        Location playerLoc = map.locationOf(player);
+
+        for (Location tile : TileLocation.getNearbyTiles(map, playerLoc)) {
+            boolean isSoil = tile.getGround().toString().equalsIgnoreCase("Soil");
+            boolean isEmpty = !tile.containsAnActor();
+
+            if (isSoil && isEmpty) {
+                tile.addActor(new GoldenBeetle());
             }
         }
-
     }
+
+
 
     @Override
     public String menuDescription(Actor actor) {
