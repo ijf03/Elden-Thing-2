@@ -8,7 +8,8 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actors.behaviours.WanderBehaviour;
-
+import game.actors.behaviours.NPCController;
+import game.actors.behaviours.StandardNPCController;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,10 +22,13 @@ public class GoldenBeetle extends Actor {
      * Behaviour map
      */
     private final Map<Integer, Behaviour> behaviours = new HashMap<>();
+    private final NPCController npcController;
+
 
     public GoldenBeetle() {
         super("Golden Beetle", 'b', 25);
         behaviours.put(999, new WanderBehaviour());
+        this.npcController = new StandardNPCController();
     }
 
     /**
@@ -34,12 +38,7 @@ public class GoldenBeetle extends Actor {
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        for (Behaviour behaviour : behaviours.values()) {
-            Action action = behaviour.getAction(this, map);
-            if (action != null) {
-                return action;
-            }
-        }
-        return new DoNothingAction();
+        Action action = npcController.retrieveNextAction(this, map);
+        return action != null ? action : new DoNothingAction();
     }
 }
