@@ -5,9 +5,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
-import game.actors.OmenSheep;
-import game.actors.Player;
-import game.actors.SpiritGoat;
+import game.actors.*;
 import game.items.Seed;
 import game.terrain.Bloodrose;
 import game.terrain.Inheritree;
@@ -76,8 +74,11 @@ public class Application {
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
-        gameMap.at(18, 8).addActor(new SpiritGoat());
+        gameMap.at(23, 12).addActor(new SpiritGoat());
         gameMap.at(20, 13).addActor(new OmenSheep());
+        gameMap.at(20,12).addActor(new Sellen());
+        gameMap.at(14,12).addActor(new Kale());
+        gameMap.at(24,12).addActor(new Guts());
 
         world.run();
     }

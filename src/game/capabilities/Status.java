@@ -6,6 +6,7 @@ package game.capabilities;
  * @author Riordan D. Alfredo
  */
 public enum Status {
+    PLAYABLE,
     HOSTILE_TO_ENEMY,
     PLANTABLE_TERRAIN,
     CURE // When an actor has an item that has this capability, this is copied up to the actors' list of capabilities

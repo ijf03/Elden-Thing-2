@@ -15,5 +15,5 @@ public interface NPCController {
      * @param map where the actor is
      * @return the next action
      */
-    public Action retrieveNextAction(Actor actor, GameMap map);
+    Action retrieveNextAction(Actor actor, GameMap map);
 }

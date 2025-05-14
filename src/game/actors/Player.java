@@ -8,6 +8,8 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.FancyMessage;
+import game.actions.AttackAction;
+import game.actions.ListenAction;
 import game.capabilities.Status;
 import game.weapons.BareFist;
 
@@ -26,6 +28,7 @@ public class Player extends Actor {
     public Player(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
         this.addCapability(Status.HOSTILE_TO_ENEMY);
+        this.addCapability(Status.PLAYABLE);
         this.setIntrinsicWeapon(new BareFist());
     }
 
@@ -49,10 +52,19 @@ public class Player extends Actor {
     }
 
     @Override
+    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
+            actions.add(new AttackAction(this, direction));
+        }
+        return actions;
+    }
+
+    @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         // If farmer is unconscious need print statement
         if (!this.isConscious()) {
-            System.out.println(FancyMessage.YOU_DIED);
+            display.println(FancyMessage.YOU_DIED);
             this.unconscious(map);
 //            actions.clear(); // Farmer can not take anymore actions if unconscious
 //            map.removeActor(this);
