@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.LayEggAction;
 import game.actors.behaviours.WanderBehaviour;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
@@ -23,7 +24,7 @@ public class GoldenBeetle extends Actor {
      */
     private final Map<Integer, Behaviour> behaviours = new HashMap<>();
     private final NPCController npcController;
-
+    private int turnCounter;
 
     public GoldenBeetle() {
         super("Golden Beetle", 'b', 25);
@@ -33,12 +34,17 @@ public class GoldenBeetle extends Actor {
 
     /**
      * At each turn select a valid action to perform
-     *
+     * lays egg every 5 turns
      */
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        turnCounter++;
+        if (turnCounter % 5 == 0) {
+            return new LayEggAction();
+        }
         Action action = npcController.retrieveNextAction(this, map);
         return action != null ? action : new DoNothingAction();
     }
+
 }
