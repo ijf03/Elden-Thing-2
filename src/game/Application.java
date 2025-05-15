@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
+import game.actors.GoldenBeetle;
 import game.actors.OmenSheep;
 import game.actors.Player;
 import game.actors.SpiritGoat;
@@ -78,6 +79,7 @@ public class Application {
         gameMap.at(24, 11).addItem(new Talisman());
         gameMap.at(18, 8).addActor(new SpiritGoat());
         gameMap.at(20, 13).addActor(new OmenSheep());
+        gameMap.at(21, 14).addActor(new GoldenBeetle());
 
         world.run();
     }
