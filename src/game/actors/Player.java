@@ -18,6 +18,9 @@ import game.weapons.BareFist;
  * @author Adrian Kristanto
  */
 public class Player extends Actor {
+
+    private int runes = 0;
+
     /**
      * Constructor.
      *
@@ -30,6 +33,7 @@ public class Player extends Actor {
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Status.PLAYABLE);
         this.setIntrinsicWeapon(new BareFist());
+        this.addCapability(Status.FOLLOWABLE);
     }
 
     /**
@@ -66,8 +70,6 @@ public class Player extends Actor {
         if (!this.isConscious()) {
             display.println(FancyMessage.YOU_DIED);
             this.unconscious(map);
-//            actions.clear(); // Farmer can not take anymore actions if unconscious
-//            map.removeActor(this);
         }
 
         // Handle multi-turn Actions
@@ -76,6 +78,16 @@ public class Player extends Actor {
 
         // return/print the console menu
         Menu menu = new Menu(actions);
+        // prints runes the player has
+        display.println("Runes: " + this.getRunes());
         return menu.showMenu(this, display);
     }
+    public void addRunes(int amount) {
+        this.runes += amount;
+    }
+
+    public int getRunes() {
+        return runes;
+    }
+
 }

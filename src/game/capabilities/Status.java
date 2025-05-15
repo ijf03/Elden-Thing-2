@@ -9,5 +9,10 @@ public enum Status {
     PLAYABLE,
     HOSTILE_TO_ENEMY,
     PLANTABLE_TERRAIN,
-    CURE // When an actor has an item that has this capability, this is copied up to the actors' list of capabilities
+    CURE, // When an actor has an item that has this capability, this is copied up to the actors' list of capabilities
+<<<<<<< src/game/capabilities/Status.java
+    FOLLOWABLE, // allows an actor to be followed by the FollowBehaviour
+    BLESSED,
+    INCREASE_MAX_HEALTH
 }
+>>>>>>> src/game/capabilities/Status.java

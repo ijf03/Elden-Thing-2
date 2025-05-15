@@ -6,8 +6,10 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import game.Reproducible;
 import game.actions.AttackAction;
 import game.actions.CureAction;
 import game.actors.behaviours.NPCController;
@@ -15,14 +17,16 @@ import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.actors.behaviours.WanderBehaviour;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Class representing the NPC SpritGoat which roams around
  * @author Trinh Nguyen
  */
-public class SpiritGoat extends Actor implements Curable {
+public class SpiritGoat extends Actor implements Curable, Reproducible {
 
 
     /**
@@ -30,6 +34,7 @@ public class SpiritGoat extends Actor implements Curable {
      */
     private int turnCounter;
     private final NPCController NPCController;
+//    private int reproductionCooldown = 0;
 
     public SpiritGoat() {
         super("SpiritGoat",'y', 50);
@@ -51,6 +56,15 @@ public class SpiritGoat extends Actor implements Curable {
         if (this.turnCounter <= 0) {
             map.removeActor(this);
             return new DoNothingAction();
+        }
+        // Check for nearby blessed entities (like Inheritree) and try to reproduce
+//        if (reproductionCooldown == 0 && canReproduce(map.locationOf(this))) {
+//            reproduce(map.locationOf(this));
+//            reproductionCooldown = 5; // Set cooldown period to prevent constant reproduction
+//        }
+        Location location = map.locationOf(this);
+        if (canReproduce(location)) {
+            reproduce(map, location);
         }
         if (NPCController.retrieveNextAction(this, map) == null) {
             return new DoNothingAction();
@@ -87,5 +101,35 @@ public class SpiritGoat extends Actor implements Curable {
      */
     public void cure(Actor curer, Location location) {
         this.turnCounter = 10;
+    }
+
+    @Override
+    public boolean canReproduce(Location location) {
+        for (Exit exit : location.getExits()) {
+            Location destination = exit.getDestination();
+            if (destination.getGround().hasCapability(Status.BLESSED)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void reproduce(GameMap map, Location location) {
+        // store list of valid locations
+        ArrayList<Location> exits = new ArrayList<Location>();
+        for (Exit exit : location.getExits()) { // location - map.locationOf(this)
+            Location destination = exit.getDestination();
+            if (destination.canActorEnter(this)) {
+                exits.add(destination);
+            }
+        }
+        // choose random location to spawn offspring
+        Random random = new Random();
+        if (exits.size() != 0) {
+            Location spawn = exits.get(random.nextInt(exits.size()));
+            SpiritGoat offspring = new SpiritGoat();
+            spawn.addActor(offspring);
+        }
     }
 }
