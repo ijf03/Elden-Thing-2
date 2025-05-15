@@ -60,20 +60,31 @@ public class AttackAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        if (actor.getAttribute(BaseActorAttributes.STAMINA) > 0) {
-            if (weapon == null) {
-                weapon = actor.getIntrinsicWeapon();
-            }
+        if (actor.hasAttribute(BaseActorAttributes.STAMINA)) {
+            if (actor.getAttribute(BaseActorAttributes.STAMINA) > 0) {
+                if (weapon == null) {
+                    weapon = actor.getIntrinsicWeapon();
+                }
 
-            String result = weapon.attack(actor, target, map);
-            if (!target.isConscious()) {
-                result += "\n" + target.unconscious(actor, map);
-            }
+                String result = weapon.attack(actor, target, map);
+                if (!target.isConscious()) {
+                    result += "\n" + target.unconscious(actor, map);
+                }
 
-            return result;
+                return result;
+            }
+            return actor + " does not have enough stamina to complete this action";
+        }
+        if (weapon == null) {
+            weapon = actor.getIntrinsicWeapon();
         }
 
-        return actor + " does not have enough stamina to complete this action";
+        String result = weapon.attack(actor, target, map);
+        if (!target.isConscious()) {
+            result += "\n" + target.unconscious(actor, map);
+        }
+
+        return result;
     }
 
     /**

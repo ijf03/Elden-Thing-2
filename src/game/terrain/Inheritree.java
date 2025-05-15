@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Plantable;
 import game.actors.Player;
+import game.capabilities.Status;
 
 /**
  * Class representing the Inheritree crop
@@ -24,6 +25,7 @@ public class Inheritree extends Ground implements Plantable {
     public Inheritree(String name) {
         super('t', name);
         this.CROP_PLANT_STATUS = PLANT_STATUS.PLANTED;
+        this.addCapability(Status.BLESSED);
     }
 
     /**

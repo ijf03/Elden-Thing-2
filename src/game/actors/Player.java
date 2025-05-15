@@ -9,9 +9,9 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.displays.Menu;
-import edu.monash.fit2099.engine.positions.Location;
-import game.actions.PlantAction;
+import game.FancyMessage;
+import game.actions.AttackAction;
+import game.actions.ListenAction;
 import game.capabilities.Status;
 import game.items.Seed;
 import game.weapons.BareFist;
@@ -29,6 +29,8 @@ import java.util.Map;
  */
 public class Player extends Actor {
 
+    private int runes = 0;
+
     /**
      * Constructor.
      *
@@ -41,10 +43,9 @@ public class Player extends Actor {
         this.addAttribute(BaseActorAttributes.HEALTH, new BaseActorAttribute(100));
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(200));
         this.addCapability(Status.HOSTILE_TO_ENEMY);
-        this.setIntrinsicWeapon(new BareFist());  // Default weapon
-
-
-
+        this.addCapability(Status.PLAYABLE);
+        this.setIntrinsicWeapon(new BareFist());
+        this.addCapability(Status.FOLLOWABLE);
     }
 
     /**
@@ -69,10 +70,19 @@ public class Player extends Actor {
      * @return The selected action
      */
     @Override
+    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
+            actions.add(new AttackAction(this, direction));
+        }
+        return actions;
+    }
+
+    @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         if (!this.isConscious()) {
-            display.println("YOU DIED");
-            System.exit(0);
+            display.println(FancyMessage.YOU_DIED);
+            this.unconscious(map);
         }
 
         Location currentLocation = map.locationOf(this);
@@ -85,6 +95,8 @@ public class Player extends Actor {
         display.println("--- Your Runes: " + this.getBalance() + " ---");
 
         Menu menu = new Menu(actions);
+        // prints runes the player has
+        display.println("Runes: " + this.getRunes());
         return menu.showMenu(this, display);
 
     }
