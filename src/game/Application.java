@@ -78,7 +78,7 @@ public class Application {
         gameMap.addActor(new Kale(), kaleLocation);
 
         Location sellenLocation = gameMap.at(20, 11);
-        gameMap.addActor(new Sellen(sellenLocation), sellenLocation);
+        gameMap.addActor(new Sellen(), sellenLocation);
 
 
         // game setup

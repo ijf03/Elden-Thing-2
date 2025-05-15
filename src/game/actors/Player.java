@@ -7,8 +7,10 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import game.FancyMessage;
 import game.actions.AttackAction;
 import game.actions.ListenAction;
@@ -63,10 +65,6 @@ public class Player extends Actor {
     /**
      * Defines the Player's behaviour each turn.
      *
-     * @param actions Collection of possible Actions for Player
-     * @param lastAction Action this Player took last turn
-     * @param map Map with the Player
-     * @param display Display messages
      * @return The selected action
      */
     @Override
@@ -96,7 +94,7 @@ public class Player extends Actor {
 
         Menu menu = new Menu(actions);
         // prints runes the player has
-        display.println("Runes: " + this.getRunes());
+        display.println("Runes: " + this.getBalance());
         return menu.showMenu(this, display);
 
     }
