@@ -14,6 +14,8 @@ public enum Status {
     FOLLOWABLE, // allows an actor to be followed by the FollowBehaviour
     BLESSED,
     INCREASE_MAX_HEALTH,
-    MERCHANT,
+    SELLER_SELLEN,
+    SELLER_KALE,
+    MERCHANT
 }
 

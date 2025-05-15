@@ -7,30 +7,48 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.Curable;
+import game.Sellable;
 import game.actions.*;
 
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
+import game.weapons.Broadsword;
+import game.weapons.DragonslayerGreatsword;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
-public class Kale extends Merchant implements Speaker {
+public class Kale extends Actor implements Speaker, Merchant {
     /**
      * Integer to keep count of how many turns have gone
      */
     private int turnCounter;
     private final NPCController NPCController;
+    private final List<Sellable> items;
 
     public Kale() {
-        super("Merchant Kale", 'K', 200,Arrays.asList(
-                new KaleBroadswordPurchaseAction(),
-                new KaleDragonslayerPurchaseAction()
-        ));
+        super("Merchant Kale", 'K', 200);
+        this.addCapability(Status.SELLER_KALE);
+        this.addCapability(Status.MERCHANT);
         this.NPCController = new StandardNPCController();
+        items = new ArrayList<>();
+        items.add(new Broadsword());
+        items.add(new DragonslayerGreatsword());
+
     }
+    @Override
+    public List<Sellable> getSellableItems() {
+        return items;
+    }
+    @Override
+    public void removeSoldItem(Sellable item) {
+        items.remove(item);
+    }
+
 
     public String ListenAction(Actor player, GameMap map) {
         Random rand = new Random();
@@ -82,6 +100,8 @@ public class Kale extends Merchant implements Speaker {
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
+        for (Sellable item : this.getSellableItems()) {
+            actions.add(new PurchaseAction(item, this));}
         actions.add(new ListenAction(this));
         return actions;
     }

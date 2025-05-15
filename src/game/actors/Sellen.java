@@ -6,28 +6,49 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.Sellable;
 import game.actions.*;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
+import game.weapons.Broadsword;
+import game.weapons.DragonslayerGreatsword;
+import game.weapons.Katana;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
-public class Sellen extends Merchant implements Speaker {
+public class Sellen extends Actor implements Speaker, Merchant {
     /**
      * Integer to keep count of how many turns have gone
      */
     private final NPCController NPCController;
+    private final List<Sellable> items;
 
     public Sellen() {
-        super("Sellen",'s', 150,Arrays.asList(
-                new KaleBroadswordPurchaseAction(),
-                new KaleDragonslayerPurchaseAction()
-        ));
+        super("Sellen",'s', 150);
         this.NPCController = new StandardNPCController();
+        this.addCapability(Status.SELLER_SELLEN);
+        this.addCapability(Status.MERCHANT);
+
+        items = new ArrayList<>();
+        items.add(new Broadsword());
+        items.add(new DragonslayerGreatsword());
+        items.add(new Katana());
+
+
     }
+    @Override
+    public List<Sellable> getSellableItems() {
+        return items;
+    }
+    @Override
+    public void removeSoldItem(Sellable item) {
+        items.remove(item);
+    }
+
 
     public String ListenAction(Actor player, GameMap map) {
         Random rand = new Random();
@@ -67,12 +88,17 @@ public class Sellen extends Merchant implements Speaker {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
-        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             actions.add(new AttackAction(this, direction));
-        }
-        if (otherActor.hasCapability(Status.PLAYABLE)) {
-            actions.add(new ListenAction(this));
-        }
-        return actions;
+
+            }
+            if (otherActor.hasCapability(Status.PLAYABLE)) {
+                actions.add(new ListenAction(this));
+
+            }
+            for (Sellable item : this.getSellableItems()) {
+                actions.add(new PurchaseAction(item, this));}
+            return actions;
+
     }
 }

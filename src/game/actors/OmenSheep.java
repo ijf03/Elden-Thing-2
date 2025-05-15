@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import edu.monash.fit2099.engine.weapons.Weapon;
 import game.Curable;
 import game.Reproducible;
 import game.actions.AttackAction;
@@ -116,6 +117,7 @@ public class OmenSheep extends Actor implements Curable, Reproducible {
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
+
         if (otherActor.hasCapability(Status.CURE)){
             actions.add(new CureAction(this, map.locationOf(this), direction));
         }

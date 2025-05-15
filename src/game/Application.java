@@ -76,10 +76,10 @@ public class Application {
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
-        gameMap.at(23, 12).addActor(new SpiritGoat());
+        gameMap.at(19, 12).addActor(new SpiritGoat());
         gameMap.at(20, 13).addActor(new OmenSheep());
-        gameMap.at(20,12).addActor(new Sellen());
-        gameMap.at(14,12).addActor(new Kale());
+        gameMap.at(25,12).addActor(new Sellen());
+        gameMap.at(26,14).addActor(new Kale());
         gameMap.at(24,12).addActor(new Guts());
         gameMap.at(23,14).addActor(new GoldenBeetle());
 

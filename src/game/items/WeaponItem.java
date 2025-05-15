@@ -11,7 +11,7 @@ import java.util.Random;
  * Class representing items that can be used as a weapon.
  * @author Adrian Kristanto
  */
-public class WeaponItem extends Item implements Weapon {
+public abstract class WeaponItem extends Item implements Weapon {
     private static final float DEFAULT_DAMAGE_MULTIPLIER = 1.0f;
     private int damage;
     private int hitRate;
@@ -45,5 +45,27 @@ public class WeaponItem extends Item implements Weapon {
         target.hurt(Math.round(damage * damageMultiplier));
 
         return String.format("%s %s %s for %d damage", attacker, verb, target, damage);
+    }
+
+
+    /**
+     * Sets a custom damage multiplier (e.g., for power-ups)
+     */
+    public void setDamageMultiplier(float multiplier) {
+        this.damageMultiplier = multiplier;
+    }
+
+    /**
+     * Gets the base damage of the weapon
+     */
+    public int getBaseDamage() {
+        return damage;
+    }
+
+    /**
+     * Gets the hit rate of the weapon
+     */
+    public int getHitRate() {
+        return hitRate;
     }
 }

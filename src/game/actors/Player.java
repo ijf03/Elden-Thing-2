@@ -10,11 +10,13 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.weapons.Weapon;
 import game.FancyMessage;
 import game.actions.AttackAction;
 import game.actions.ListenAction;
 import game.capabilities.Status;
 import game.items.Seed;
+import game.items.WeaponItem;
 import game.weapons.BareFist;
 
 import java.util.HashMap;
@@ -29,7 +31,7 @@ import java.util.Map;
  *
  */
 public class Player extends Actor {
-
+    private Weapon equippedWeapon;
     /**
      * Constructor.
      *
@@ -76,9 +78,6 @@ public class Player extends Actor {
             this.unconscious(map);
         }
 
-        //Location currentLocation = map.locationOf(this);
-
-
         // Handle multi-turn Actions
         if (lastAction.getNextAction() != null)
             return lastAction.getNextAction();
@@ -89,6 +88,14 @@ public class Player extends Actor {
         return menu.showMenu(this, display);
 
     }
+    public void setWeapon(Weapon weapon) {
+        this.equippedWeapon = weapon;
+    }
+    public Weapon getWeapon() {
+        return (equippedWeapon != null) ? equippedWeapon : getIntrinsicWeapon();
+    }
+
+
 
     /**
      * Gets the current stamina value of the player.
@@ -118,6 +125,13 @@ public class Player extends Actor {
         this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, amount);
     }
 
+    public void increaseMaxHp(int amount) {
+        this.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, amount);
+    }
+
+    public void increaseMaxStamina(int amount) {
+        this.modifyAttributeMaximum(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, amount);
+    }
 
     /**
      * Heals the Player by the specified amount of health points.
