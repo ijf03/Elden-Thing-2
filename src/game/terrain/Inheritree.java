@@ -47,10 +47,8 @@ public class Inheritree extends Ground implements Plantable {
         this.CROP_PLANT_STATUS = PLANT_STATUS.PLANTED;
         for (Exit exit : location.getExits()) {
             Location surroundLocation = exit.getDestination();
-            for (CursedGrounds cursedGround : CursedGrounds.values()) {
-                if (surroundLocation.getGround().getDisplayChar() == cursedGround.groundChar) {
-                    surroundLocation.setGround(new Soil());
-                }
+            if (surroundLocation.getGround().hasCapability(Status.CURSED)) {
+                surroundLocation.setGround(new Soil());
             }
         }
         location.setGround(this);

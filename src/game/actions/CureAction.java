@@ -5,9 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actors.Curable;
-
-import java.util.Objects;
+import game.Curable;
 
 /**
  * Class representing the actor curing

@@ -69,13 +69,12 @@ public class Guts extends Actor implements Speaker {
     }
 
     /**
-     * The spirit goat can be attacked by any actor that has the HOSTILE_TO_ENEMY capability
-     * Can rot so another actor can choose to cure them
+     * Guts can be attacked by any actor that has the HOSTILE_TO_ENEMY capability
      *
      * @param otherActor the Actor that might be performing attack
      * @param direction  String representing the direction of the other Actor
      * @param map        current GameMap
-     * @return
+     * @return actionList
      */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {

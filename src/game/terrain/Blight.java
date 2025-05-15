@@ -2,14 +2,11 @@ package game.terrain;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.Item;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.CureAction;
-import game.actors.Curable;
+import game.Curable;
 import game.capabilities.Status;
-import game.items.Talisman;
 
 import static edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations.DECREASE;
 import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.STAMINA;
@@ -21,6 +18,7 @@ import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.ST
 public class Blight extends Ground implements Curable {
     public Blight() {
         super('x', "Blight");
+        this.addCapability(Status.CURSED);
     }
 
     @Override

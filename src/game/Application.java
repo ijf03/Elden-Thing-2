@@ -74,13 +74,6 @@ public class Application {
         player.addAttribute(STAMINA ,new BaseActorAttribute(200));
         world.addPlayer(player, gameMap.at(25, 13));
 
-        Location kaleLocation = gameMap.at(20, 10);
-
-
-        Location sellenLocation = gameMap.at(20, 11);
-
-
-
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
         gameMap.at(23, 12).addActor(new SpiritGoat());
