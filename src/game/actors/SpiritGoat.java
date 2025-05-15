@@ -85,7 +85,7 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
-        if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
         if (otherActor.hasCapability(Status.CURE)){
