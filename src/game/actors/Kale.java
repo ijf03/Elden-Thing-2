@@ -1,3 +1,4 @@
+package game.actors;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
@@ -6,29 +7,28 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actions.AttackAction;
-import game.actions.ListenAction;
-import game.actors.Curable;
-import game.actors.Merchant;
-import game.actors.Speaker;
+import game.actions.*;
+
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
-public class Kale extends Actor implements Speaker {
+public class Kale extends Merchant implements Speaker {
     /**
      * Integer to keep count of how many turns have gone
      */
     private int turnCounter;
-
     private final NPCController NPCController;
 
-
     public Kale() {
-        super("Kale",'k', 200);
+        super("Merchant Kale", 'K', Arrays.asList(
+                new KaleBroadswordPurchaseAction(),
+                new KaleDragonslayerPurchaseAction()
+        ));
         this.NPCController = new StandardNPCController();
     }
 
@@ -84,6 +84,5 @@ public class Kale extends Actor implements Speaker {
         }
         actions.add(new ListenAction(this));
         return actions;
-
     }
 }
