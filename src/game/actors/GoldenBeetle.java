@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.LayEggAction;
+import game.actors.behaviours.FollowBehaviour;
 import game.actors.behaviours.WanderBehaviour;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
@@ -29,6 +30,7 @@ public class GoldenBeetle extends Actor {
     public GoldenBeetle() {
         super("Golden Beetle", 'b', 25);
         behaviours.put(999, new WanderBehaviour());
+        this.behaviours.put(998, new FollowBehaviour());
         this.npcController = new StandardNPCController();
     }
 
