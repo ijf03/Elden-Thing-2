@@ -1,10 +1,12 @@
 package game.items;
 
+import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actions.ConsumeAction;
 import game.actors.GoldenBeetle;
 import game.capabilities.Status;
 import game.terrain.CursedGrounds;
@@ -20,7 +22,7 @@ public class GoldenEgg extends Item implements Consumable{
     private boolean canHatch = true;
 
     public GoldenEgg() {
-        super("Golden Egg", '0', false);
+        super("Golden Egg", '0', true);
     }
 
     @Override
@@ -29,22 +31,27 @@ public class GoldenEgg extends Item implements Consumable{
 
         for (Exit exit : currentLocation.getExits()) {
             Location adjacent = exit.getDestination();
-            if (adjacent.getGround().getDisplayChar() == CursedGrounds.BLIGHT.groundChar) {
+            if (adjacent.getGround().getDisplayChar() == CursedGrounds.BLIGHT.groundChar &&
+                    !adjacent.containsAnActor()) {
+
                 currentLocation.removeItem(this);
-                currentLocation.addActor(new GoldenBeetle());
-                break;
+                adjacent.addActor(new GoldenBeetle());
+                return;
             }
         }
-    }
-
-    @Override
-    public void tick(Location currentLocation, Actor actor) {
-        this.canHatch = false;
     }
 
     @Override
     public void consume(Actor actor) {
         actor.modifyAttribute(STAMINA, INCREASE, 20);
     }
+
+    @Override
+    public ActionList allowableActions(Actor owner, GameMap map) {
+        ActionList actions = new ActionList();
+        actions.add(new ConsumeAction(this, "Golden Egg"));
+        return actions;
+    }
+
 
 }
