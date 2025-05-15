@@ -25,7 +25,7 @@ public class Kale extends Merchant implements Speaker {
     private final NPCController NPCController;
 
     public Kale() {
-        super("Merchant Kale", 'K', Arrays.asList(
+        super("Merchant Kale", 'K', 200,Arrays.asList(
                 new KaleBroadswordPurchaseAction(),
                 new KaleDragonslayerPurchaseAction()
         ));

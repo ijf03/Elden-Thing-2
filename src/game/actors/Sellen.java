@@ -6,24 +6,26 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actions.AttackAction;
-import game.actions.CureAction;
-import game.actions.ListenAction;
+import game.actions.*;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
-public class Sellen extends Actor implements Speaker {
+public class Sellen extends Merchant implements Speaker {
     /**
      * Integer to keep count of how many turns have gone
      */
     private final NPCController NPCController;
 
     public Sellen() {
-        super("Sellen",'s', 150);
+        super("Sellen",'s', 150,Arrays.asList(
+                new KaleBroadswordPurchaseAction(),
+                new KaleDragonslayerPurchaseAction()
+        ));
         this.NPCController = new StandardNPCController();
     }
 
