@@ -88,6 +88,7 @@ public class Application {
         gameMap.at(20,12).addActor(new Sellen());
         gameMap.at(14,12).addActor(new Kale());
         gameMap.at(24,12).addActor(new Guts());
+        gameMap.at(23,14).addActor(new GoldenBeetle());
 
         world.run();
     }

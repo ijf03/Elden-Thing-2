@@ -30,8 +30,6 @@ import java.util.Map;
  */
 public class Player extends Actor {
 
-    private int runes = 0;
-
     /**
      * Constructor.
      *
@@ -88,8 +86,6 @@ public class Player extends Actor {
         display.println("--- Your Runes: " + this.getBalance() + " ---");
 
         Menu menu = new Menu(actions);
-        // prints runes the player has
-        //display.println("Runes: " + this.getRunes());
         return menu.showMenu(this, display);
 
     }
