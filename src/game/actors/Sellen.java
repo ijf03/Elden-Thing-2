@@ -70,7 +70,9 @@ public class Sellen extends Merchant implements Speaker {
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
-        actions.add(new ListenAction(this));
+        if (otherActor.hasCapability(Status.PLAYABLE)) {
+            actions.add(new ListenAction(this));
+        }
         return actions;
     }
 }
