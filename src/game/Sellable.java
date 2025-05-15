@@ -10,8 +10,8 @@ public interface Sellable {
     String getName();
     int getPrice(Actor merchant);
     void onPurchase(Player buyer, Actor merchant, GameMap map);
-    boolean isWeapon(); // allows safe type identification without instanceof
-    Item asItem(); // safe cast alternative
+    boolean isWeapon();
+    Item asItem();
 
 }
 

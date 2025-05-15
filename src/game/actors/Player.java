@@ -95,8 +95,6 @@ public class Player extends Actor {
         return (equippedWeapon != null) ? equippedWeapon : getIntrinsicWeapon();
     }
 
-
-
     /**
      * Gets the current stamina value of the player.
      *
@@ -107,14 +105,6 @@ public class Player extends Actor {
         return this.getAttribute(BaseActorAttributes.STAMINA);
     }
 
-    /**
-     * Reduces the player's stamina by a specific amount.
-     *
-     * @param amount the amount of stamina decrease
-     */
-    public void reduceStamina(int amount) {
-        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, amount);
-    }
 
     /**
      * Restores the player's staminaa by a specific amount.

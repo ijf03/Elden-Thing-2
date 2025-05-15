@@ -26,7 +26,7 @@ public class Katana extends WeaponItem implements Sellable {
 
     @Override
     public void onPurchase(Player buyer, Actor merchant, GameMap map) {
-        buyer.hurt(25); // Harm the buyer
+        buyer.hurt(25);
 
         if (merchant.hasCapability(Status.SELLER_SELLEN)) {
             Location sellerLocation = map.locationOf(merchant);
