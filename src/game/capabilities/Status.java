@@ -16,6 +16,7 @@ public enum Status {
     INCREASE_MAX_HEALTH,
     SELLER_SELLEN,
     SELLER_KALE,
-    MERCHANT
+    MERCHANT,
+    USABLE_WEAPON
 }
 

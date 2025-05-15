@@ -5,7 +5,9 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.weapons.Weapon;
 import game.Sellable;
 import game.actions.*;
 import game.actors.behaviours.NPCController;
@@ -89,9 +91,15 @@ public class Sellen extends Actor implements Speaker, Merchant {
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            actions.add(new AttackAction(this, direction));
+            actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
 
+            for (Item item : otherActor.getItemInventory()) {
+                if (item.hasCapability(Status.USABLE_WEAPON)) {
+                    Weapon weapon = (Weapon) item;
+                    actions.add(new AttackAction(this, direction, weapon));
+                }
             }
+        }
             if (otherActor.hasCapability(Status.PLAYABLE)) {
                 actions.add(new ListenAction(this));
 

@@ -44,7 +44,7 @@ public class Katana extends WeaponItem implements Sellable {
             int originalStamina = buyer.getAttribute(BaseActorAttributes.STAMINA);
             buyer.increaseMaxStamina(20);
             buyer.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, originalStamina);
-            buyer.setWeapon(this);
+            //buyer.setWeapon(this);
         }
     }
 

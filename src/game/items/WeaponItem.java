@@ -1,9 +1,13 @@
 package game.items;
 
+import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
+import game.actors.Player;
+import game.capabilities.Status;
 
 import java.util.Random;
 
@@ -33,6 +37,8 @@ public abstract class WeaponItem extends Item implements Weapon {
         this.verb = verb;
         this.hitRate = hitRate;
         this.damageMultiplier = DEFAULT_DAMAGE_MULTIPLIER;
+        this.addCapability(Status.USABLE_WEAPON);
+
     }
 
     @Override
@@ -47,25 +53,30 @@ public abstract class WeaponItem extends Item implements Weapon {
         return String.format("%s %s %s for %d damage", attacker, verb, target, damage);
     }
 
+    @Override
+    public ActionList allowableActions(Actor actor, GameMap map) {
+        ActionList actions = new ActionList();
 
-    /**
-     * Sets a custom damage multiplier (e.g., for power-ups)
-     */
-    public void setDamageMultiplier(float multiplier) {
-        this.damageMultiplier = multiplier;
+        if (actor.hasCapability(Status.PLAYABLE)) {
+            actions.add(new Action() {
+                @Override
+                public String execute(Actor actor, GameMap map) {
+
+                    ((Player) actor).setWeapon(WeaponItem.this);
+                    return actor + " equips " + WeaponItem.this.toString();
+
+                }
+
+                @Override
+                public String menuDescription(Actor actor) {
+                    return actor + " equips " + WeaponItem.this.toString();
+
+                }
+            });
+        }
+
+        return actions;
     }
 
-    /**
-     * Gets the base damage of the weapon
-     */
-    public int getBaseDamage() {
-        return damage;
-    }
 
-    /**
-     * Gets the hit rate of the weapon
-     */
-    public int getHitRate() {
-        return hitRate;
-    }
 }

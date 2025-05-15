@@ -5,8 +5,10 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.weapons.Weapon;
 import game.Curable;
 import game.Sellable;
 import game.actions.*;
@@ -97,8 +99,15 @@ public class Kale extends Actor implements Speaker, Merchant {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
-        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
-            actions.add(new AttackAction(this, direction));
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+            actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
+
+            for (Item item : otherActor.getItemInventory()) {
+                if (item.hasCapability(Status.USABLE_WEAPON)) {
+                    Weapon weapon = (Weapon) item;
+                    actions.add(new AttackAction(this, direction, weapon));
+                }
+            }
         }
         for (Sellable item : this.getSellableItems()) {
             actions.add(new PurchaseAction(item, this));}

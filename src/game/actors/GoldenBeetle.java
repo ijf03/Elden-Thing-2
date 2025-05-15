@@ -6,7 +6,9 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.weapons.Weapon;
 import game.actions.AttackAction;
 import game.actions.ConsumeAction;
 import game.actions.LayEggAction;
@@ -69,7 +71,14 @@ public class GoldenBeetle extends Actor implements Consumable
      public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
          ActionList actions = new ActionList();
          if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-             actions.add(new AttackAction(this, direction));
+             actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
+
+             for (Item item : otherActor.getItemInventory()) {
+                 if (item.hasCapability(Status.USABLE_WEAPON)) {
+                     Weapon weapon = (Weapon) item;
+                     actions.add(new AttackAction(this, direction, weapon));
+                 }
+             }
          }
          if (otherActor instanceof game.actors.Player) {
              actions.add(new ConsumeAction(this, "Golden Beetle"));

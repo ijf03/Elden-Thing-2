@@ -43,7 +43,7 @@ public class Broadsword extends WeaponItem implements Sellable {
         buyer.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, originalHp);
         buyer.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, originalStamina);
         buyer.heal(10);
-        buyer.setWeapon(this);
+        //buyer.setWeapon(this);
     }
 
     @Override

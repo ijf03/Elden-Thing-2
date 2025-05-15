@@ -50,7 +50,7 @@ public class DragonslayerGreatsword extends WeaponItem implements Sellable {
             buyer.restoreStamina(20);
         }
         buyer.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, originalHp);
-        buyer.setWeapon(this);
+        //buyer.setWeapon(this);
     }
 
     @Override
