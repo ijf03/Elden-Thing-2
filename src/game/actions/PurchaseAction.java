@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.items.Item;
 import game.actors.Player;
-import game.weapons.Sellable;
+import game.Sellable;
 
 public abstract class PurchaseAction extends Action {
     private Sellable sellable;
@@ -19,7 +19,6 @@ public abstract class PurchaseAction extends Action {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        if (!(actor instanceof Player)) return "Only a Player can purchase.";
         Player player = (Player) actor;
 
         if (player.getBalance() < cost) {
@@ -33,7 +32,10 @@ public abstract class PurchaseAction extends Action {
         return successMessage();
     }
 
-    protected void applyGlobalEffect(Player player) {}
+    protected void applyGlobalEffect(Player player) {
+
+
+    }
     protected abstract void applyMerchantBonus(Player player, GameMap map);
     protected abstract String successMessage();
 }

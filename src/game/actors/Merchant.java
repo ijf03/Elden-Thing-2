@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.capabilities.Status;
 
 
 import java.util.List;
@@ -17,7 +18,7 @@ public abstract class Merchant extends Actor {
     public Merchant(String name, char displayChar, int hitpoint, List<Action> inventory) {
         super(name, displayChar, hitpoint); // Indestructible merchant
         this.inventory = inventory;
-        this.addCapability(Actors.MERCHANT);
+        this.addCapability(Status.MERCHANT);
     }
 
     @Override

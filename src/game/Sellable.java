@@ -1,4 +1,4 @@
-package game.weapons;
+package game;
 
 import game.actors.Player;
 
