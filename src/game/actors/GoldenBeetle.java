@@ -38,8 +38,8 @@ public class GoldenBeetle extends Actor implements Consumable
 
     public GoldenBeetle() {
         super("Golden Beetle", 'b', 25);
-        behaviours.put(999, new WanderBehaviour());
         this.behaviours.put(998, new FollowBehaviour());
+        behaviours.put(999, new WanderBehaviour());
         this.npcController = new StandardNPCController();
     }
 
