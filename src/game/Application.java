@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.*;
 import game.items.Seed;
@@ -64,13 +65,21 @@ public class Application {
         }
 
         Player player = new Player("Farmer", '@', 100);
+        player.addBalance(3500);
         Seed InheritreeSeed = new Seed("Inheritree Seed", new Inheritree("Inheritree"));
         Seed BloodroseSeed = new Seed("Bloodrose Seed", new Bloodrose("Bloodrose"));
         player.addItemToInventory(InheritreeSeed);
         player.addItemToInventory(BloodroseSeed);
         player.addItemToInventory(new Talisman());
-        player.addAttribute(STAMINA ,new BaseActorAttribute(100));
+        player.addAttribute(STAMINA ,new BaseActorAttribute(200));
         world.addPlayer(player, gameMap.at(25, 13));
+
+        Location kaleLocation = gameMap.at(20, 10);
+        gameMap.addActor(new Kale(), kaleLocation);
+
+        Location sellenLocation = gameMap.at(20, 11);
+        gameMap.addActor(new Sellen(sellenLocation), sellenLocation);
+
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());

@@ -1,5 +1,16 @@
 package game.actors;
 
+<<<<<<< src/game/actors/Kale.java
+import game.actions.*;
+import java.util.Arrays;
+
+public class Kale extends Merchant {
+    public Kale() {
+        super("Merchant Kale", 'K', Arrays.asList(
+                new KaleBroadswordPurchaseAction(),
+                new KaleDragonslayerPurchaseAction()
+        ));
+=======
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
@@ -16,7 +27,7 @@ import game.capabilities.Status;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Kale extends Actor implements Speaker{
+public class Kale extends Merchant implements Speaker{
     /**
      * Integer to keep count of how many turns have gone
      */
@@ -80,5 +91,6 @@ public class Kale extends Actor implements Speaker{
         }
         actions.add(new ListenAction(this));
         return actions;
+>>>>>>> src/game/actors/Kale.java
     }
 }
