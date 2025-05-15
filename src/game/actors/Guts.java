@@ -56,7 +56,7 @@ public class Guts extends Actor implements Speaker {
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         for (Exit exit : map.locationOf(this).getExits()) {
             if (exit.getDestination().containsAnActor()) {
-                if (exit.getDestination().getActor().getAttribute(BaseActorAttributes.HEALTH) < 50) {
+                if (exit.getDestination().getActor().getAttribute(BaseActorAttributes.HEALTH) > 50) {
                     return new AttackAction(exit.getDestination().getActor(), exit.getName(), getIntrinsicWeapon());
                 }
             }
@@ -83,7 +83,9 @@ public class Guts extends Actor implements Speaker {
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
-        actions.add(new ListenAction(this));
+        if (otherActor.hasCapability(Status.PLAYABLE)) {
+            actions.add(new ListenAction(this));
+        }
         return actions;
     }
 }

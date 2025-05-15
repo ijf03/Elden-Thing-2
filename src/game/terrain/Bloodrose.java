@@ -57,10 +57,12 @@ public class Bloodrose extends Ground implements Plantable {
         if (this.canBloom()) { // Can change the if condition to reflect blooming
             this.bloom();
         }
-        for (Exit exit : location.getExits()) {
-            Location surroundLocation = exit.getDestination();
-            if (surroundLocation.getActor() != null) {
-                surroundLocation.getActor().hurt(10);
+        if (isBloomed()) {
+            for (Exit exit : location.getExits()) {
+                Location surroundLocation = exit.getDestination();
+                if (surroundLocation.getActor() != null) {
+                    surroundLocation.getActor().hurt(10);
+                }
             }
         }
         this.tickCounter++;

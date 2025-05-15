@@ -14,8 +14,8 @@ public abstract class Merchant extends Actor {
 
     protected final List<Action> inventory;
 
-    public Merchant(String name, char displayChar, List<Action> inventory) {
-        super(name, displayChar, 9999); // Indestructible merchant
+    public Merchant(String name, char displayChar, int hitPoints, List<Action> inventory) {
+        super(name, displayChar, hitPoints); // Can choose hitpoints of merchant
         this.inventory = inventory;
         this.addCapability(Actors.MERCHANT);
     }
