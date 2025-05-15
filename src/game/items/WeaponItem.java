@@ -58,24 +58,25 @@ public abstract class WeaponItem extends Item implements Weapon {
         ActionList actions = new ActionList();
 
         if (actor.hasCapability(Status.PLAYABLE)) {
-            actions.add(new Action() {
-                @Override
-                public String execute(Actor actor, GameMap map) {
-
-                    ((Player) actor).setWeapon(WeaponItem.this);
-                    return actor + " equips " + WeaponItem.this.toString();
-
-                }
-
-                @Override
-                public String menuDescription(Actor actor) {
-                    return actor + " equips " + WeaponItem.this.toString();
-
-                }
-            });
+            actions.add(createEquipAction());
         }
 
         return actions;
+    }
+
+    private Action createEquipAction() {
+        return new Action() {
+            @Override
+            public String execute(Actor actor, GameMap map) {
+                ((Player) actor).setWeapon(WeaponItem.this);
+                return actor + " equips " + WeaponItem.this.toString();
+            }
+
+            @Override
+            public String menuDescription(Actor actor) {
+                return actor + " equips " + WeaponItem.this.toString();
+            }
+        };
     }
 
 

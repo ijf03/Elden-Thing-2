@@ -2,6 +2,7 @@ package game.weapons;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -33,8 +34,10 @@ public class Katana extends WeaponItem implements Sellable {
             for (Exit exit : sellerLocation.getExits()) {
                 Location dest = exit.getDestination();
 
+                Display display = new Display();
+
                 if (!dest.containsAnActor() && dest.getGround().hasCapability(Status.PLANTABLE_TERRAIN)) {
-                    System.out.println("Spawning Omen Sheep at: " + dest);
+                    display.println("Spawning Omen Sheep at: " + dest);
                     map.addActor(new OmenSheep(), dest);
                     break;
                 }
@@ -44,7 +47,6 @@ public class Katana extends WeaponItem implements Sellable {
             int originalStamina = buyer.getAttribute(BaseActorAttributes.STAMINA);
             buyer.increaseMaxStamina(20);
             buyer.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, originalStamina);
-            //buyer.setWeapon(this);
         }
     }
 
