@@ -75,10 +75,10 @@ public class Application {
         world.addPlayer(player, gameMap.at(25, 13));
 
         Location kaleLocation = gameMap.at(20, 10);
-        gameMap.addActor(new Kale(), kaleLocation);
+
 
         Location sellenLocation = gameMap.at(20, 11);
-        gameMap.addActor(new Sellen(sellenLocation), sellenLocation);
+
 
 
         // game setup
@@ -86,7 +86,7 @@ public class Application {
         gameMap.at(23, 12).addActor(new SpiritGoat());
         gameMap.at(20, 13).addActor(new OmenSheep());
         gameMap.at(20,12).addActor(new Sellen());
-        gameMap.at(14,12).addActor(new Kale());
+        //gameMap.at(14,12).addActor(new Kale());
         gameMap.at(24,12).addActor(new Guts());
 
         world.run();
