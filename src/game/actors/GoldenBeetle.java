@@ -19,7 +19,9 @@ import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.items.Consumable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations.INCREASE;
@@ -73,10 +75,17 @@ public class GoldenBeetle extends Actor implements Consumable
          if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
              actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
 
+             List<String> weaponNames = new ArrayList<>();
+
              for (Item item : otherActor.getItemInventory()) {
                  if (item.hasCapability(Status.USABLE_WEAPON)) {
                      Weapon weapon = (Weapon) item;
-                     actions.add(new AttackAction(this, direction, weapon));
+                     String name = weapon.toString();
+
+                     if (!weaponNames.contains(name)) {
+                         actions.add(new AttackAction(this, direction, weapon));
+                         weaponNames.add(name);
+                     }
                  }
              }
          }

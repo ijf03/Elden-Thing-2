@@ -8,18 +8,30 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Sellable;
-
 import game.actors.GoldenBeetle;
 import game.actors.Player;
 import game.capabilities.Status;
 import game.items.WeaponItem;
 
+/**
+ * Represent the weapon Dragonslayer Greatsword.
+ * Purchasing it from different merchants will have different effects.
+ *
+ * @author Chi Cheng Chan
+ */
 public class DragonslayerGreatsword extends WeaponItem implements Sellable {
-
+    /**
+     * Constructor.
+     */
     public DragonslayerGreatsword() {
         super("Dragonslayer Greatsword", 'D', 70, "cleaves", 75);
     }
-
+    /**
+     * Returns the price of the Broadsword depending on the specific merchant.
+     *
+     * @param merchant the merchant
+     * @return the price of the weapon
+     */
     @Override
     public int getPrice(Actor merchant) {
         if (merchant.hasCapability(Status.SELLER_SELLEN)) {
@@ -30,6 +42,16 @@ public class DragonslayerGreatsword extends WeaponItem implements Sellable {
         return 0;
     }
 
+    /**
+     * The effects applied when a player purchases the Dragonslayer Greatsword.
+     * Increases the player's max HP by 15 when Dragonslayer Greatsword is purchased.
+     * If sold by Sellen, spawns a GoldenBeetle near farmer.
+     * If sold by Kale, restores 20 stamina.
+     *
+     * @param buyer the player
+     * @param merchant the merchant selling it
+     * @param map the game map
+     */
     @Override
     public void onPurchase(Player buyer, Actor merchant, GameMap map) {
         int originalHp = buyer.getAttribute(BaseActorAttributes.HEALTH);
@@ -51,17 +73,29 @@ public class DragonslayerGreatsword extends WeaponItem implements Sellable {
         }
         buyer.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, originalHp);
     }
-
+    /**
+     * Gets the name of the weapon.
+     *
+     * @return string of the weapon name.
+     */
     @Override
     public String getName() {
         return "Dragonslayer Greatsword";
     }
-
+    /**
+     * Indicates whether it is a weapon.
+     *
+     * @return boolean (True)
+     */
     @Override
     public boolean isWeapon() {
         return true;
     }
-
+    /**
+     * Indicates this weapon as an item.
+     *
+     * @return this Dragonslayer Greatsword
+     */
     @Override
     public Item asItem() {
         return this;

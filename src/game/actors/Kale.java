@@ -12,18 +12,17 @@ import edu.monash.fit2099.engine.weapons.Weapon;
 import game.Curable;
 import game.Sellable;
 import game.actions.*;
-
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.weapons.Broadsword;
 import game.weapons.DragonslayerGreatsword;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
+/**
+ * Represents the NPC merchant Kale.
+ */
 public class Kale extends Actor implements Speaker, Merchant {
     /**
      * Integer to keep count of how many turns have gone
@@ -32,6 +31,9 @@ public class Kale extends Actor implements Speaker, Merchant {
     private final NPCController NPCController;
     private final List<Sellable> items;
 
+    /**
+     * Constructor.
+     */
     public Kale() {
         super("Merchant Kale", 'K', 200);
         this.addCapability(Status.SELLER_KALE);
@@ -40,17 +42,25 @@ public class Kale extends Actor implements Speaker, Merchant {
         items = new ArrayList<>();
         items.add(new Broadsword());
         items.add(new DragonslayerGreatsword());
-
     }
+    /**
+     * Returns the list of items that Kale offers for sale.
+     *
+     * @return a list of items
+     */
     @Override
     public List<Sellable> getSellableItems() {
         return items;
     }
+    /**
+     * Removes a sold item from Kale's inventory.
+     *
+     * @param item the item to remove
+     */
     @Override
     public void removeSoldItem(Sellable item) {
         items.remove(item);
     }
-
 
     public String ListenAction(Actor player, GameMap map) {
         Random rand = new Random();
@@ -86,15 +96,13 @@ public class Kale extends Actor implements Speaker, Merchant {
             return NPCController.retrieveNextAction(this, map);
         }
     }
-
     /**
-     * The spirit goat can be attacked by any actor that has the HOSTILE_TO_ENEMY capability
-     * Can rot so another actor can choose to cure them
+     * The actions perform when other actors interact with Kale.
      *
-     * @param otherActor the Actor that might be performing attack
-     * @param direction  String representing the direction of the other Actor
-     * @param map        current GameMap
-     * @return
+     * @param otherActor the actor interacting with Kale
+     * @param direction the direction from which the interaction is happening
+     * @param map the current game map
+     * @return a list of allowable Action
      */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
@@ -102,10 +110,17 @@ public class Kale extends Actor implements Speaker, Merchant {
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
 
+            List<String> weaponNames = new ArrayList<>();
+
             for (Item item : otherActor.getItemInventory()) {
                 if (item.hasCapability(Status.USABLE_WEAPON)) {
                     Weapon weapon = (Weapon) item;
-                    actions.add(new AttackAction(this, direction, weapon));
+                    String name = weapon.toString();
+
+                    if (!weaponNames.contains(name)) {
+                        actions.add(new AttackAction(this, direction, weapon));
+                        weaponNames.add(name);
+                    }
                 }
             }
         }

@@ -1,12 +1,9 @@
 package game.items;
 
-import edu.monash.fit2099.engine.actions.Action;
-import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
-import game.actors.Player;
 import game.capabilities.Status;
 
 import java.util.Random;
@@ -41,6 +38,14 @@ public abstract class WeaponItem extends Item implements Weapon {
 
     }
 
+    /**
+     * Performs an attack from one actor to another using specific weapon.
+     *
+     * @param attacker the actor who attack
+     * @param target the actor being attacked
+     * @param map the game map
+     * @return a string of the result
+     */
     @Override
     public String attack(Actor attacker, Actor target, GameMap map) {
         Random rand = new Random();
@@ -51,32 +56,6 @@ public abstract class WeaponItem extends Item implements Weapon {
         target.hurt(Math.round(damage * damageMultiplier));
 
         return String.format("%s %s %s for %d damage", attacker, verb, target, damage);
-    }
-
-    @Override
-    public ActionList allowableActions(Actor actor, GameMap map) {
-        ActionList actions = new ActionList();
-
-        if (actor.hasCapability(Status.PLAYABLE)) {
-            actions.add(createEquipAction());
-        }
-
-        return actions;
-    }
-
-    private Action createEquipAction() {
-        return new Action() {
-            @Override
-            public String execute(Actor actor, GameMap map) {
-                ((Player) actor).setWeapon(WeaponItem.this);
-                return actor + " equips " + WeaponItem.this.toString();
-            }
-
-            @Override
-            public String menuDescription(Actor actor) {
-                return actor + " equips " + WeaponItem.this.toString();
-            }
-        };
     }
 
 

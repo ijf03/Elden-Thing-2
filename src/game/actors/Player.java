@@ -13,31 +13,26 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.FancyMessage;
 import game.actions.AttackAction;
-import game.actions.ListenAction;
 import game.capabilities.Status;
-import game.items.Seed;
-import game.items.WeaponItem;
 import game.weapons.BareFist;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Class representing the Player.
- * Created by:
- * @author Adrian Kristanto
- * Modified by:Modified by: Chi Cheng Chan
+ * Representing the Player in the game.
  *
+ * Created by: Adrian Kristanto
+ * Modified by: All members
  */
 public class Player extends Actor {
     private Weapon equippedWeapon;
     /**
      * Constructor.
      *
-     * @param name Name to call the player in the UI
-     * @param displayChar Character to represent the player in the UI
-     * @param hitPoints Player's starting number of hitpoints (health)
+     * @param name Name to call the player
+     * @param displayChar Character to represent the player in the map
+     * @param hitPoints Player's starting health
      */
     public Player(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
@@ -61,16 +56,33 @@ public class Player extends Actor {
                 this.getAttributeMaximum(BaseActorAttributes.STAMINA);
     }
 
-
+    /**
+     * Determines allowable actions another actor can perform on the player.
+     *
+     * @param otherActor the actor initiating interaction
+     * @param direction  the direction from which they approach
+     * @param map        the game map
+     * @return a list of allowable actions (e.g., attack)
+     */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
+
         return actions;
     }
 
+    /**
+     * Determines what action the player takes during their turn.
+     *
+     * @param actions    list of available actions
+     * @param lastAction last action the player performed
+     * @param map        current game map
+     * @param display    I/O display for output
+     * @return the chosen action
+     */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         if (!this.isConscious()) {
@@ -88,45 +100,36 @@ public class Player extends Actor {
         return menu.showMenu(this, display);
 
     }
-    public void setWeapon(Weapon weapon) {
-        this.equippedWeapon = weapon;
-    }
-    public Weapon getWeapon() {
-        return (equippedWeapon != null) ? equippedWeapon : getIntrinsicWeapon();
-    }
 
     /**
-     * Gets the current stamina value of the player.
+     * Restores the player's stamina by a specific amount.
      *
-     * @return stamina values
-     */
-
-    public int getStamina() {
-        return this.getAttribute(BaseActorAttributes.STAMINA);
-    }
-
-
-    /**
-     * Restores the player's staminaa by a specific amount.
-     *
-     * @param amount the amount of stamina increase
+     * @param amount the amount of stamina to restore
      */
     public void restoreStamina(int amount) {
         this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, amount);
     }
-
+    /**
+     * Increases the player's maximum health.
+     *
+     * @param amount the amount to increase max HP by
+     */
     public void increaseMaxHp(int amount) {
         this.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, amount);
     }
-
+    /**
+     * Increases the player's maximum stamina.
+     *
+     * @param amount the amount to increase max stamina by
+     */
     public void increaseMaxStamina(int amount) {
         this.modifyAttributeMaximum(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, amount);
     }
 
     /**
-     * Heals the Player by the specified amount of health points.
+     * Heals the player by a specific amount.
      *
-     * @param amount the amount of health points add
+     * @param amount the amount of health points to restore
      */
     @Override
     public void heal(int amount) {
