@@ -8,16 +8,11 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.displays.Menu;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.weapons.Weapon;
 import game.FancyMessage;
 import game.actions.AttackAction;
 import game.capabilities.Status;
 import game.weapons.BareFist;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Representing the Player in the game.
@@ -26,7 +21,7 @@ import java.util.Set;
  * Modified by: All members
  */
 public class Player extends Actor {
-    private Weapon equippedWeapon;
+
     /**
      * Constructor.
      *

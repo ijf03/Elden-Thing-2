@@ -57,10 +57,10 @@ public class Katana extends WeaponItem implements Sellable {
             Location sellerLocation = map.locationOf(merchant);
 
             for (Exit exit : sellerLocation.getExits()) {
-                Location dest = exit.getDestination();
+                Location destination = exit.getDestination();
 
-                if (!dest.containsAnActor() && dest.getGround().hasCapability(Status.PLANTABLE_TERRAIN)) {
-                    map.addActor(new OmenSheep(), dest);
+                if (!destination.containsAnActor() && destination.getGround().hasCapability(Status.PLANTABLE_TERRAIN)) {
+                    map.addActor(new OmenSheep(), destination);
                     break;
                 }
             }

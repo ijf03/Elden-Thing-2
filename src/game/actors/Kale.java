@@ -125,7 +125,7 @@ public class Kale extends Actor implements Speaker, Merchant {
             }
         }
         for (Sellable item : this.getSellableItems()) {
-            actions.add(new PurchaseAction(item, this));}
+            actions.add(new SellAction(item, this));}
         actions.add(new ListenAction(this));
         return actions;
     }

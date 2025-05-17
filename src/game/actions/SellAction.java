@@ -3,7 +3,6 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.items.Item;
 import game.actors.Merchant;
 import game.actors.Player;
 import game.Sellable;
@@ -11,7 +10,7 @@ import game.capabilities.Status;
 /**
  * Represents an action that allows a player to purchase a item from a Merchant.
  */
-public class PurchaseAction extends Action {
+public class SellAction extends Action {
     private final Sellable item;
     private final Actor merchant;
     /**
@@ -20,7 +19,7 @@ public class PurchaseAction extends Action {
      * @param item the item to be purchased
      * @param merchant the merchant selling the item
      */
-    public PurchaseAction(Sellable item, Actor merchant) {
+    public SellAction(Sellable item, Actor merchant) {
         super();
         this.item = item;
         this.merchant = merchant;
@@ -34,7 +33,6 @@ public class PurchaseAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        if (!actor.hasCapability(Status.HOSTILE_TO_ENEMY)) return "Only Players can buy.";
 
         Player player = (Player) actor;
 
