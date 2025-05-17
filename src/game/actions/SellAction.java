@@ -8,7 +8,7 @@ import game.actors.Player;
 import game.Sellable;
 import game.capabilities.Status;
 /**
- * Represents an action that allows a player to purchase a item from a Merchant.
+ * Represents an action that allows a actor to sell an item.
  */
 public class SellAction extends Action {
     private final Sellable item;
@@ -16,7 +16,7 @@ public class SellAction extends Action {
     /**
      * Constructor.
      *
-     * @param item the item to be purchased
+     * @param item the item to be sold
      * @param merchant the merchant selling the item
      */
     public SellAction(Sellable item, Actor merchant) {
@@ -25,7 +25,7 @@ public class SellAction extends Action {
         this.merchant = merchant;
     }
     /**
-     * Executes the purchase action.
+     * Executes the selling action of merchant when the player have runes.
      *
      * @param actor the player
      * @param map the current game map
