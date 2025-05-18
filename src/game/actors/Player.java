@@ -90,7 +90,7 @@ public class Player extends Actor {
         if (lastAction.getNextAction() != null)
             return lastAction.getNextAction();
 
-        display.println("--- Your Runes: " + this.getWallet().getBalance() + " ---");
+        display.println("--- Your Runes: " + this.getBalance() + " ---");
 
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
