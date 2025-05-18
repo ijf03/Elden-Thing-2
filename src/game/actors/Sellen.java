@@ -58,7 +58,12 @@ public class Sellen extends Actor implements Speaker, Merchant {
         items.remove(item);
     }
 
-
+    /**
+     * Sellen can say one of 2 lines chosen at random when the player chooses to listen
+     * @param player who listens
+     * @param map where they are
+     * @return string that is heard by the player
+     */
     public String ListenAction(Actor player, GameMap map) {
         Random rand = new Random();
         ArrayList<String> monologueOptions = new ArrayList<>();
@@ -113,9 +118,9 @@ public class Sellen extends Actor implements Speaker, Merchant {
                 }
             }
         }
+            // Only can be listened to if the other actor is playable
             if (otherActor.hasCapability(Status.PLAYABLE)) {
                 actions.add(new ListenAction(this));
-
             }
             for (Sellable item : this.getSellableItems()) {
                 actions.add(new SellAction(item, this));}
