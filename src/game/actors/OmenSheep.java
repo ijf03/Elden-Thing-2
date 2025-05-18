@@ -13,6 +13,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.Curable;
 import game.Reproducible;
+import game.Turns;
 import game.actions.AttackAction;
 import game.actions.CureAction;
 import game.actors.behaviours.NPCController;
@@ -38,44 +39,23 @@ public class OmenSheep extends Actor implements Curable, Reproducible {
     private Map<Integer, Behaviour> behaviours = new HashMap<>();
 
     /**
-     * Integer to keep count of how many turns have gone
+     * A timer to keep count of how many turns have gone
      */
-    private int turnCounter;
+    private Turns turnCounter;
     private final NPCController NPCController;
-    private int reproduceCounter = 7;
+    private Turns reproduceCounter;
 
     public OmenSheep() {
         super("OmenSheep",'m', 75);
         this.behaviours.put(999, new WanderBehaviour());
-        this.turnCounter = 15;
+        this.turnCounter = new Turns(15);
         this.NPCController = new StandardNPCController();
-    }
-
-    // Getters and Setters
-    public int getReproduceCounter() {
-        return reproduceCounter;
-    }
-
-    public void setReproduceCounter(int reproduceCounter) {
-        this.reproduceCounter = reproduceCounter;
-    }
-
-    /**
-     * Decreases counter by 1.
-     */
-    public void decreaseReproduceCounter() {
-        setReproduceCounter(getReproduceCounter()-1);
-    }
-
-    /**
-     * Resets the timer.
-     */
-    public void resetCounter() {
-        setReproduceCounter(7);
+        this.reproduceCounter = new Turns(7);
     }
 
     /**
      * At each turn, select a valid action to perform.
+     * Reproduces an egg once the condition to reproduce is met.
      *
      * @param actions    collection of possible Actions for this Actor
      * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
@@ -85,17 +65,16 @@ public class OmenSheep extends Actor implements Curable, Reproducible {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        this.turnCounter -= 1;
+        turnCounter.decreaseCounter();
 
         // reproduce egg
-        decreaseReproduceCounter();
+        reproduceCounter.decreaseCounter();
         Location location = map.locationOf(this);
         if (canReproduce(location)) {
             reproduce(map, location);
         }
 
-        System.out.println("counter" + getReproduceCounter());
-        if (this.turnCounter <= 0) {
+        if (turnCounter.getTurnCounter() <= 0) {
             map.removeActor(this);
             return new DoNothingAction();
         }
@@ -154,17 +133,27 @@ public class OmenSheep extends Actor implements Curable, Reproducible {
             inheritree.bloom();
             destination.setGround(inheritree);
         }
-        this.turnCounter = 15;
+        turnCounter.resetTurnCounter();
     }
 
+    /**
+     * Checks whether the OmenSheep can reproduce.
+     * @param location location to check reproduction condition
+     * @return true if can reproduce, else false
+     */
     @Override
     public boolean canReproduce(Location location) {
-        return getReproduceCounter() <= 0;
+        return reproduceCounter.getTurnCounter() <= 0;
     }
 
+    /**
+     * Performs the reproduction process.
+     * @param map the game map where reproduction occurs
+     * @param location location where it reproduces
+     */
     @Override
     public void reproduce(GameMap map, Location location) {
-        resetCounter();
+        reproduceCounter.resetTurnCounter();
         location.addItem(new Egg(10));
     }
 }
