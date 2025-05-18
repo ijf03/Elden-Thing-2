@@ -27,18 +27,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * GoldenBeetle with wandering behaviour
+ * GoldenBeetle with wandering behaviour and a follow behaviour to follow the player. It can also lay eggs and can be consumed for health and runes.
  */
 public class GoldenBeetle extends Actor implements Consumable, Reproducible
 {
 
     /**
-     * Behaviour map
+     * Behaviour map with priority by hashmap
      */
     private final Map<Integer, Behaviour> behaviours = new HashMap<>();
+    /**
+     * NPC Controller that determines what action will be done
+     */
     private final NPCController npcController;
+    /**
+     * Counts how many turns the beetle been alive. its used to control how often an egg is layed
+     */
     private int turnCounter;
-
+    /**
+     * Constructor for the Golden Beetle. Initializes its name, display character "b", its health and behaviours
+     */
     public GoldenBeetle() {
         super("Golden Beetle", 'b', 25);
         this.behaviours.put(998, new FollowBehaviour());
@@ -49,6 +57,11 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
     /**
      * At each turn select a valid action to perform
      * lays egg every 5 turns
+     * @param actions Collection of possible actions
+     * @param lastAction Last action taken
+     * @param display Display object for text output
+     * @param map Current game map
+     * @return An Action to perform
      */
 
     @Override
@@ -62,6 +75,13 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
         Action action = npcController.retrieveNextAction(this, map);
         return action != null ? action : new DoNothingAction();
     }
+
+    /**
+     * Used when the player consumes this GoldenBeetle.
+     * Heals the player by 15 HP and gives 1000 runes to a Player.
+     *
+     * @param actor The actor who consumed this item
+     */
     @Override
     public void consume(Actor actor) {
         actor.heal(15);
@@ -72,6 +92,15 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
         }
     }
 
+    /**
+     * Returns a list of actions that an actor can perform on this beetle.
+     * Includes attacking and consuming if the actor is the player.
+     *
+     * @param otherActor The actor interacting with this beetle
+     * @param direction Direction relative to the actor
+     * @param map Game map
+     * @return List of allowable actions
+     */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
