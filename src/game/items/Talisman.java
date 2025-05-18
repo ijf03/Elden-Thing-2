@@ -9,6 +9,10 @@ import game.capabilities.Status;
  * @author Adrian Kristanto
  */
 public class Talisman extends Item {
+    /**
+     * Constructor
+     * Talismans have the ability to cure
+     */
     public Talisman() {
         super("Talisman", 'o', true);
         addCapability(Status.CURE);

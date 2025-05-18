@@ -16,17 +16,33 @@ import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.ST
  * @author Adrian Kristanto
  */
 public class Blight extends Ground implements Curable {
+    /**
+     * Constructor
+     * Blight is a cursed entity
+     */
     public Blight() {
         super('x', "Blight");
         this.addCapability(Status.CURSED);
     }
 
+    /**
+     * Logic to cure blight
+     * @param curer is an actor that is doing the curing
+     * @param location where the actor is doing the curing
+     */
     @Override
     public void cure(Actor curer, Location location) {
         location.setGround(new Soil());
         curer.modifyAttribute(STAMINA, DECREASE, 50);
     }
 
+    /**
+     * Enables actors to cure when they are around blight
+     * @param actor     the Actor acting
+     * @param location  the current Location
+     * @param direction the direction of the Ground from the Actor
+     * @return action   the actor can take with respect to the ground
+     */
     @Override
     public ActionList allowableActions(Actor actor, Location location, String direction) {
         ActionList actions = super.allowableActions(actor, location, direction);
