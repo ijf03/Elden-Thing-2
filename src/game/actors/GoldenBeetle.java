@@ -65,7 +65,8 @@ public class GoldenBeetle extends Actor implements Consumable
      public void consume(Actor actor) {
          actor.heal(15);
          if (actor instanceof Player) {
-             ((Player) actor).addBalance(1000);
+             Player player = (Player) actor;
+             player.getWallet().addBalance(1000);
          }
      }
 
