@@ -14,11 +14,21 @@ import java.util.Map;
 
 /**
  * allows an actor to follow the first followable actor it finds.
+ *
+ * Reference: edu.monash.fit2099.demo.mars.behaviours
  */
 public class FollowBehaviour implements Behaviour {
-
+    /** The current actor being followed. */
     private Actor target = null;
 
+
+    /**
+     * Returns the action that moves the actor toward a followable target.
+     *
+     * @param actor The actor executing the behaviour
+     * @param map The game map
+     * @return A MoveActorAction if a followable target is nearby or already being followed; null otherwise
+     */
     @Override
     public Action getAction(Actor actor, GameMap map) {
         Location here = map.locationOf(actor);
@@ -39,14 +49,23 @@ public class FollowBehaviour implements Behaviour {
                 }
             }
         }
-
+        // No followable actors found
         return null;
     }
 
+    /**
+     * Generates a MoveActorAction to move toward the current target actor.
+     * Chooses the neighboring tile with the shortest distance to the target.
+     *
+     * @param actor The actor trying to follow the target
+     * @param map The game map
+     * @return A MoveActorAction toward the best adjacent location, or null if not possible
+     */
     private Action moveToTarget(Actor actor, GameMap map) {
         Location beetleLoc = map.locationOf(actor);
         Location targetLoc = map.locationOf(target);
 
+        // Calculates the distance to the target
         Map<Exit, Integer> distances = new HashMap<>();
         for (Exit exit : beetleLoc.getExits()) {
             Location destination = exit.getDestination();
@@ -55,6 +74,7 @@ public class FollowBehaviour implements Behaviour {
             distances.put(exit, dx + dy);
         }
 
+        // Choose the exit with the smallest distance to the target
         return distances.entrySet().stream()
                 .min(Map.Entry.comparingByValue())
                 .map(entry -> new MoveActorAction(entry.getKey().getDestination(), entry.getKey().getName()))
