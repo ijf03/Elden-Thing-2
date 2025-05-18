@@ -16,6 +16,8 @@ import java.util.Map;
  * allows an actor to follow the first followable actor it finds.
  *
  * Reference: edu.monash.fit2099.demo.mars.behaviours
+ *
+ * @author Sabi Fernan
  */
 public class FollowBehaviour implements Behaviour {
     /** The current actor being followed. */
