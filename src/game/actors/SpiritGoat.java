@@ -31,12 +31,15 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
 
 
     /**
-     * Integer to keep count of how many turns have gone
+     * A timer to keep count of how many turns have gone
      */
     private Turns turnCounter;
     private final NPCController NPCController;
     private Turns reproduceCooldown;
 
+    /**
+     * Constructor.
+     */
     public SpiritGoat() {
         super("SpiritGoat",'y', 50);
         this.turnCounter = new Turns(10);
@@ -44,6 +47,11 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
         this.reproduceCooldown = new Turns(0);
     }
 
+    /**
+     * Constructor for SpiritGoat offsprings.
+     * Has a reproduction cooldown to restrict it from reproducing one born.
+     * @param cooldown a turns counter
+     */
     public SpiritGoat(Turns cooldown) {
         super("SpiritGoat",'y', 50);
         this.turnCounter = new Turns(10);

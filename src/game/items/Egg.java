@@ -16,7 +16,7 @@ import game.actors.OmenSheep;
  * Class representing the Egg of OmenSheep.
  * @author Sher Tan
  */
-public class Egg extends Item implements Hatchable, game.items.Consumable {
+public class Egg extends Item implements Hatchable, Consumable {
     private Turns hatchCounter;
     private int maxHealthBoost;
 

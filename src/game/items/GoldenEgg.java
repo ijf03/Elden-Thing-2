@@ -17,7 +17,7 @@ import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.ST
 /**
  * Golden Egg Scaffold
  */
-public class GoldenEgg extends Item implements Hatchable, game.items.Consumable {
+public class GoldenEgg extends Item implements Hatchable, Consumable {
 
     public GoldenEgg() {
         super("Golden Egg", '0', true);
