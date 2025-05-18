@@ -5,21 +5,19 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
-import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Consumable;
 import game.Hatchable;
+import game.Turns;
 import game.actions.EatAction;
-import game.actions.PlantAction;
 import game.actors.OmenSheep;
-import game.capabilities.Status;
 
 /**
- *
+ * Class representing the Egg of OmenSheep.
+ * @author Sher Tan
  */
 public class Egg extends Item implements Hatchable, Consumable {
-    private int hatchCounter = 3;
+    private Turns hatchCounter;
     private int maxHealthBoost;
 
     /***
@@ -28,20 +26,13 @@ public class Egg extends Item implements Hatchable, Consumable {
     public Egg(int maxHealthBoost) {
         super("Egg", '0', true);
         this.maxHealthBoost = maxHealthBoost;
+        this.hatchCounter = new Turns(3);
 //        this.addCapability(Status.INCREASE_MAX_HEALTH);
     }
 
     // Getters and Setters
-    public int getHatchCounter() {
-        return hatchCounter;
-    }
-
     public int getMaxHealthBoost() {
         return maxHealthBoost;
-    }
-
-    public void setHatchCounter(int reproduceCounter) {
-        this.hatchCounter = reproduceCounter;
     }
 
     public void setMaxHealthBoost(int maxHealthBoost) {
@@ -49,36 +40,45 @@ public class Egg extends Item implements Hatchable, Consumable {
     }
 
     /**
-     * Decreases counter by 1.
+     * Inform the egg on the ground of the passage of time.
+     * This method decreases the hatch counter and hatches the egg when the condition is met.
+     * @param currentLocation The location of the ground on which it lies.
      */
-    public void decreaseCounter() {
-        setHatchCounter(getHatchCounter()-1);
-    }
-
     @Override
     public void tick(Location currentLocation) {
-        decreaseCounter();
-        if (!currentLocation.containsAnActor()) {
+        hatchCounter.decreaseCounter();
+//        System.out.println("egg" + hatchCounter.getTurnCounter());
+        if (canHatch(currentLocation) && !currentLocation.containsAnActor()) {
             hatch(currentLocation);
         }
     }
 
+    /**
+     * Checks if the egg can hatch.
+     * @param currentLocation location to check hatching condition
+     * @return true if can hatch, else false
+     */
     @Override
-    public boolean canHatch() {
-        return getHatchCounter() <= 0;
+    public boolean canHatch(Location currentLocation) {
+        return hatchCounter.getTurnCounter() <= 0;
     }
 
+    /**
+     * Performs the hatching process.
+     * @param location location where it hatches
+     */
     @Override
     public void hatch(Location location) {
-        if (canHatch()) {
-            location.removeItem(this);
-            OmenSheep offspring = new OmenSheep();
-            location.addActor(offspring);
-        }
+        location.removeItem(this);
+        location.addActor(new OmenSheep());
     }
 
+    /**
+     * Defines what happens when an actor consumes this egg.
+     * @param actor the actor consuming this item
+     */
     @Override
-    public void consumedEffect(Actor actor) {
+    public void consume(Actor actor) {
         actor.removeItemFromInventory(this);
         actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, getMaxHealthBoost());
 //        if (this.hasCapability(Status.INCREASE_MAX_HEALTH)) {
@@ -86,6 +86,12 @@ public class Egg extends Item implements Hatchable, Consumable {
 //        }
     }
 
+    /**
+     * Returns the list of actions that can be performed on this egg.
+     * @param owner the actor that owns the item
+     * @param map the map where the actor is performing the action on
+     * @return
+     */
     @Override
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = super.allowableActions(owner, map);

@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Plantable;
+import game.Turns;
 import game.actors.Player;
 import game.capabilities.Status;
 
@@ -16,7 +17,7 @@ import game.capabilities.Status;
  */
 public class Inheritree extends Ground implements Plantable {
 
-    private int tickCounter = 0;
+    private Turns tickCounter = new Turns(0);
     private PLANT_STATUS CROP_PLANT_STATUS;
     /**
      * Constructor
@@ -72,7 +73,7 @@ public class Inheritree extends Ground implements Plantable {
             }
         }
 
-        this.tickCounter++;
+        tickCounter.increaseCounter();
     }
 
     /**
@@ -80,7 +81,7 @@ public class Inheritree extends Ground implements Plantable {
      * @return true or false
      */
     public boolean canBloom() {
-        return this.tickCounter >= 0;
+        return tickCounter.getTurnCounter() >= 0;
     }
 
     /**
