@@ -37,7 +37,6 @@ public class Kale extends Actor implements Speaker, Merchant {
     public Kale() {
         super("Merchant Kale", 'K', 200);
         this.addCapability(Status.SELLER_KALE);
-        this.addCapability(Status.MERCHANT);
         this.NPCController = new StandardNPCController();
         items = new ArrayList<>();
         items.add(new Broadsword());

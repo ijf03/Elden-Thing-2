@@ -36,23 +36,22 @@ public class SellAction extends Action {
 
         Player player = (Player) actor;
 
-        if (player.getBalance() < item.getPrice(merchant)) return "Not enough runes.";
+        if (player.getBalance() < item.getPrice(merchant)) {
+            return "Not enough runes.";}
 
-        player.deductBalance(item.getPrice(merchant));
-        item.onPurchase(player, merchant, map);
+        else{
+            player.deductBalance(item.getPrice(merchant));
+            item.onPurchase(player, merchant, map);
 
-        if (item.isWeapon()) {
-            player.addItemToInventory(item.asItem());
-        }
-
-        if (merchant.hasCapability(Status.MERCHANT)) {
             if (item.isWeapon()) {
-                merchant.removeItemFromInventory(item.asItem());
+                player.addItemToInventory(item.asItem());
             }
-            ((Merchant) merchant).removeSoldItem(item);
-        }
 
-        return "You purchased: " + item.getName() + " from " + merchant + ".";
+
+            merchant.removeItemFromInventory(item.asItem());
+            ((Merchant) merchant).removeSoldItem(item);
+
+            return "You purchased: " + item.getName() + " from " + merchant + ".";}
 
     }
     /**
