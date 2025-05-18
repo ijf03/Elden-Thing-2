@@ -38,6 +38,7 @@ public class Player extends Actor {
         this.addCapability(Status.PLAYABLE);
         this.setIntrinsicWeapon(new BareFist());
         this.addCapability(Status.FOLLOWABLE);
+        this.addCapability(Status.PLAYER);
     }
 
     /**

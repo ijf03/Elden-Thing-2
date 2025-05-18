@@ -15,6 +15,7 @@ public enum Status {
     BLESSED,
     SELLER_SELLEN,
     SELLER_KALE,
-    USABLE_WEAPON
+    USABLE_WEAPON,
+    PLAYER
 }
 

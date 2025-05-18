@@ -66,9 +66,13 @@ public class Inheritree extends Ground implements Plantable {
         else if (this.isBloomed()) {
             for (Exit exit : location.getExits()) {
                 Location surroundLocation = exit.getDestination();
-                surroundLocation.getActor().heal(5);
-                if (surroundLocation.getActor().hasAttribute(BaseActorAttributes.STAMINA)) {
-                    surroundLocation.getActor().modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, 5);
+                // restore health & stamina if actor close by
+                if (surroundLocation.containsAnActor()) {
+                    surroundLocation.getActor().heal(5);
+
+                    if (surroundLocation.getActor().hasAttribute(BaseActorAttributes.STAMINA)) {
+                        surroundLocation.getActor().modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, 5);
+                    }
                 }
             }
         }
@@ -81,12 +85,12 @@ public class Inheritree extends Ground implements Plantable {
      * @return true or false
      */
     public boolean canBloom() {
-        return tickCounter.getTurnCounter() >= 0;
+        return tickCounter.getTurnCounter() >= 0 && this.CROP_PLANT_STATUS != PLANT_STATUS.BLOOMED;
     }
 
     /**
      * Check if the tree has already bloomed
-     * @return
+     * @return true or false
      */
     public boolean isBloomed() {
         return this.CROP_PLANT_STATUS == PLANT_STATUS.BLOOMED;

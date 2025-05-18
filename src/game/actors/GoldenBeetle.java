@@ -83,13 +83,10 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
      * @param actor The actor who consumed this item
      */
     @Override
-    public void consume(Actor actor) {
+    public void consume(Actor actor, GameMap map) {
+        map.removeActor(this);
         actor.heal(15);
-        if (actor instanceof Player) {
-            Player player = (Player) actor;
-            player.addBalance(1000);
-
-        }
+        map.getActorAt(map.locationOf(actor)).addBalance(1000);
     }
 
     /**
@@ -121,7 +118,7 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
                 }
             }
         }
-        if (otherActor instanceof game.actors.Player) {
+        if (otherActor.hasCapability(Status.PLAYER)) {
             actions.add(new EatAction(this));
         }
         return actions;
