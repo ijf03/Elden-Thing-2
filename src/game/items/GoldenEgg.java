@@ -6,10 +6,10 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.ConsumeAction;
+import game.Hatchable;
+import game.actions.EatAction;
 import game.actors.GoldenBeetle;
 import game.capabilities.Status;
-import game.terrain.CursedGrounds;
 
 import static edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations.INCREASE;
 import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.STAMINA;
@@ -17,9 +17,7 @@ import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.ST
 /**
  * Golden Egg Scaffold
  */
-public class GoldenEgg extends Item implements Consumable{
-
-    private boolean canHatch = true;
+public class GoldenEgg extends Item implements Hatchable, game.items.Consumable {
 
     public GoldenEgg() {
         super("Golden Egg", '0', true);
@@ -27,18 +25,37 @@ public class GoldenEgg extends Item implements Consumable{
 
     @Override
     public void tick(Location currentLocation) {
-        if (!canHatch) return;
+        if (canHatch(currentLocation) && !currentLocation.containsAnActor()) {
+            hatch(currentLocation);
+        }
+    }
 
+    /**
+     * Checks whether its surrounding has entities that are cursed, so that
+     * the Golden Egg can hatch.
+     * @param currentLocation location to check hatching condition
+     * @return true if can hatch, else false
+     */
+    @Override
+    public boolean canHatch(Location currentLocation) {
         for (Exit exit : currentLocation.getExits()) {
             Location adjacent = exit.getDestination();
-            if (adjacent.getGround().getDisplayChar() == CursedGrounds.BLIGHT.groundChar &&
+            if (adjacent.getGround().hasCapability(Status.CURSED) &&
                     !adjacent.containsAnActor()) {
-
-                currentLocation.removeItem(this);
-                adjacent.addActor(new GoldenBeetle());
-                return;
+                return true;
             }
         }
+        return false;
+    }
+
+    /**
+     * Performs the hatching process.
+     * @param currentLocation location where it hatches
+     */
+    @Override
+    public void hatch(Location currentLocation) {
+        currentLocation.removeItem(this);
+        currentLocation.addActor(new GoldenBeetle());
     }
 
     @Override
@@ -49,7 +66,7 @@ public class GoldenEgg extends Item implements Consumable{
     @Override
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = new ActionList();
-        actions.add(new ConsumeAction(this, "Golden Egg"));
+        actions.add(new EatAction(this));
         return actions;
     }
 
