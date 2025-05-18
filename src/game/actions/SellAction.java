@@ -8,7 +8,7 @@ import game.actors.Player;
 import game.Sellable;
 import game.capabilities.Status;
 /**
- * Represents an action that allows a actor to sell an item.
+ * Represents an action that allows an actor to sell an item.
  */
 public class SellAction extends Action {
     private final Sellable item;
