@@ -62,11 +62,23 @@ public class GoldenEgg extends Item implements Hatchable, Consumable {
         currentLocation.addActor(new GoldenBeetle());
     }
 
+    /**
+     * A Golden Egg that can be consumed to restore 20 stamina.
+     *
+     */
+
     @Override
     public void consume(Actor actor) {
         actor.modifyAttribute(STAMINA, INCREASE, 20);
     }
 
+    /**
+     * Returns a list of actions that the actor can perform on the GoldenEgg.
+     *
+     * @param owner The actor who owns the item
+     * @param map The game map
+     * @return A list of allowable actions (only EatAction for now)
+     */
     @Override
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = new ActionList();
