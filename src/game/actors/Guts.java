@@ -21,13 +21,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class represents the Guts NPC
+ */
 public class Guts extends Actor implements Speaker {
-    /**
-     * Integer to keep count of how many turns have gone
-     */
-    private int turnCounter;
     private NPCController NPCController;
 
+    /**
+     * Constructor
+     * Initiates the NPC controller as StandardNPCController (wanders around)
+     * Sets his capability to hostile to enemy so that he is attackable
+     * Sets his Intrinsic weapon to BareFist
+     */
     public Guts() {
         super("Guts",'g', 500);
         this.NPCController = new StandardNPCController();
@@ -35,6 +40,12 @@ public class Guts extends Actor implements Speaker {
         this.setIntrinsicWeapon(new BareFist());
     }
 
+    /**
+     * When the player wants to listen to him
+     * @param otherActor the player who is listening
+     * @param map where they are
+     * @return string of what he responds (depends on the player's health)
+     */
     public String ListenAction(Actor otherActor, GameMap map) {
         Random rand = new Random();
         ArrayList<String> monologueOptions = new ArrayList<>();
@@ -64,6 +75,7 @@ public class Guts extends Actor implements Speaker {
                 }
             }
         }
+        // NPCController gives next move action
         if (NPCController.retrieveNextAction(this, map) == null) {
             return new DoNothingAction();
         } else {
@@ -73,6 +85,9 @@ public class Guts extends Actor implements Speaker {
 
     /**
      * Guts can be attacked by any actor that has the HOSTILE_TO_ENEMY capability
+     * When he attacks the weapon he attacks with must be chosen
+     * He can be listened to by just the player
+     *
      *
      * @param otherActor the Actor that might be performing attack
      * @param direction  String representing the direction of the other Actor
@@ -99,6 +114,7 @@ public class Guts extends Actor implements Speaker {
                 }
             }
         }
+        // Can only listen if the other actor is the player/is playable
         if (otherActor.hasCapability(Status.PLAYABLE)) {
             actions.add(new ListenAction(this));
         }

@@ -59,6 +59,12 @@ public class Kale extends Actor implements Speaker, Merchant {
         items.remove(item);
     }
 
+    /**
+     * Logic for what Kale says depending on player's inventory, money and Kale's surroundings
+     * @param player who listens
+     * @param map where they are
+     * @return string Appropriate line said by Kale
+     */
     public String ListenAction(Actor player, GameMap map) {
         Random rand = new Random();
         ArrayList<String> monologueOptions = new ArrayList<>();

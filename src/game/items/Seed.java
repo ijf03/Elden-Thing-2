@@ -4,11 +4,16 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.Location;
 import game.Plantable;
 import game.actions.PlantAction;
 
+/**
+ * Class representing a seed, precursor to plants
+ */
 public class Seed extends Item {
+    /**
+     * The plant that this seed will turn into
+     */
     public Plantable plantable;
 
     /***

@@ -9,10 +9,18 @@ import edu.monash.fit2099.engine.positions.Ground;
  */
 public class Wall extends Ground {
 
+    /**
+     * Constructor
+     */
     public Wall() {
         super('#', "Wall");
     }
 
+    /**
+     * Boolean check if an actor can pass through a wall
+     * @param actor the Actor to check
+     * @return false you cannot
+     */
     @Override
     public boolean canActorEnter(Actor actor) {
         return false;
