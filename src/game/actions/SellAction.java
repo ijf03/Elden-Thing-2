@@ -8,7 +8,7 @@ import game.actors.Player;
 import game.Sellable;
 import game.capabilities.Status;
 /**
- * Represents an action that allows a actor to sell an item.
+ * Represents an action that allows an actor to sell an item.
  */
 public class SellAction extends Action {
     private final Sellable item;
@@ -36,23 +36,23 @@ public class SellAction extends Action {
 
         Player player = (Player) actor;
 
-        if (player.getBalance() < item.getPrice(merchant)) return "Not enough runes.";
+        if (player.getBalance() < item.getPrice(merchant)) {
+            return "Not enough runes.";}
 
-        player.deductBalance(item.getPrice(merchant));
-        item.onPurchase(player, merchant, map);
+        else{
+            player.deductBalance(item.getPrice(merchant));
+            item.onPurchase(player, merchant, map);
 
-        if (item.isWeapon()) {
-            player.addItemToInventory(item.asItem());
-        }
-
-        if (merchant.hasCapability(Status.MERCHANT)) {
             if (item.isWeapon()) {
-                merchant.removeItemFromInventory(item.asItem());
+                player.addItemToInventory(item.asItem());
             }
-            ((Merchant) merchant).removeSoldItem(item);
-        }
 
-        return "You purchased: " + item.getName() + " from " + merchant + ".";
+            // remove the item from merchant inventory
+            merchant.removeItemFromInventory(item.asItem());
+            // remove item form the menu
+            ((Merchant) merchant).removeSoldItem(item);
+
+            return "You purchased: " + item.getName() + " from " + merchant + ".";}
 
     }
     /**

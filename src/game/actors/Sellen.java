@@ -33,8 +33,6 @@ public class Sellen extends Actor implements Speaker, Merchant {
         super("Sellen",'s', 150);
         this.NPCController = new StandardNPCController();
         this.addCapability(Status.SELLER_SELLEN);
-        this.addCapability(Status.MERCHANT);
-
         items = new ArrayList<>();
         items.add(new Broadsword());
         items.add(new DragonslayerGreatsword());

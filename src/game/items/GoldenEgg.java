@@ -9,7 +9,9 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.Hatchable;
 import game.actions.EatAction;
 import game.actors.GoldenBeetle;
+import game.actors.Player;
 import game.capabilities.Status;
+
 
 import static edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations.INCREASE;
 import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.STAMINA;
@@ -21,6 +23,8 @@ public class GoldenEgg extends Item implements Hatchable, Consumable {
 
     public GoldenEgg() {
         super("Golden Egg", '0', true);
+        this.addCapability(Status.CURSED);
+
     }
 
     @Override

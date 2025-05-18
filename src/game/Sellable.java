@@ -41,7 +41,7 @@ public interface Sellable {
      */
     boolean isWeapon();
     /**
-     * Provides that the purchase weapon is an item.
+     * Provides the purchase weapon.
      *
      * @return item
      */
