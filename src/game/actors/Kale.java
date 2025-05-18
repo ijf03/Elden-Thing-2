@@ -9,7 +9,6 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
-import game.Curable;
 import game.Sellable;
 import game.actions.*;
 import game.actors.behaviours.NPCController;
@@ -27,7 +26,6 @@ public class Kale extends Actor implements Speaker, Merchant {
     /**
      * Integer to keep count of how many turns have gone
      */
-    private int turnCounter;
     private final NPCController NPCController;
     private final List<Sellable> items;
 
@@ -65,13 +63,22 @@ public class Kale extends Actor implements Speaker, Merchant {
         Random rand = new Random();
         ArrayList<String> monologueOptions = new ArrayList<>();
         for (Exit exit : map.locationOf(this).getExits()) {
-            if (map.getActorAt(exit.getDestination()) instanceof Curable || exit.getDestination() instanceof Curable) {
-                monologueOptions.add("Rest by the flame when you can, friend. These lands will wear you thin.");
+            if (map.getActorAt(exit.getDestination()) != null) {
+                if (map.getActorAt(exit.getDestination()).hasCapability(Status.CURSED)) {
+                    if (!monologueOptions.contains("Rest by the flame when you can, friend. These lands will wear you thin.")) {
+                        monologueOptions.add("Rest by the flame when you can, friend. These lands will wear you thin.");
+                    }
+                }
+            } else if (exit.getDestination().getGround().hasCapability(Status.CURSED)) {
+                if (!monologueOptions.contains("Rest by the flame when you can, friend. These lands will wear you thin.")) {
+                    monologueOptions.add("Rest by the flame when you can, friend. These lands will wear you thin.");
+                }
             }
         }
         if (player.getBalance() < 500) {
             monologueOptions.add("Ah, hard times, I see. Keep your head low and your blade sharp.");
-        } else if (player.getItemInventory().isEmpty()) {
+        }
+        if (player.getItemInventory().isEmpty()) {
             monologueOptions.add("Not a scrap to your name? Even a farmer should carry a trinket or two.");
         }
         monologueOptions.add("A merchant’s life is a lonely one. But the roads… they whisper secrets to those who listen.");
@@ -125,7 +132,9 @@ public class Kale extends Actor implements Speaker, Merchant {
         }
         for (Sellable item : this.getSellableItems()) {
             actions.add(new SellAction(item, this));}
-        actions.add(new ListenAction(this));
+        if (otherActor.hasCapability(Status.PLAYABLE)) {
+            actions.add(new ListenAction(this));
+        }
         return actions;
     }
 }
