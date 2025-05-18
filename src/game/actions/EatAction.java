@@ -38,13 +38,7 @@ public class EatAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        getConsumable().consume(actor);
-
-        if (getConsumable() instanceof Item) {
-            actor.removeItemFromInventory((Item) getConsumable());
-        } else {
-            map.removeActor((Actor) getConsumable());
-        }
+        getConsumable().consume(actor,map);
 
         return actor + " ate " + getConsumable();
     }
