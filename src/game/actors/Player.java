@@ -3,6 +3,7 @@ package game.actors;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.Wallet;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
@@ -131,6 +132,9 @@ public class Player extends Actor {
         super.heal(amount);
     }
 
-
+    private final Wallet wallet = new Wallet();
+    public Wallet getWallet() {
+        return wallet;
+    }
 
 }

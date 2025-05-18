@@ -8,8 +8,10 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
 import game.actors.GoldenBeetle;
+import game.actors.Player;
 import game.capabilities.Status;
 import game.terrain.CursedGrounds;
+
 
 import static edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations.INCREASE;
 import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.STAMINA;
@@ -23,6 +25,8 @@ public class GoldenEgg extends Item implements Consumable{
 
     public GoldenEgg() {
         super("Golden Egg", '0', true);
+        this.addCapability(Status.CURSED);
+
     }
 
     @Override
@@ -31,7 +35,7 @@ public class GoldenEgg extends Item implements Consumable{
 
         for (Exit exit : currentLocation.getExits()) {
             Location adjacent = exit.getDestination();
-            if (adjacent.getGround().getDisplayChar() == CursedGrounds.BLIGHT.groundChar &&
+            if (adjacent.getGround().hasCapability(Status.CURSED) &&
                     !adjacent.containsAnActor()) {
 
                 currentLocation.removeItem(this);
