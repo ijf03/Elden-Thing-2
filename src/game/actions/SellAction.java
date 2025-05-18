@@ -47,8 +47,9 @@ public class SellAction extends Action {
                 player.addItemToInventory(item.asItem());
             }
 
-
+            // remove the item from merchant inventory
             merchant.removeItemFromInventory(item.asItem());
+            // remove item form the menu
             ((Merchant) merchant).removeSoldItem(item);
 
             return "You purchased: " + item.getName() + " from " + merchant + ".";}
