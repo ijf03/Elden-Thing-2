@@ -32,3 +32,18 @@ You can view our live contribution log here:
 
 Working design rationale document for the project can be found here:  
 [Design Rationale Document](https://docs.google.com/document/d/1vlJXVJUXUDfD8AN_qWMRiZZTqDbkYoo2uu0D6eJDeLo/edit?usp=sharing)
+
+## A3 Creative Mode Requirements
+
+### Requirement 3
+
+
+### Requirement 4
+
+The Farmer should now be able to farm! When the farmer is over farmable land they should be able to take action to farm the land.
+
+The cycle is as above from left to right (till soil, then plant, then water, then harvest) and **only the next appropriate action should be available** to the farmer, meaning only one action needs to be added to the menu. This should be determined by a Farming Behaviour.
+
+**Farmable land** includes Blight and Soil, and of course any of these grounds that have undergone any of the above actions (eg. soil with a plant on it is still deemed farmable and hence waterAction should still be an option)
+
+For instance, when over untilled soil, a new TillSoilAction is available for selection in the menu. If the soil is tilled, then a PlantAction should be available instead, and so on and so forth.
