@@ -68,7 +68,8 @@ public class GoldenEgg extends Item implements Hatchable, Consumable {
      */
 
     @Override
-    public void consume(Actor actor) {
+    public void consume(Actor actor, GameMap map) {
+        actor.removeItemFromInventory(this);
         actor.modifyAttribute(STAMINA, INCREASE, 20);
     }
 

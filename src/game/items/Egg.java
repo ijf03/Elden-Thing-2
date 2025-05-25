@@ -78,7 +78,7 @@ public class Egg extends Item implements Hatchable, Consumable {
      * @param actor the actor consuming this item
      */
     @Override
-    public void consume(Actor actor) {
+    public void consume(Actor actor, GameMap map) {
         actor.removeItemFromInventory(this);
         actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, getMaxHealthBoost());
 //        if (this.hasCapability(Status.INCREASE_MAX_HEALTH)) {
