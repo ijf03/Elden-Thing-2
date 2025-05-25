@@ -36,6 +36,19 @@ Working design rationale document for the project can be found here:
 ## A3 Creative Mode Requirements
 
 ### Requirement 3
+REQ3: Magic
+
+The farmer reach to a state where they can gather mana and wield magic weapons. These magic weapons appear randomly on the game map.
+
+The Farmer can absorb mana through interactions: talking to a merchnat adds 3 mana, purchasing a weapon adds 10 mana, attacking a non-hostile actor adds 10 mana and attacking a hostile actor adds 20 mana. Harvesting crops gains 3 mana, and if no action is taken, ecah trun adds 1 mana.
+
+There are three magic weapons:
+
+Lifesteal Fist (L): This replaces the bare fist. Each use costs 10 mana and has a 100% hit rate. It absorbs HP from the target, healing the farmer with 30% of the target maximun HP. In an other word, damage made to target is equal to the amount the farmer heal.
+
+Frozen Armament (A): Each time it costs 20 mana and has a 100% hit rate. On hit, it applies a freezing effect to the target that cost 30 damage continuously for 5 turns.
+
+Flaming Strike (F): Each use costs 30 mana and has a 100% hit rate. If the Farmer’s current mana is above 100, each attack cost 150 damage. If it is less than 100 mana, it deals 100 damage. And if the Farmer’s mana is 200 mana, it will inflicts a burning effect that deals 150 damage for the next 3 turns.
 
 
 ### Requirement 4
