@@ -71,14 +71,12 @@ public class Kale extends Actor implements Speaker, Merchant {
         for (Exit exit : map.locationOf(this).getExits()) {
             if (map.getActorAt(exit.getDestination()) != null) {
                 if (map.getActorAt(exit.getDestination()).hasCapability(Status.CURSED)) {
-                    if (!monologueOptions.contains("Rest by the flame when you can, friend. These lands will wear you thin.")) {
-                        monologueOptions.add("Rest by the flame when you can, friend. These lands will wear you thin.");
-                    }
+                    monologueOptions.add("Rest by the flame when you can, friend. These lands will wear you thin.");
+                    break;
                 }
             } else if (exit.getDestination().getGround().hasCapability(Status.CURSED)) {
-                if (!monologueOptions.contains("Rest by the flame when you can, friend. These lands will wear you thin.")) {
-                    monologueOptions.add("Rest by the flame when you can, friend. These lands will wear you thin.");
-                }
+                monologueOptions.add("Rest by the flame when you can, friend. These lands will wear you thin.");
+                break;
             }
         }
         if (player.getBalance() < 500) {

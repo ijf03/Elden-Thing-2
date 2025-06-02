@@ -52,10 +52,18 @@ Flaming Strike (F): Each use costs 30 mana and has a 100% hit rate. If the Farme
 
 ### Requirement 4
 
-The Farmer should now be able to farm! When the farmer is over farmable land they should be able to take action to farm the land.
+A potion is a usable item in the players’ inventory. It is used by the player throwing it at other actors, and once thrown cannot be used again, it shatters on impact and an effect is given to the other actor for a certain amount of turns. This throwing action takes 5 stamina from the player.
 
-The cycle is as above from left to right (till soil, then plant, then water, then harvest) and **only the next appropriate action should be available** to the farmer, meaning only one action needs to be added to the menu. This should be determined by a Farming Behaviour.
+Each potion is given an effect, which will extend from the StatusEffect interface in the engine, which the potion passes onto the other actor through the throw potion action. The effects are:
 
-**Farmable land** includes Blight and Soil, and of course any of these grounds that have undergone any of the above actions (eg. soil with a plant on it is still deemed farmable and hence waterAction should still be an option)
+Invincibility
+- The actor cannot be attacked, none of their stats will change and their number of remaining ticks will be frozen
 
-For instance, when over untilled soil, a new TillSoilAction is available for selection in the menu. If the soil is tilled, then a PlantAction should be available instead, and so on and so forth.
+Speed
+- The actor will either speed up or slow down depending on the potion type, moving 2 spaces in one turn or 1 space in 2 turns respectively
+
+Speak
+- Non-speaking actors will now be able to speak and make sounds
+
+  - If turns left is less than or equal to 5: “The rot is unforgiving but I would hope you are not, please friend save me if not for a few days more”
+  - If turns left are more than 5: “Safe travels friend”
