@@ -11,18 +11,6 @@ public class Branch implements Growable {
     private final List<Growable> children = new ArrayList<>();
     private final Random rand = new Random();
 
-    @Override
-    public void grow(Display display) {
-        Growable newChild;
-        if (rand.nextBoolean()) {
-            newChild = new Branch();
-        } else {
-            newChild = new Leaf();
-        }
-
-        children.add(newChild);
-
-    }
 
     @Override
     public int getAttackBonus() {

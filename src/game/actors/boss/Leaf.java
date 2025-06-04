@@ -3,9 +3,6 @@ package game.actors.boss;
 import edu.monash.fit2099.engine.displays.Display;
 
 class Leaf implements Growable {
-    @Override
-    public void grow(Display display) {
-    }
 
     @Override
     public int getAttackBonus() {
