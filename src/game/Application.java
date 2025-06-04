@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.*;
 import game.actors.*;
+import game.capabilities.Status;
 import game.items.Seed;
 import game.items.TeleportationCircle;
 import game.terrain.*;
@@ -107,11 +108,11 @@ public class Application {
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
         gameMap.at(19, 12).addActor(new SpiritGoat());
-        gameMap.at(20, 13).addActor(new OmenSheep());
-        //gameMap.at(25,12).addActor(new Sellen());
+        gameMap.at(20, 13).addActor(new OmenSheep(Status.RANDOM_BEHAVIOUR));
+        gameMap.at(25,12).addActor(new Sellen());
         gameMap.at(26,14).addActor(new Kale());
         gameMap.at(24,12).addActor(new Guts());
-        gameMap.at(23,14).addActor(new GoldenBeetle());
+        gameMap.at(12,14).addActor(new GoldenBeetle(Status.NORMAL_BEHAVIOUR));
 
         world.run();
     }

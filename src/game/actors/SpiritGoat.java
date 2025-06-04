@@ -16,7 +16,9 @@ import game.Turns;
 import game.actions.AttackAction;
 import game.actions.CureAction;
 import game.actors.behaviours.NPCController;
+import game.actors.behaviours.ReproduceBehaviour;
 import game.actors.behaviours.StandardNPCController;
+import game.actors.behaviours.WanderBehaviour;
 import game.capabilities.Status;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import java.util.Random;
  * Class representing the NPC SpritGoat which roams around
  * @author Trinh Nguyen
  */
-public class SpiritGoat extends Actor implements Curable, Reproducible {
+public class SpiritGoat extends Creature implements Curable, Reproducible {
 
 
     /**
@@ -41,9 +43,20 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
      * Constructor.
      */
     public SpiritGoat() {
-        super("SpiritGoat",'y', 50);
+        super("SpiritGoat",'y', 50, Status.NORMAL_BEHAVIOUR);
         this.turnCounter = new Turns(10);
         this.NPCController = new StandardNPCController();
+        NPCController.newBehaviour(new WanderBehaviour(), 999);
+        NPCController.newBehaviour(new ReproduceBehaviour(this), 1);
+        this.reproduceCooldown = new Turns(0);
+    }
+
+    public SpiritGoat(Status status) {
+        super("SpiritGoat",'y', 50, status);
+        this.turnCounter = new Turns(10);
+        this.NPCController = setBehaviourStyle();
+        NPCController.newBehaviour(new WanderBehaviour(), 999);
+        NPCController.newBehaviour(new ReproduceBehaviour(this), 1);
         this.reproduceCooldown = new Turns(0);
     }
 
@@ -53,7 +66,7 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
      * @param cooldown a turns counter
      */
     public SpiritGoat(Turns cooldown) {
-        super("SpiritGoat",'y', 50);
+        super("SpiritGoat",'y', 50, Status.NORMAL_BEHAVIOUR);
         this.turnCounter = new Turns(10);
         this.NPCController = new StandardNPCController();
         this.reproduceCooldown = cooldown;
@@ -83,15 +96,11 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
             return new DoNothingAction();
         }
         // Check for nearby blessed entities (like Inheritree) and try to reproduce
-        Location location = map.locationOf(this);
-        if (canReproduce(location) && reproduceCooldown.getTurnCounter() <= 0) {
-            reproduce(map, location);
-        }
-        if (NPCController.retrieveNextAction(this, map) == null) {
-            return new DoNothingAction();
-        } else {
-            return NPCController.retrieveNextAction(this, map);
-        }
+//        Location location = map.locationOf(this);
+//        if (canReproduce(location) && reproduceCooldown.getTurnCounter() <= 0) {
+//            reproduce(map, location);
+//        }
+        return NPCController.retrieveNextAction(this, map);
     }
 
     /**
@@ -141,11 +150,12 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
     /**
      * Checks whether its surrounding has entities that are blesses, so that
      * the SpiritGoat can reproduce.
-     * @param location location to check reproduction condition
+     * @param map location to check reproduction condition
      * @return true if can reproduce, else false
      */
     @Override
-    public boolean canReproduce(Location location) {
+    public boolean canReproduce(GameMap map) {
+        Location location = map.locationOf(this);
         for (Exit exit : location.getExits()) {
             Location destination = exit.getDestination();
             if (destination.getGround().hasCapability(Status.BLESSED)) {
@@ -159,12 +169,12 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
      * Performs the reproduction process.
      * Produces an offspring on a valid location around it.
      * @param map the game map where reproduction occurs
-     * @param location location where it reproduces
      */
     @Override
-    public void reproduce(GameMap map, Location location) {
+    public void reproduce(GameMap map) {
         // store list of valid locations
         ArrayList<Location> exits = new ArrayList<Location>();
+        Location location = map.locationOf(this);
         for (Exit exit : location.getExits()) { // location - map.locationOf(this)
             Location destination = exit.getDestination();
             if (destination.canActorEnter(this)) {
