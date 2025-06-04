@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.*;
+import game.actors.boss.BedOfChaos;
 import game.items.Seed;
 import game.terrain.Bloodrose;
 import game.terrain.Inheritree;
@@ -71,7 +72,7 @@ public class Application {
         player.addItemToInventory(BloodroseSeed);
         player.addItemToInventory(new Talisman());
         player.addAttribute(STAMINA ,new BaseActorAttribute(200));
-        world.addPlayer(player, gameMap.at(25, 13));
+        world.addPlayer(player, gameMap.at(21, 7));
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
@@ -81,6 +82,7 @@ public class Application {
         gameMap.at(26,14).addActor(new Kale());
         gameMap.at(24,12).addActor(new Guts());
         gameMap.at(23,14).addActor(new GoldenBeetle());
+        gameMap.at(19,7).addActor(new BedOfChaos());
 
         world.run();
     }
