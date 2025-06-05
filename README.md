@@ -31,11 +31,13 @@ You can view our live contribution log here:
 ## Working Design Rationale
 
 Working design rationale document for the project can be found here:  
-[Design Rationale Document](https://docs.google.com/document/d/1vlJXVJUXUDfD8AN_qWMRiZZTqDbkYoo2uu0D6eJDeLo/edit?usp=sharing)
+[Design Rationale Document]
+(A2 https://docs.google.com/document/d/1vlJXVJUXUDfD8AN_qWMRiZZTqDbkYoo2uu0D6eJDeLo/edit?usp=sharing)
+(A3 https://docs.google.com/document/d/1eZuIQlW_9KtzG4Ltu4y4Jbk_-sWZJ6l_FGC-hfprrBw/edit?usp=sharing)
 
 ## A3 Creative Mode Requirements
 
-### Requirement 3
+### A3 Requirement 3
 REQ3: Magic
 
 The farmer reaches a state where they can gather mana and wield magic weapons. These magic weapons appear randomly on the game map.  
@@ -50,7 +52,7 @@ Frozen Armament (A): Each time it costs 20 mana and has a 100% hit rate. On hit,
 Flaming Strike (F): Each use costs 30 mana and has a 100% hit rate. If the Farmer’s current mana is above 100, each attack costs 150 damage. If it is less than 100 mana, it deals 100 damage. And if the Farmer’s mana is 200 mana, it will inflict a burning effect that deals 150 damage for the next 3 turns.
 
 
-### Requirement 4
+### A3 Requirement 4
 
 A potion is a usable item in the players’ inventory. It is used by the player throwing it at other actors, and once thrown cannot be used again, it shatters on impact and an effect is given to the other actor for a certain amount of turns. This throwing action takes 5 stamina from the player.
 
