@@ -2,7 +2,12 @@ package game.actors.boss;
 
 import edu.monash.fit2099.engine.displays.Display;
 
+import java.util.List;
+
 public interface Growable {
+    Growable growResult(Display display);
     int getAttackBonus();
-    int applyHeal();
+    int getHealingAmount();
+    int countLeaves();
+    List<Growable> getChildren();
 }

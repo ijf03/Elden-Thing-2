@@ -12,50 +12,58 @@ import game.actions.AttackAction;
 import game.capabilities.Status;
 
 public class BedOfChaos extends Actor {
-    private static final int BASE_DAMAGE = 25;
-    private static final int BASE_ACCURACY = 75;
 
-    private final Branch growthTree;
-    private int currentTotalDamage = BASE_DAMAGE;
+    private static final int basedamage = 25;
+    private static final int baseAccuracy = 75;
 
+    private final Branch chaosTree;
+    private int totalAttackDamage = basedamage;
 
     public BedOfChaos() {
         super("Bed of Chaos", 'T', 1000);
-        this.growthTree = new Branch();
-        this.setIntrinsicWeapon(new IntrinsicWeapon(BASE_DAMAGE, "lashes", BASE_ACCURACY) {});
+        this.chaosTree = new Branch();
+        this.setIntrinsicWeapon(new IntrinsicWeapon(basedamage, "lashes", baseAccuracy) {});
     }
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         display.println(this + " is growing...");
 
-        int bonusBefore = getCurrentAttackBonus();
+        int leavesBefore = chaosTree.countLeaves();
+        int bonusBefore = calculateBonus();
 
-        int leavesBefore = countLeaves(growthTree);
-        while (countLeaves(growthTree) == leavesBefore) {
-            growthTree.growWithResult(display);
+        while (chaosTree.countLeaves() == leavesBefore) {
+            chaosTree.growResult(display);
         }
 
-        int heal = growthTree.applyHeal();
+        int heal = chaosTree.getHealingAmount();
         if (heal > 0) {
             display.println(this + " is healed for " + heal + " HP.");
             this.heal(heal);
         }
 
-        int bonusAfter = getCurrentAttackBonus();
-        int bonusThisTurn = bonusAfter - bonusBefore;
-        currentTotalDamage += bonusThisTurn;
+        int bonusAfter = calculateBonus();
+        int bonusGained = bonusAfter - bonusBefore;
+        totalAttackDamage += bonusGained;
 
+        display.println(this + " prepares an attack (Damage = " + totalAttackDamage + ")");
 
         for (Exit exit : map.locationOf(this).getExits()) {
             Actor target = exit.getDestination().getActor();
             if (target != null && target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-                IntrinsicWeapon weapon = new IntrinsicWeapon(currentTotalDamage, "lashes", BASE_ACCURACY) {};
+                IntrinsicWeapon weapon = new IntrinsicWeapon(totalAttackDamage, "lashes", baseAccuracy) {};
                 return new AttackAction(target, exit.getName(), weapon);
             }
         }
-
         return new DoNothingAction();
+    }
+
+    private int calculateBonus() {
+        int total = 0;
+        for (Growable child : chaosTree.getChildren()) {
+            total += child.getAttackBonus();
+        }
+        return total;
     }
 
     @Override
@@ -65,25 +73,5 @@ public class BedOfChaos extends Actor {
             actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
         }
         return actions;
-    }
-
-    private int getCurrentAttackBonus() {
-        int total = 0;
-        for (Growable child : growthTree.getChildren()) {
-            total += child.getAttackBonus();
-        }
-        return total;
-    }
-
-    private int countLeaves(Growable node) {
-        if (node instanceof Leaf) return 1;
-        if (node instanceof Branch branch) {
-            int total = 0;
-            for (Growable child : branch.getChildren()) {
-                total += countLeaves(child);
-            }
-            return total;
-        }
-        return 0;
     }
 }
