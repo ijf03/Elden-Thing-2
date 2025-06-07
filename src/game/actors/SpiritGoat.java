@@ -14,10 +14,12 @@ import game.Curable;
 import game.Reproducible;
 import game.Turns;
 import game.actions.AttackAction;
+import game.actions.CastSpellAction;
 import game.actions.CureAction;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
+import game.magic.MagicItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +121,17 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
                     if (!weaponNames.contains(name)) {
                         actions.add(new AttackAction(this, direction, weapon));
                         weaponNames.add(name);
+                    }
+                }
+            }
+            List<String> spellNames = new ArrayList<>();
+            for (Item item : otherActor.getItemInventory()) {
+                if (item.hasCapability(Status.MAGIC_SPELL)) {
+                    MagicItem spell = (MagicItem) item;
+                    String name = spell.getName();
+                    if (!spellNames.contains(name)) {
+                        actions.add(new CastSpellAction(spell, this));
+                        spellNames.add(name);
                     }
                 }
             }

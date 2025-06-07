@@ -119,6 +119,7 @@ public class BedOfChaos extends Actor {
                     }
                 }
             }
+
             List<String> spellNames = new ArrayList<>();
             for (Item item : otherActor.getItemInventory()) {
                 if (item.hasCapability(Status.MAGIC_SPELL)) {

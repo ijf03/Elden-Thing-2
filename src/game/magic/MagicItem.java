@@ -23,7 +23,6 @@ public abstract class MagicItem extends WeaponItem {
     protected MagicItem(String name, char displayChar, int damage, String verb, int hitRate, int manaCost) {
         super(name, displayChar, damage, verb, hitRate);
         this.manaCost = manaCost;
-        // grant magic-spell capability so actors can identify it
         this.addCapability(game.capabilities.Status.MAGIC_SPELL);
     }
 
