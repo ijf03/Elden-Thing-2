@@ -15,9 +15,13 @@ import game.terrain.Blight;
 import game.terrain.Floor;
 import game.terrain.Soil;
 import game.terrain.Wall;
+import game.magic.FlamingStrike;
+import game.magic.FrozenArmament;
+import game.magic.LifestealFist;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.STAMINA;
 
@@ -84,6 +88,23 @@ public class Application {
         gameMap.at(23,14).addActor(new GoldenBeetle());
         gameMap.at(19,7).addActor(new BedOfChaos());
 
-        world.run();
+        Random rand = new Random();
+        if (rand.nextDouble() < 0.3) {
+
+            int x1 = rand.nextInt(gameMap.getXRange().max());
+            int y1 = rand.nextInt(gameMap.getYRange().max());
+            gameMap.at(x1, y1).addItem(new LifestealFist());
+
+            int x2 = rand.nextInt(gameMap.getXRange().max());
+            int y2 = rand.nextInt(gameMap.getYRange().max());
+            gameMap.at(x2, y2).addItem(new FrozenArmament());
+
+            int x3 = rand.nextInt(gameMap.getXRange().max());
+            int y3 = rand.nextInt(gameMap.getYRange().max());
+            gameMap.at(x3, y3).addItem(new FlamingStrike());}
+
+
+
+            world.run();
     }
 }
