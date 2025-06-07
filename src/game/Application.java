@@ -18,6 +18,8 @@ import game.terrain.Wall;
 import game.magic.FlamingStrike;
 import game.magic.FrozenArmament;
 import game.magic.LifestealFist;
+import game.weapons.Broadsword;
+import game.weapons.DragonslayerGreatsword;
 
 import java.util.Arrays;
 import java.util.List;
@@ -75,7 +77,6 @@ public class Application {
         player.addItemToInventory(InheritreeSeed);
         player.addItemToInventory(BloodroseSeed);
         player.addItemToInventory(new Talisman());
-        player.addAttribute(STAMINA ,new BaseActorAttribute(200));
         world.addPlayer(player, gameMap.at(21, 7));
 
         // game setup
@@ -103,8 +104,10 @@ public class Application {
             int y3 = rand.nextInt(gameMap.getYRange().max());
             gameMap.at(x3, y3).addItem(new FlamingStrike());}
 
+//        player.addItemToInventory(new LifestealFist());
+//        player.addItemToInventory(new FrozenArmament());
+//        player.addItemToInventory(new FlamingStrike());
 
-
-            world.run();
+        world.run();
     }
 }
