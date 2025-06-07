@@ -39,6 +39,6 @@ public class CastSpellAction extends Action {
 
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " casts " + item.toString() + " on " + target + " (" + item.getManaCost() + " mana)";
+        return actor + " casts " + item.toString() + " on " + target + " cost " + item.getManaCost() + " mana)";
     }
 }

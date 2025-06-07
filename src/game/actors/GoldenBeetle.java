@@ -12,6 +12,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.Reproducible;
 import game.actions.AttackAction;
+import game.actions.CastSpellAction;
 import game.actions.EatAction;
 import game.actors.behaviours.FollowBehaviour;
 import game.actors.behaviours.WanderBehaviour;
@@ -20,6 +21,7 @@ import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.items.Consumable;
 import game.items.GoldenEgg;
+import game.magic.MagicItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,6 +116,17 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
                     if (!weaponNames.contains(name)) {
                         actions.add(new AttackAction(this, direction, weapon));
                         weaponNames.add(name);
+                    }
+                }
+            }
+            List<String> spellNames = new ArrayList<>();
+            for (Item item : otherActor.getItemInventory()) {
+                if (item.hasCapability(Status.MAGIC_SPELL)) {
+                    MagicItem spell = (MagicItem) item;
+                    String name = spell.getName();
+                    if (!spellNames.contains(name)) {
+                        actions.add(new CastSpellAction(spell, this));
+                        spellNames.add(name);
                     }
                 }
             }

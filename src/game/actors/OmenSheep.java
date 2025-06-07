@@ -15,12 +15,14 @@ import game.Curable;
 import game.Reproducible;
 import game.Turns;
 import game.actions.AttackAction;
+import game.actions.CastSpellAction;
 import game.actions.CureAction;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.actors.behaviours.WanderBehaviour;
 import game.items.Egg;
+import game.magic.MagicItem;
 import game.terrain.Inheritree;
 
 import java.util.ArrayList;
@@ -109,6 +111,17 @@ public class OmenSheep extends Actor implements Curable, Reproducible {
                     if (!weaponNames.contains(name)) {
                         actions.add(new AttackAction(this, direction, weapon));
                         weaponNames.add(name);
+                    }
+                }
+            }
+            List<String> spellNames = new ArrayList<>();
+            for (Item item : otherActor.getItemInventory()) {
+                if (item.hasCapability(Status.MAGIC_SPELL)) {
+                    MagicItem spell = (MagicItem) item;
+                    String name = spell.getName();
+                    if (!spellNames.contains(name)) {
+                        actions.add(new CastSpellAction(spell, this));
+                        spellNames.add(name);
                     }
                 }
             }
