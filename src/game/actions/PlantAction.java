@@ -4,6 +4,8 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actors.ManaManager;
+import game.actors.Player;
 import game.capabilities.Status;
 import game.items.Seed;
 
@@ -38,6 +40,9 @@ public class PlantAction extends Action {
             if (actor.getAttribute(BaseActorAttributes.STAMINA) > 0 && map.locationOf(actor).getGround().hasCapability(Status.PLANTABLE_TERRAIN)) {
                 actor.removeItemFromInventory(seed);
                 seed.plantable.PlantAction(actor, map);
+                if (actor.hasCapability(Status.PLAYABLE)) {
+                    ManaManager.onPlantOrHarvest((Player) actor);
+                }
                 return menuDescription(actor);
             }
             return actor + " cannot plant the " + seed + " here";

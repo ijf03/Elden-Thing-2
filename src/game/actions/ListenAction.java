@@ -3,7 +3,10 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actors.ManaManager;
+import game.actors.Player;
 import game.actors.Speaker;
+import game.capabilities.Status;
 
 /**
  * This class handles the listening executions and displays on the menu
@@ -27,6 +30,10 @@ public class ListenAction extends Action {
      */
     @Override
     public String execute(Actor player, GameMap map) {
+        if (player.hasCapability(Status.PLAYABLE)) {
+            ManaManager.onTalk((Player) player);
+        }
+
         return speaker.ListenAction(player, map);
     }
 

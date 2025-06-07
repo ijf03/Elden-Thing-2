@@ -5,6 +5,9 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
+import game.actors.ManaManager;
+import game.actors.Player;
+import game.capabilities.Status;
 
 /**
  * Class representing an action to attack
@@ -70,6 +73,9 @@ public class AttackAction extends Action {
                 if (!target.isConscious()) {
                     result += "\n" + target.unconscious(actor, map);
                 }
+                if (actor.hasCapability(Status.PLAYABLE)) {
+                    ManaManager.onAttack((Player) actor, target);
+                }
 
                 return result;
             }
@@ -84,7 +90,9 @@ public class AttackAction extends Action {
             result += "\n" + target.unconscious(actor, map);
         }
 
+
         return result;
+
     }
 
     /**

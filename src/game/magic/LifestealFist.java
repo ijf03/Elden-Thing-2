@@ -6,19 +6,16 @@ import edu.monash.fit2099.engine.positions.GameMap;
 
 
 public class LifestealFist extends MagicItem {
-
     public LifestealFist() {
-        super("Lifesteal Fist", 'L', true, 10);
+        super("Lifesteal Fist", 'L', 0, "strikes", 100, 10);
     }
 
     @Override
     public String cast(Actor caster, Actor target, GameMap map) {
-        Integer maxHpAttr = target.getAttributeMaximum(BaseActorAttributes.HEALTH);
-        int maxHp = (maxHpAttr != null) ? maxHpAttr : 0;
-        int healAmount = (int) Math.ceil(maxHp * 0.3);
-        target.hurt(healAmount);
-        caster.heal(healAmount);
-        return caster + " strikes " + target + " with Lifesteal Fist, healing for " + healAmount + " HP.";
+        Integer maxHp = target.getAttributeMaximum(BaseActorAttributes.HEALTH);
+        int heal = (maxHp != null) ? (int) Math.ceil(maxHp * 0.3) : 0;
+        target.hurt(heal);
+        caster.heal(heal);
+        return caster + " strikes " + target + " with Lifesteal Fist, healing " + heal + " HP.";
     }
 }
-
