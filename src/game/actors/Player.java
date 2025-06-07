@@ -67,8 +67,7 @@ public class Player extends Actor {
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
-
-        return actions;
+            return actions;
     }
 
     /**
@@ -137,5 +136,15 @@ public class Player extends Actor {
     public Wallet getWallet() {
         return wallet;
     }
+
+    public int getMana() {
+        Integer m = this.getAttribute(BaseActorAttributes.MANA);
+        return (m == null ? 0 : m);
+    }
+
+    public void addMana(int amount) {
+        this.modifyAttribute(BaseActorAttributes.MANA, ActorAttributeOperations.INCREASE, amount);
+    }
+
 
 }
