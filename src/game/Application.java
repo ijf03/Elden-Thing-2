@@ -7,6 +7,9 @@ import game.actors.*;
 import game.capabilities.Status;
 import game.items.Seed;
 import game.items.TeleportationCircle;
+import game.potions.InvinciblePotion;
+import game.potions.SpeakPotion;
+import game.potions.SpeedPotion;
 import game.terrain.*;
 import game.items.Talisman;
 
@@ -103,11 +106,14 @@ public class Application {
         player.addItemToInventory(BloodroseSeed);
         player.addItemToInventory(new Talisman());
         player.addAttribute(STAMINA ,new BaseActorAttribute(200));
+        player.addItemToInventory(new InvinciblePotion());
+        player.addItemToInventory(new SpeedPotion());
+        player.addItemToInventory(new SpeakPotion());
         world.addPlayer(player, gameMap.at(25, 13));
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
-        gameMap.at(19, 12).addActor(new SpiritGoat());
+        gameMap.at(26, 12).addActor(new SpiritGoat());
         gameMap.at(20, 13).addActor(new OmenSheep(Status.RANDOM_BEHAVIOUR));
         gameMap.at(25,12).addActor(new Sellen());
         gameMap.at(26,14).addActor(new Kale());
