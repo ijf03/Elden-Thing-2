@@ -3,7 +3,6 @@ package game.magic;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.magic.MagicItem;
 import game.magic.effects.Burning;
 
 public class FlamingStrike extends MagicItem {
