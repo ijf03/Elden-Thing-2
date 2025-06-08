@@ -9,16 +9,14 @@ import edu.monash.fit2099.engine.positions.Location;
  */
 public interface Reproducible {
     /**
-     * Checks whether an objects can reproduce.
-     * @param location location to check reproduction condition
+     * Checks map to check reproduction condition
      * @return true if can reproduce, else false
      */
-    boolean canReproduce(Location location);
+    boolean canReproduce(GameMap map);
 
     /**
      * Performs the reproduction process.
      * @param map the game map where reproduction occurs
-     * @param location location where it reproduces
      */
-    void reproduce(GameMap map, Location location);
+    void reproduce(GameMap map);
 }

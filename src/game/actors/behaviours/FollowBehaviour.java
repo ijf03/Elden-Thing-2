@@ -73,7 +73,9 @@ public class FollowBehaviour implements Behaviour {
             Location destination = exit.getDestination();
             int dx = Math.abs(destination.x() - targetLoc.x());
             int dy = Math.abs(destination.y() - targetLoc.y());
-            distances.put(exit, dx + dy);
+            if (exit.getDestination().canActorEnter(actor)) {
+                distances.put(exit, dx + dy);
+            }
         }
 
         // Choose the exit with the smallest distance to the target
