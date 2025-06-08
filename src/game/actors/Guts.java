@@ -59,6 +59,25 @@ public class Guts extends Actor implements Speaker {
         return monologueOptions.get(rand.nextInt(monologueOptions.size()));
     }
 
+    @Override
+    public boolean canSpeak() {
+        return true;
+    }
+
+    @Override
+    public void hurt(int damage) {
+        boolean isInvincible = false;
+        if (this.hasCapability(Status.INVINCIBLE)) {
+            isInvincible = true;
+        }
+
+        if (isInvincible) {
+            System.out.println(this + " is Invincible and can't be hurt!");
+        } else {
+            super.hurt(damage);
+        }
+    }
+
     /**
      * At each turn, select a valid action to perform.
      *
