@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.StatusEffect;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
@@ -11,25 +12,31 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.Curable;
+import game.Plantable;
 import game.Reproducible;
 import game.Turns;
 import game.actions.AttackAction;
 import game.actions.CureAction;
+import game.actions.ListenAction;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.ReproduceBehaviour;
 import game.actors.behaviours.StandardNPCController;
 import game.actors.behaviours.WanderBehaviour;
 import game.capabilities.Status;
+import game.potions.InvincibleEffect;
+import game.potions.Potions;
+import game.potions.Throwable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
  * Class representing the NPC SpritGoat which roams around
  * @author Trinh Nguyen
  */
-public class SpiritGoat extends Creature implements Curable, Reproducible {
+public class SpiritGoat extends Creature implements Curable, Reproducible, Speaker {
 
 
     /**
@@ -135,6 +142,9 @@ public class SpiritGoat extends Creature implements Curable, Reproducible {
         if (otherActor.hasCapability(Status.CURE)){
             actions.add(new CureAction(this, map.locationOf(this), direction));
         }
+        if (canSpeak()) {
+            actions.add(new ListenAction(this));
+        }
         return actions;
     }
 
@@ -189,5 +199,35 @@ public class SpiritGoat extends Creature implements Curable, Reproducible {
             SpiritGoat offspring = new SpiritGoat(new Turns(3));
             spawn.addActor(offspring);
         }
+    }
+
+    @Override
+    public void hurt(int damage) {
+        boolean isInvincible = false;
+        if (this.hasCapability(Status.INVINCIBLE)) {
+            isInvincible = true;
+        }
+
+        if (isInvincible) {
+            System.out.println(this + " is Invincible and can't be hurt!");
+        } else {
+            super.hurt(damage);
+        }
+    }
+
+    @Override
+    public String ListenAction(Actor player, GameMap map) {
+        String result;
+        if (this.turnCounter.getTurnCounter() < 5) {
+            result = "The rot is unforgiving but I would hope you are not, please friend save me if not for a few days more.";
+        } else {
+            result = "Safe travels friend.";
+        }
+        return this + "~~~ " + result;
+    }
+
+    @Override
+    public boolean canSpeak() {
+        return this.hasCapability(Status.SPEAK);
     }
 }
