@@ -15,6 +15,7 @@ import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.magic.MagicItem;
+import game.magic.SpellUtils;
 import game.weapons.Broadsword;
 import game.weapons.DragonslayerGreatsword;
 
@@ -134,17 +135,8 @@ public class Kale extends Actor implements Speaker, Merchant {
                     }
                 }
             }
-            List<String> spellNames = new ArrayList<>();
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.MAGIC_SPELL)) {
-                    MagicItem spell = (MagicItem) item;
-                    String name = spell.getName();
-                    if (!spellNames.contains(name)) {
-                        actions.add(new CastSpellAction(spell, this));
-                        spellNames.add(name);
-                    }
-                }
-            }
+
+            SpellUtils.addCastSpellActions(actions, otherActor, this);
         }
         for (Sellable item : this.getSellableItems()) {
             actions.add(new SellAction(item, this));}

@@ -14,6 +14,7 @@ import edu.monash.fit2099.engine.weapons.Weapon;
 import game.actions.AttackAction;
 import game.actions.CastSpellAction;
 import game.capabilities.Status;
+import game.magic.SpellUtils;
 import game.weapons.BossWeapon;
 import java.util.List;
 import game.actors.boss.BossPartInterface;
@@ -120,17 +121,7 @@ public class BedOfChaos extends Actor {
                 }
             }
 
-            List<String> spellNames = new ArrayList<>();
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.MAGIC_SPELL)) {
-                    MagicItem spell = (MagicItem) item;
-                    String name = spell.getName();
-                    if (!spellNames.contains(name)) {
-                        actions.add(new CastSpellAction(spell, this));
-                        spellNames.add(name);
-                    }
-                }
-            }
+            SpellUtils.addCastSpellActions(actions, otherActor, this);
         }
         return actions;
     }

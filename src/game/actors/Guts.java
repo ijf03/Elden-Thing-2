@@ -17,6 +17,7 @@ import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.magic.MagicItem;
+import game.magic.SpellUtils;
 import game.weapons.BareFist;
 
 import java.util.ArrayList;
@@ -115,17 +116,7 @@ public class Guts extends Actor implements Speaker {
                     }
                 }
             }
-            List<String> spellNames = new ArrayList<>();
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.MAGIC_SPELL)) {
-                    MagicItem spell = (MagicItem) item;
-                    String name = spell.getName();
-                    if (!spellNames.contains(name)) {
-                        actions.add(new CastSpellAction(spell, this));
-                        spellNames.add(name);
-                    }
-                }
-            }
+            SpellUtils.addCastSpellActions(actions, otherActor, this);
         }
         // Can only listen if the other actor is the player/is playable
         if (otherActor.hasCapability(Status.PLAYABLE)) {

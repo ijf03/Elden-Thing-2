@@ -22,6 +22,7 @@ import game.capabilities.Status;
 import game.items.Consumable;
 import game.items.GoldenEgg;
 import game.magic.MagicItem;
+import game.magic.SpellUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,17 +120,8 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
                     }
                 }
             }
-            List<String> spellNames = new ArrayList<>();
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.MAGIC_SPELL)) {
-                    MagicItem spell = (MagicItem) item;
-                    String name = spell.getName();
-                    if (!spellNames.contains(name)) {
-                        actions.add(new CastSpellAction(spell, this));
-                        spellNames.add(name);
-                    }
-                }
-            }
+
+            SpellUtils.addCastSpellActions(actions, otherActor, this);
         }
         if (otherActor.hasCapability(Status.PLAYER)) {
             actions.add(new EatAction(this));

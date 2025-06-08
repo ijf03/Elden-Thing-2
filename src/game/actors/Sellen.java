@@ -14,6 +14,7 @@ import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.magic.MagicItem;
+import game.magic.SpellUtils;
 import game.weapons.Broadsword;
 import game.weapons.DragonslayerGreatsword;
 import game.weapons.Katana;
@@ -118,17 +119,8 @@ public class Sellen extends Actor implements Speaker, Merchant {
                     }
                 }
             }
-            List<String> spellNames = new ArrayList<>();
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.MAGIC_SPELL)) {
-                    MagicItem spell = (MagicItem) item;
-                    String name = spell.getName();
-                    if (!spellNames.contains(name)) {
-                        actions.add(new CastSpellAction(spell, this));
-                        spellNames.add(name);
-                    }
-                }
-            }
+
+            SpellUtils.addCastSpellActions(actions, otherActor, this);
         }
             // Only can be listened to if the other actor is playable
             if (otherActor.hasCapability(Status.PLAYABLE)) {

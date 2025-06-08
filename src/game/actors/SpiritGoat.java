@@ -20,6 +20,7 @@ import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.magic.MagicItem;
+import game.magic.SpellUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,17 +125,8 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
                     }
                 }
             }
-            List<String> spellNames = new ArrayList<>();
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.MAGIC_SPELL)) {
-                    MagicItem spell = (MagicItem) item;
-                    String name = spell.getName();
-                    if (!spellNames.contains(name)) {
-                        actions.add(new CastSpellAction(spell, this));
-                        spellNames.add(name);
-                    }
-                }
-            }
+
+            SpellUtils.addCastSpellActions(actions, otherActor, this);
         }
         if (otherActor.hasCapability(Status.CURE)){
             actions.add(new CureAction(this, map.locationOf(this), direction));

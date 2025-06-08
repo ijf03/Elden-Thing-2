@@ -10,35 +10,39 @@ import game.actors.ManaManager;
 import game.actors.Player;
 import game.capabilities.Status;
 import game.magic.MagicItem;
+import game.magic.Spell;
 
 public class CastSpellAction extends Action {
-    private final MagicItem item;
+    private final Spell spell;
     private final Actor target;
 
-    public CastSpellAction(MagicItem item, Actor target) {
-        this.item = item;
+    public CastSpellAction(Spell spell, Actor target) {
+        this.spell = spell;
         this.target = target;
     }
 
     @Override
     public String execute(Actor actor, GameMap map) {
         Integer currentMana = actor.getAttribute(BaseActorAttributes.MANA);
-        if (currentMana != null) {
-            int cost = item.getManaCost();
-            if (currentMana < cost) {
-                return actor + " does not have enough mana to cast " + item;
-            }
-            actor.modifyAttribute(BaseActorAttributes.MANA,
-                    ActorAttributeOperations.DECREASE, cost);
-            }
-            if (actor.hasCapability(Status.PLAYABLE)) {
-                ManaManager.onAttack((Player) actor, target);
-            }
-        return item.cast(actor, target, map);
+        if (currentMana == null || currentMana < spell.getManaCost()) {
+            return actor + " does not have enough mana to cast " + spell + ".";
+        }
+
+        actor.modifyAttribute(BaseActorAttributes.MANA,
+                ActorAttributeOperations.DECREASE,
+                spell.getManaCost());
+
+
+        if (actor instanceof Player && actor.hasCapability(Status.PLAYABLE)) {
+            ManaManager.onAttack((Player) actor, target);
+        }
+
+
+        return spell.cast(actor, target, map);
     }
 
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " casts " + item.toString() + " on " + target + " cost " + item.getManaCost() + " mana)";
+        return String.format("%s casts %s on %s (cost %d mana)", actor, spell, target, spell.getManaCost());
     }
 }
