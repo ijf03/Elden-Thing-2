@@ -34,8 +34,6 @@ public abstract class WeaponItem extends Item implements Weapon {
         this.verb = verb;
         this.hitRate = hitRate;
         this.damageMultiplier = DEFAULT_DAMAGE_MULTIPLIER;
-        this.addCapability(Status.USABLE_WEAPON);
-
     }
 
     /**

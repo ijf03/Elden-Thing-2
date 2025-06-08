@@ -1,8 +1,8 @@
-package game.magic;
+package game.weapons.magic;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.magic.effects.Frozen;
+import game.weapons.magic.effects.Frozen;
 
 public class FrozenArmament extends MagicItem {
     public FrozenArmament() {

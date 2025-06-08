@@ -1,10 +1,9 @@
-package game.magic;
+package game.weapons.magic;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.Player;
-import game.magic.effects.Burning;
+import game.weapons.magic.effects.Burning;
 
 public class FlamingStrike extends MagicItem {
     public FlamingStrike() {
@@ -13,8 +12,8 @@ public class FlamingStrike extends MagicItem {
 
     @Override
     public String cast(Actor caster, Actor target, GameMap map) {
-        Integer manaAttr = caster.getAttribute(BaseActorAttributes.MANA);
-        int mana = (manaAttr != null) ? manaAttr : 0;
+        Integer CurrentMana = caster.getAttribute(BaseActorAttributes.MANA);
+        int mana = (CurrentMana != null) ? CurrentMana : 0;
         int damage;
         if (mana >= 200) {
             damage = 300;

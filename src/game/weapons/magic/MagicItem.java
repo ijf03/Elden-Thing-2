@@ -1,14 +1,11 @@
-package game.magic;
+package game.weapons.magic;
 
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.DropAction;
 
-import edu.monash.fit2099.engine.items.Item;
-import edu.monash.fit2099.engine.items.PickUpAction;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.items.WeaponItem;
 
-public abstract class MagicItem extends WeaponItem {
+public abstract class MagicItem extends WeaponItem implements Spell{
 
     private final int manaCost;
 
@@ -43,7 +40,7 @@ public abstract class MagicItem extends WeaponItem {
      * Casts this weapon as a spell effect, applying its special logic.
      * @param caster the actor casting the spell
      * @param target the actor receiving the effect
-     * @param map    the game map context
+     * @param map the game map context
      * @return descriptive text of the effect
      */
     public abstract String cast(Actor caster, Actor target, GameMap map);

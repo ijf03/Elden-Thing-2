@@ -26,6 +26,7 @@ public class Katana extends WeaponItem implements Sellable {
      */
     public Katana() {
         super("Katana", 'j', 50, "slashes", 60);
+        this.addCapability(Status.USABLE_WEAPON);
     }
     /**
      * Gets the price of the Katana.

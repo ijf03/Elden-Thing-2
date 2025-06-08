@@ -5,25 +5,23 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import edu.monash.fit2099.engine.weapons.Weapon;
 import game.Curable;
 import game.Reproducible;
 import game.Turns;
 import game.actions.AttackAction;
-import game.actions.CastSpellAction;
 import game.actions.CureAction;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
-import game.magic.MagicItem;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+
+import static game.actions.AttackUtils.addSpellActions;
+import static game.actions.AttackUtils.addWeaponActions;
 
 /**
  * Class representing the NPC SpritGoat which roams around
@@ -110,31 +108,8 @@ public class SpiritGoat extends Actor implements Curable, Reproducible {
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
-
-            List<String> weaponNames = new ArrayList<>();
-
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.USABLE_WEAPON)) {
-                    Weapon weapon = (Weapon) item;
-                    String name = weapon.toString();
-
-                    if (!weaponNames.contains(name)) {
-                        actions.add(new AttackAction(this, direction, weapon));
-                        weaponNames.add(name);
-                    }
-                }
-            }
-            List<String> spellNames = new ArrayList<>();
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.MAGIC_SPELL)) {
-                    MagicItem spell = (MagicItem) item;
-                    String name = spell.getName();
-                    if (!spellNames.contains(name)) {
-                        actions.add(new CastSpellAction(spell, this));
-                        spellNames.add(name);
-                    }
-                }
-            }
+            addWeaponActions(otherActor, this, direction, actions);
+            addSpellActions( otherActor,this, actions);
         }
         if (otherActor.hasCapability(Status.CURE)){
             actions.add(new CureAction(this, map.locationOf(this), direction));

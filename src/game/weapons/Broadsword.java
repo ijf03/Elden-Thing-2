@@ -22,6 +22,7 @@ public class Broadsword extends WeaponItem implements Sellable {
      */
     public Broadsword() {
         super("Broadsword", 'b', 30, "slashes", 50);
+        this.addCapability(Status.USABLE_WEAPON);
     }
     /**
      * Returns the price of the Broadsword depending on the specific merchant.

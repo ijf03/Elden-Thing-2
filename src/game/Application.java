@@ -1,6 +1,5 @@
 package game;
 
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -15,17 +14,14 @@ import game.terrain.Blight;
 import game.terrain.Floor;
 import game.terrain.Soil;
 import game.terrain.Wall;
-import game.magic.FlamingStrike;
-import game.magic.FrozenArmament;
-import game.magic.LifestealFist;
+import game.weapons.magic.FlamingStrike;
+import game.weapons.magic.FrozenArmament;
+import game.weapons.magic.LifestealFist;
 import game.weapons.Broadsword;
-import game.weapons.DragonslayerGreatsword;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.STAMINA;
 
 /**
  * The main class to setup and run the game.
@@ -104,9 +100,10 @@ public class Application {
             int y3 = rand.nextInt(gameMap.getYRange().max());
             gameMap.at(x3, y3).addItem(new FlamingStrike());}
 
-//        player.addItemToInventory(new LifestealFist());
-//        player.addItemToInventory(new FrozenArmament());
-//        player.addItemToInventory(new FlamingStrike());
+        player.addItemToInventory(new LifestealFist());
+        player.addItemToInventory(new FrozenArmament());
+        player.addItemToInventory(new FlamingStrike());
+        player.addItemToInventory(new Broadsword());
 
         world.run();
     }

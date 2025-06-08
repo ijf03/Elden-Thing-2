@@ -1,15 +1,11 @@
 package game.actions;
 
-
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.ManaManager;
-import game.actors.Player;
-import game.capabilities.Status;
-import game.magic.MagicItem;
+import game.weapons.magic.MagicItem;
 
 public class CastSpellAction extends Action {
     private final MagicItem item;
@@ -28,12 +24,8 @@ public class CastSpellAction extends Action {
             if (currentMana < cost) {
                 return actor + " does not have enough mana to cast " + item;
             }
-            actor.modifyAttribute(BaseActorAttributes.MANA,
-                    ActorAttributeOperations.DECREASE, cost);
-            }
-            if (actor.hasCapability(Status.PLAYABLE)) {
-                ManaManager.onAttack((Player) actor, target);
-            }
+            actor.modifyAttribute(BaseActorAttributes.MANA, ActorAttributeOperations.DECREASE, cost);
+        }
         return item.cast(actor, target, map);
     }
 
