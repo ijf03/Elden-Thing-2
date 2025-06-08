@@ -9,14 +9,10 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.displays.Menu;
-import edu.monash.fit2099.engine.items.Item;
-import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.FancyMessage;
 import game.actions.AttackAction;
-import game.actions.CastSpellAction;
 import game.capabilities.Status;
-import game.magic.MagicItem;
 import game.weapons.BareFist;
 
 /**
@@ -36,10 +32,10 @@ public class Player extends Actor {
      */
     public Player(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
-        this.addAttribute(BaseActorAttributes.HEALTH, new BaseActorAttribute(100));
+        this.addAttribute(BaseActorAttributes.HEALTH, new BaseActorAttribute(10000));
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(200));
         this.addAttribute(BaseActorAttributes.MANA, new BaseActorAttribute(1000));
-        this.modifyAttribute(BaseActorAttributes.MANA, ActorAttributeOperations.UPDATE, 0);
+        //this.modifyAttribute(BaseActorAttributes.MANA, ActorAttributeOperations.UPDATE, 0);
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Status.PLAYABLE);
         this.setIntrinsicWeapon(new BareFist());
@@ -74,17 +70,6 @@ public class Player extends Actor {
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             actions.add(new AttackAction(this, direction));
         }
-        for (Item item : getItemInventory()) {
-            if (item instanceof MagicItem) {
-                MagicItem spell = (MagicItem) item;
-                for (Exit exit : map.locationOf(this).getExits()) {
-                    Actor target = exit.getDestination().getActor();
-                    if (target != null && target != this) {
-                        actions.add(new CastSpellAction(spell, target));
-                    }
-                }
-            }
-        }
         return actions;
     }
 
@@ -104,7 +89,7 @@ public class Player extends Actor {
             this.unconscious(map);
         }
 
-        ManaManager.onIdle(this);
+        ManaManager.onTurn(this);
 
         // Handle multi-turn Actions
         if (lastAction.getNextAction() != null)

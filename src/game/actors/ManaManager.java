@@ -34,7 +34,7 @@ public class ManaManager {
      * Award passive mana when the player does nothing.
      * @param player the Player who idled
      */
-    public static void onIdle(Player player) {
+    public static void onTurn(Player player) {
         player.addMana(1);
     }
 }
