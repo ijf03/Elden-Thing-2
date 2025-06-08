@@ -1,4 +1,4 @@
-package game.weapons.magic;
+package game.magic;
 
 import edu.monash.fit2099.engine.actors.Actor;
 

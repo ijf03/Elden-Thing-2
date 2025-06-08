@@ -14,9 +14,9 @@ import game.terrain.Blight;
 import game.terrain.Floor;
 import game.terrain.Soil;
 import game.terrain.Wall;
-import game.weapons.magic.FlamingStrike;
-import game.weapons.magic.FrozenArmament;
-import game.weapons.magic.LifestealFist;
+import game.magic.FlamingStrike;
+import game.magic.FrozenArmament;
+import game.magic.LifestealFist;
 import game.weapons.Broadsword;
 
 import java.util.Arrays;

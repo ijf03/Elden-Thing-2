@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.weapons.magic.MagicItem;
+import game.magic.MagicItem;
 
 public class CastSpellAction extends Action {
     private final MagicItem item;

@@ -1,4 +1,4 @@
-package game.weapons.magic.effects;
+package game.magic.effects;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.StatusEffect;

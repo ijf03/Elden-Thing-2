@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.capabilities.Status;
-import game.weapons.magic.MagicItem;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class AttackUtils {
         List<String> spellNames = new ArrayList<>();
         for (Item item : otherActor.getItemInventory()) {
             if (item.hasCapability(Status.MAGIC_SPELL)) {
-                MagicItem spell = (MagicItem) item;
+                game.magic.MagicItem spell = (game.magic.MagicItem) item;
                 String name = spell.getName();
                 if (!spellNames.contains(name)) {
                     actions.add(new CastSpellAction(spell, actor));
