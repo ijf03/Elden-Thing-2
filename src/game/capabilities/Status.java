@@ -17,6 +17,9 @@ public enum Status {
     SELLER_KALE,
     USABLE_WEAPON,
     RANDOM_BEHAVIOUR,
-    NORMAL_BEHAVIOUR
+    NORMAL_BEHAVIOUR,
+    INVINCIBLE,
+    SPEED,
+    SPEAK
 }
 

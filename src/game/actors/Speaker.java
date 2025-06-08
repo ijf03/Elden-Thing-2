@@ -14,4 +14,5 @@ public interface Speaker {
      * @return string that shows up when they are listened to
      */
     String ListenAction(Actor player, GameMap map);
+    boolean canSpeak();
 }
