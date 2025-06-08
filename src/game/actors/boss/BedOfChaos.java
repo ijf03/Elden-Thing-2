@@ -9,22 +9,16 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.actions.AttackAction;
-import game.actions.CastSpellAction;
 import game.capabilities.Status;
-import game.magic.SpellUtils;
 import game.weapons.BossWeapon;
 import java.util.List;
-import game.actors.boss.BossPartInterface;
-import game.actors.boss.Growable;
-import game.actors.boss.Branch;
-import game.actors.boss.Leaf;
-import game.magic.MagicItem;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import static game.actions.AttackUtils.addSpellActions;
+import static game.actions.AttackUtils.addWeaponActions;
 
 /**
  * A stationary boss that grows and attacks with increasing damage.
@@ -107,21 +101,8 @@ public class BedOfChaos extends Actor {
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
 
-            List<String> weaponNames = new ArrayList<>();
-
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.USABLE_WEAPON)) {
-                    Weapon weapon = (Weapon) item;
-                    String name = weapon.toString();
-
-                    if (!weaponNames.contains(name)) {
-                        actions.add(new AttackAction(this, direction, weapon));
-                        weaponNames.add(name);
-                    }
-                }
-            }
-
-            SpellUtils.addCastSpellActions(actions, otherActor, this);
+            addWeaponActions(otherActor, this, direction, actions);
+            addSpellActions( otherActor,this, actions);
         }
         return actions;
     }
