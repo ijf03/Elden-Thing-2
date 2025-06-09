@@ -1,4 +1,4 @@
-package game.potions;
+package game.items.potions;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.StatusEffect;
@@ -7,20 +7,18 @@ import game.Turns;
 import game.capabilities.Status;
 
 /**
- * Class representing the Invincible Status Effect.
+ * Class representing the Speak Status Effect.
  * @author Sher Tan
  */
-public class InvincibleEffect extends StatusEffect {
+public class SpeakEffect extends StatusEffect {
     private Turns counter;
-    private boolean isActive;
 
     /**
      * Constructor.
      */
-    public InvincibleEffect() {
-        super("Invincible");
+    public SpeakEffect() {
+        super("Speak");
         this.counter = new Turns(5);
-        this.isActive = true;
     }
 
     /**
@@ -34,9 +32,9 @@ public class InvincibleEffect extends StatusEffect {
 
         if (!isActive()) {
             actor.removeStatusEffect(this);
-            actor.removeCapability(Status.INVINCIBLE);
+            actor.removeCapability(Status.SPEAK);
         } else {
-            System.out.println(actor + " is Invincible for " + this.counter.getTurnCounter());
+            System.out.println(actor + " can speak for " + this.counter.getTurnCounter());
         }
     }
 

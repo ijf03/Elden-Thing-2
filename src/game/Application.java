@@ -1,5 +1,6 @@
 package game;
 
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.*;
 import game.actors.*;
@@ -7,9 +8,9 @@ import game.actors.boss.BedOfChaos;
 import game.capabilities.Status;
 import game.items.Seed;
 import game.items.TeleportationCircle;
-import game.potions.InvinciblePotion;
-import game.potions.SpeakPotion;
-import game.potions.SpeedPotion;
+import game.items.potions.InvinciblePotion;
+import game.items.potions.SpeakPotion;
+import game.items.potions.SpeedPotion;
 import game.terrain.*;
 import game.items.Talisman;
 import game.terrain.Blight;
@@ -24,6 +25,8 @@ import game.weapons.Broadsword;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.STAMINA;
 
 /**
  * The main class to setup and run the game.

@@ -1,4 +1,4 @@
-package game.potions;
+package game.items.potions;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -6,45 +6,46 @@ import edu.monash.fit2099.engine.actors.StatusEffect;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.capabilities.Status;
+import game.items.Throwable;
 
 /**
- * Class representing the Speak Potion.
+ * Class representing the Speed Potion.
  * @author Sher Tan
  */
-public class SpeakPotion extends Item implements Throwable {
-    private SpeakEffect speakEffect;
+public class SpeedPotion extends Item implements Throwable {
+    private SpeedEffect speedEffect;
 
     /**
      * Constructor.
      */
-    public SpeakPotion() {
-        super("Speak Potion", 'p', true);
+    public SpeedPotion() {
+        super("Speed Potion", 'p', true);
     }
 
     /**
-     * Defines the action that occurs when the speak potion is thrown.
+     * Defines the action that occurs when the speed potion is thrown.
      * @param actor the player throwing the item
      * @param target the target impacted
      */
     @Override
     public void throwed(Actor actor, Actor target) {
-        this.speakEffect = new SpeakEffect();
+        this.speedEffect = new SpeedEffect();
 //        actor.removeItemFromInventory(this);
         target.addStatusEffect(getEffect());
-        target.addCapability(Status.SPEAK);
+        target.addCapability(Status.SPEED);
     }
-
     /**
-     * Retrieves the SpeakEffect that this potion might apply upon impact.
-     * @return the Speak status effect
+     * Retrieves the SpeedEffect that this potion might apply upon impact.
+     * @return the Speed status effect
      */
+
     @Override
     public StatusEffect getEffect() {
-        return this.speakEffect;
+        return this.speedEffect;
     }
 
     /**
-     * Returns the list of actions that can be performed on this speak potion.
+     * Returns the list of actions that can be performed on this speed potion.
      * @param otherActor the other actor
      * @param location the location of the other actor
      * @return an unmodifiable list of Actions

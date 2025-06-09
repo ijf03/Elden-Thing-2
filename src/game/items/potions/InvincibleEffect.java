@@ -1,4 +1,4 @@
-package game.potions;
+package game.items.potions;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.StatusEffect;
@@ -7,18 +7,20 @@ import game.Turns;
 import game.capabilities.Status;
 
 /**
- * Class representing the Speed Status Effect.
+ * Class representing the Invincible Status Effect.
  * @author Sher Tan
  */
-public class SpeedEffect extends StatusEffect {
-    private final Turns counter;
+public class InvincibleEffect extends StatusEffect {
+    private Turns counter;
+    private boolean isActive;
 
     /**
      * Constructor.
      */
-    public SpeedEffect() {
-        super("Speed");
+    public InvincibleEffect() {
+        super("Invincible");
         this.counter = new Turns(5);
+        this.isActive = true;
     }
 
     /**
@@ -29,12 +31,12 @@ public class SpeedEffect extends StatusEffect {
     @Override
     public void tick(Location location, Actor actor) {
         counter.decreaseCounter();
-        System.out.println("speed counter" + this.counter.getTurnCounter());
+
         if (!isActive()) {
             actor.removeStatusEffect(this);
-            actor.removeCapability(Status.SPEED);
+            actor.removeCapability(Status.INVINCIBLE);
         } else {
-            System.out.println(actor + " has speed boost for " + this.counter.getTurnCounter());
+            System.out.println(actor + " is Invincible for " + this.counter.getTurnCounter());
         }
     }
 

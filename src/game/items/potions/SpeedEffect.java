@@ -1,4 +1,4 @@
-package game.potions;
+package game.items.potions;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.StatusEffect;
@@ -7,17 +7,17 @@ import game.Turns;
 import game.capabilities.Status;
 
 /**
- * Class representing the Speak Status Effect.
+ * Class representing the Speed Status Effect.
  * @author Sher Tan
  */
-public class SpeakEffect extends StatusEffect {
-    private Turns counter;
+public class SpeedEffect extends StatusEffect {
+    private final Turns counter;
 
     /**
      * Constructor.
      */
-    public SpeakEffect() {
-        super("Speak");
+    public SpeedEffect() {
+        super("Speed");
         this.counter = new Turns(5);
     }
 
@@ -29,12 +29,12 @@ public class SpeakEffect extends StatusEffect {
     @Override
     public void tick(Location location, Actor actor) {
         counter.decreaseCounter();
-
+        System.out.println("speed counter" + this.counter.getTurnCounter());
         if (!isActive()) {
             actor.removeStatusEffect(this);
-            actor.removeCapability(Status.SPEAK);
+            actor.removeCapability(Status.SPEED);
         } else {
-            System.out.println(actor + " can speak for " + this.counter.getTurnCounter());
+            System.out.println(actor + " has speed boost for " + this.counter.getTurnCounter());
         }
     }
 

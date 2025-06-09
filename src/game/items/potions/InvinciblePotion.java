@@ -1,4 +1,4 @@
-package game.potions;
+package game.items.potions;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actors.StatusEffect;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.capabilities.Status;
+import game.items.Throwable;
 
 /**
  * Class representing the Invincible Potion.
