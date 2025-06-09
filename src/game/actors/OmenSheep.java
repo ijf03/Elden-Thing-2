@@ -80,7 +80,9 @@ public class OmenSheep extends Creature implements Curable, Reproducible, Speake
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        turnCounter.decreaseCounter();
+        if (!this.hasCapability(Status.INVINCIBLE)) {
+            turnCounter.decreaseCounter();
+        }
 
         // reproduce egg
         reproduceCounter.decreaseCounter();
@@ -166,6 +168,10 @@ public class OmenSheep extends Creature implements Curable, Reproducible, Speake
         location.addItem(new Egg(10));
     }
 
+    /**
+     * Hurts OmenSheep with the given damage points.
+     * @param damage the damage points that the actor receives
+     */
     @Override
     public void hurt(int damage) {
         boolean isInvincible = false;
@@ -180,6 +186,12 @@ public class OmenSheep extends Creature implements Curable, Reproducible, Speake
         }
     }
 
+    /**
+     * The rules for what the OmenSheep would say.
+     * @param player that listens to the speaker
+     * @param map where they are
+     * @return a string that displays their message
+     */
     @Override
     public String ListenAction(Actor player, GameMap map) {
         String result;
@@ -191,6 +203,10 @@ public class OmenSheep extends Creature implements Curable, Reproducible, Speake
         return this + "~~~ " + result;
     }
 
+    /**
+     * Checks if OmenSheep is currently able to speak.
+    * @return true if condition is met, otherwise false
+    */
     @Override
     public boolean canSpeak() {
         return this.hasCapability(Status.SPEAK);
