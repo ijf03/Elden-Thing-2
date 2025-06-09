@@ -18,5 +18,7 @@ public enum Status {
     USABLE_WEAPON,
     MAGIC_SPELL,
     PLAYER,
+    RANDOM_BEHAVIOUR,
+    NORMAL_BEHAVIOUR
 }
 

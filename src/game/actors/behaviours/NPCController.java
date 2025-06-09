@@ -2,6 +2,7 @@ package game.actors.behaviours;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.positions.GameMap;
 
 /**
@@ -16,4 +17,11 @@ public interface NPCController {
      * @return the next action
      */
     Action retrieveNextAction(Actor actor, GameMap map);
+
+    /**
+     * NPCControllers need to decide which behaviour is chosen (can be random or priority based)
+     * @param behaviour to add to the behaviours pool the controller can choose from
+     * @param priority of the behaviour (if any)
+     */
+    void newBehaviour(Behaviour behaviour, Integer priority);
 }

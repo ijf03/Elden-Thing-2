@@ -11,6 +11,7 @@ import game.Sellable;
 import game.actions.*;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
+import game.actors.behaviours.WanderBehaviour;
 import game.capabilities.Status;
 import game.weapons.Broadsword;
 import game.weapons.DragonslayerGreatsword;
@@ -37,6 +38,7 @@ public class Kale extends Actor implements Speaker, Merchant {
         super("Merchant Kale", 'K', 200);
         this.addCapability(Status.SELLER_KALE);
         this.NPCController = new StandardNPCController();
+        NPCController.newBehaviour(new WanderBehaviour(), 999);
         items = new ArrayList<>();
         items.add(new Broadsword());
         items.add(new DragonslayerGreatsword());
