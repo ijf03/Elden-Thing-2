@@ -25,6 +25,7 @@ public class DragonslayerGreatsword extends WeaponItem implements Sellable {
      */
     public DragonslayerGreatsword() {
         super("Dragonslayer Greatsword", 'D', 70, "cleaves", 75);
+        this.addCapability(Status.USABLE_WEAPON);
     }
     /**
      * Returns the price of the Broadsword depending on the specific merchant.

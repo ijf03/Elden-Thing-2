@@ -6,11 +6,9 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import edu.monash.fit2099.engine.weapons.Weapon;
 import game.Curable;
 import game.Reproducible;
 import game.Turns;
@@ -24,10 +22,11 @@ import game.actors.behaviours.WanderBehaviour;
 import game.items.Egg;
 import game.terrain.Inheritree;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import static game.actions.AttackUtils.addSpellActions;
+import static game.actions.AttackUtils.addWeaponActions;
 
 /**
  * Class representing the NPC OmenSheep which roams around
@@ -109,20 +108,8 @@ public class OmenSheep extends Creature implements Curable, Reproducible {
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
-
-            List<String> weaponNames = new ArrayList<>();
-
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.USABLE_WEAPON)) {
-                    Weapon weapon = (Weapon) item;
-                    String name = weapon.toString();
-
-                    if (!weaponNames.contains(name)) {
-                        actions.add(new AttackAction(this, direction, weapon));
-                        weaponNames.add(name);
-                    }
-                }
-            }
+            addWeaponActions(otherActor, this, direction, actions);
+            addSpellActions( otherActor,this, actions);
         }
 
         if (otherActor.hasCapability(Status.CURE)){

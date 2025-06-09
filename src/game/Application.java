@@ -1,6 +1,5 @@
 package game;
 
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.*;
 import game.actors.*;
@@ -10,11 +9,18 @@ import game.items.Seed;
 import game.items.TeleportationCircle;
 import game.terrain.*;
 import game.items.Talisman;
+import game.terrain.Blight;
+import game.terrain.Floor;
+import game.terrain.Soil;
+import game.terrain.Wall;
+import game.magic.FlamingStrike;
+import game.magic.FrozenArmament;
+import game.magic.LifestealFist;
+import game.weapons.Broadsword;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.STAMINA;
+import java.util.Random;
 
 /**
  * The main class to setup and run the game.
@@ -119,6 +125,26 @@ public class Application {
         gameMap.at(26,14).addActor(new Kale());
         gameMap.at(24,12).addActor(new Guts());
         gameMap.at(12,14).addActor(new GoldenBeetle(Status.NORMAL_BEHAVIOUR));
+
+        Random rand = new Random();
+        if (rand.nextDouble() < 0.3) {
+
+            int x1 = rand.nextInt(gameMap.getXRange().max());
+            int y1 = rand.nextInt(gameMap.getYRange().max());
+            gameMap.at(x1, y1).addItem(new LifestealFist());
+
+            int x2 = rand.nextInt(gameMap.getXRange().max());
+            int y2 = rand.nextInt(gameMap.getYRange().max());
+            gameMap.at(x2, y2).addItem(new FrozenArmament());
+
+            int x3 = rand.nextInt(gameMap.getXRange().max());
+            int y3 = rand.nextInt(gameMap.getYRange().max());
+            gameMap.at(x3, y3).addItem(new FlamingStrike());}
+
+        player.addItemToInventory(new LifestealFist());
+        player.addItemToInventory(new FrozenArmament());
+        player.addItemToInventory(new FlamingStrike());
+        player.addItemToInventory(new Broadsword());
 
         world.run();
     }
