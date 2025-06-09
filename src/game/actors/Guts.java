@@ -12,6 +12,7 @@ import game.actions.AttackAction;
 import game.actions.ListenAction;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.StandardNPCController;
+import game.actors.behaviours.WanderBehaviour;
 import game.capabilities.Status;
 import game.weapons.BareFist;
 
@@ -36,6 +37,7 @@ public class Guts extends Actor implements Speaker {
     public Guts() {
         super("Guts",'g', 500);
         this.NPCController = new StandardNPCController();
+        NPCController.newBehaviour(new WanderBehaviour(), 999);
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.setIntrinsicWeapon(new BareFist());
     }

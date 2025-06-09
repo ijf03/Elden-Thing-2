@@ -1,12 +1,14 @@
 package game.actors.behaviours;
 
 import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.positions.GameMap;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This contains the standard behaviours of NPCs
@@ -14,16 +16,18 @@ import java.util.Map;
  */
 public class StandardNPCController implements NPCController {
     /**
-     * A Hashmap storing all the behaviours
+     * A Treemap storing all the behaviours, preserves priority ordering
      */
-    private Map<Integer, Behaviour> behaviours = new HashMap<>();
+    private Map<Integer, Behaviour> behaviours = new TreeMap<>();
 
     /**
-     * Constructor
-     * Right now just has wanderbehaviour
+     * Add behaviour to pool based on priority given
+     * @param behaviour to add to the behaviours pool the controller can choose from
+     * @param priority of the behaviour (if any)
      */
-    public StandardNPCController() {
-        this.behaviours.put(999, new WanderBehaviour());
+    @Override
+    public void newBehaviour(Behaviour behaviour, Integer priority) {
+        this.behaviours.put(priority, behaviour);
     }
 
     /**
@@ -36,9 +40,9 @@ public class StandardNPCController implements NPCController {
     public Action retrieveNextAction(Actor actor, GameMap map) {
         for (Behaviour behaviour : behaviours.values()) {
             Action action = behaviour.getAction(actor, map);
-            if(action != null)
+            if (action != null)
                 return action;
         }
-        return null;
+        return new DoNothingAction();
     }
 }

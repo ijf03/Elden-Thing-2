@@ -15,6 +15,7 @@ import game.Turns;
 import game.actions.AttackAction;
 import game.actions.CureAction;
 import game.actors.behaviours.NPCController;
+import game.actors.behaviours.ReproduceBehaviour;
 import game.actors.behaviours.StandardNPCController;
 import game.capabilities.Status;
 import game.actors.behaviours.WanderBehaviour;
@@ -31,7 +32,8 @@ import static game.actions.AttackUtils.addWeaponActions;
  * Class representing the NPC OmenSheep which roams around
  * @author Trinh Nguyen
  */
-public class OmenSheep extends Actor implements Curable, Reproducible {
+public class OmenSheep extends Creature implements Curable, Reproducible {
+
     /**
      * A Hashmap storing all the behaviours
      */
@@ -41,14 +43,32 @@ public class OmenSheep extends Actor implements Curable, Reproducible {
      * A timer to keep count of how many turns have gone
      */
     private Turns turnCounter;
-    private final NPCController NPCController;
     private Turns reproduceCounter;
+    private final NPCController NPCController;
 
+    /**
+     * Constructor with all the initial behaviours
+     */
     public OmenSheep() {
-        super("OmenSheep",'m', 75);
-        this.behaviours.put(999, new WanderBehaviour());
+        super("OmenSheep",'m', 75, Status.NORMAL_BEHAVIOUR);
         this.turnCounter = new Turns(15);
         this.NPCController = new StandardNPCController();
+        NPCController.newBehaviour(new WanderBehaviour(), 999);
+        NPCController.newBehaviour(new ReproduceBehaviour(this), 1);
+        this.reproduceCounter = new Turns(7);
+    }
+
+    /**
+     * Constructor if behaviour selection style is chosen
+     * @param status behaviour style
+     */
+    public OmenSheep(Status status) {
+        super("OmenSheep",'m', 75, status);
+        //this.behaviours.put(999, new WanderBehaviour());
+        this.turnCounter = new Turns(15);
+        this.NPCController = setBehaviourStyle();
+        NPCController.newBehaviour(new WanderBehaviour(), 999);
+        NPCController.newBehaviour(new ReproduceBehaviour(this), 1);
         this.reproduceCounter = new Turns(7);
     }
 
@@ -68,20 +88,11 @@ public class OmenSheep extends Actor implements Curable, Reproducible {
 
         // reproduce egg
         reproduceCounter.decreaseCounter();
-        Location location = map.locationOf(this);
-        if (canReproduce(location)) {
-            reproduce(map, location);
-        }
-
-        if (turnCounter.getTurnCounter() <= 0) {
-            map.removeActor(this);
-            return new DoNothingAction();
-        }
-        if (NPCController.retrieveNextAction(this, map) == null) {
-            return new DoNothingAction();
-        } else {
-            return NPCController.retrieveNextAction(this, map);
-        }
+//        Location location = map.locationOf(this);
+//        if (canReproduce(location)) {
+//            reproduce(map, location);
+//        }
+        return NPCController.retrieveNextAction(this, map);
     }
 
     /**
@@ -125,22 +136,22 @@ public class OmenSheep extends Actor implements Curable, Reproducible {
 
     /**
      * Checks whether the OmenSheep can reproduce.
-     * @param location location to check reproduction condition
+     * @param map to check reproduction condition
      * @return true if can reproduce, else false
      */
     @Override
-    public boolean canReproduce(Location location) {
-        return reproduceCounter.getTurnCounter() <= 0;
+    public boolean canReproduce(GameMap map) {
+        return reproduceCounter.getTurnCounter() % 7 == 0;
     }
 
     /**
      * Performs the reproduction process.
      * @param map the game map where reproduction occurs
-     * @param location location where it reproduces
      */
     @Override
-    public void reproduce(GameMap map, Location location) {
+    public void reproduce(GameMap map) {
         reproduceCounter.resetTurnCounter();
+        Location location = map.locationOf(this);
         location.addItem(new Egg(10));
     }
 }

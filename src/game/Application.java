@@ -1,14 +1,13 @@
 package game;
 
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.positions.FancyGroundFactory;
-import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.positions.World;
+import edu.monash.fit2099.engine.positions.*;
 import game.actors.*;
 import game.actors.boss.BedOfChaos;
+import game.capabilities.Status;
 import game.items.Seed;
-import game.terrain.Bloodrose;
-import game.terrain.Inheritree;
+import game.items.TeleportationCircle;
+import game.terrain.*;
 import game.items.Talisman;
 import game.terrain.Blight;
 import game.terrain.Floor;
@@ -56,6 +55,48 @@ public class Application {
         GameMap gameMap = new GameMap("Valley of the Inheritree", groundFactory, valleyMap);
         world.addGameMap(gameMap);
 
+        List<String> limveldStringArray = Arrays.asList(
+                ".............xxxx",
+                "..............xxx",
+                "................x",
+                ".................",
+                "................x",
+                "...............xx",
+                "..............xxx",
+                "..............xxx",
+                "..............xxx",
+                ".............xxxx",
+                ".............xxxx",
+                "....xxx.....xxxxx",
+                "....xxxx...xxxxxx"
+        );
+
+        GameMap limveldMap = new GameMap("Limveld", groundFactory, limveldStringArray);
+
+        // Initialise the teleportation circles
+        TeleportationCircle gameMapTeleportCircle = new TeleportationCircle();
+        TeleportationCircle limveldMapTeleportCircle = new TeleportationCircle();
+
+        // Establish the locations of each
+        Location gameMapTeleportCircleLocation = gameMap.at(25, 14);
+        Location limveldMapTeleportCircleLocation = limveldMap.at(7,7);
+
+        // Add the destinations you can teleport to via the respective circles
+        gameMapTeleportCircle.addDestination(limveldMapTeleportCircleLocation);
+        limveldMapTeleportCircle.addDestination(gameMapTeleportCircleLocation);
+
+        // Add the circles as items to the map
+        gameMapTeleportCircleLocation.addItem(gameMapTeleportCircle);
+        limveldMapTeleportCircleLocation.addItem(limveldMapTeleportCircle);
+
+
+
+        // Add the maps to the world
+        world.addGameMap(gameMap);
+        world.addGameMap(limveldMap);
+        // Add boss to limveld
+        limveldMap.at(8,7).addActor(new BedOfChaos());
+
         // BEHOLD, ELDEN THING!
         for (String line : FancyMessage.TITLE.split("\n")) {
             new Display().println(line);
@@ -73,17 +114,17 @@ public class Application {
         player.addItemToInventory(InheritreeSeed);
         player.addItemToInventory(BloodroseSeed);
         player.addItemToInventory(new Talisman());
-        world.addPlayer(player, gameMap.at(20, 7));
+        player.addAttribute(STAMINA ,new BaseActorAttribute(200));
+        world.addPlayer(player, gameMap.at(25, 13));
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
         gameMap.at(19, 12).addActor(new SpiritGoat());
-        gameMap.at(20, 13).addActor(new OmenSheep());
+        gameMap.at(20, 13).addActor(new OmenSheep(Status.RANDOM_BEHAVIOUR));
         gameMap.at(25,12).addActor(new Sellen());
         gameMap.at(26,14).addActor(new Kale());
         gameMap.at(24,12).addActor(new Guts());
-        gameMap.at(23,14).addActor(new GoldenBeetle());
-        gameMap.at(19,7).addActor(new BedOfChaos());
+        gameMap.at(12,14).addActor(new GoldenBeetle(Status.NORMAL_BEHAVIOUR));
 
         Random rand = new Random();
         if (rand.nextDouble() < 0.3) {

@@ -11,10 +11,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.Reproducible;
 import game.actions.AttackAction;
 import game.actions.EatAction;
-import game.actors.behaviours.FollowBehaviour;
-import game.actors.behaviours.WanderBehaviour;
-import game.actors.behaviours.NPCController;
-import game.actors.behaviours.StandardNPCController;
+import game.actors.behaviours.*;
 import game.capabilities.Status;
 import game.items.Consumable;
 import game.items.GoldenEgg;
@@ -28,7 +25,7 @@ import static game.actions.AttackUtils.addWeaponActions;
 /**
  * GoldenBeetle with wandering behaviour and a follow behaviour to follow the player. It can also lay eggs and can be consumed for health and runes.
  */
-public class GoldenBeetle extends Actor implements Consumable, Reproducible
+public class GoldenBeetle extends Creature implements Consumable, Reproducible
 {
 
     /**
@@ -38,19 +35,37 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
     /**
      * NPC Controller that determines what action will be done
      */
-    private final NPCController npcController;
+    private NPCController npcController;
     /**
      * Counts how many turns the beetle been alive. its used to control how often an egg is layed
      */
     private int turnCounter;
     /**
+     * Constructor if behaviour selection style is chosen
+     * @param status behaviour style
+     */
+
+    public GoldenBeetle(Status status) {
+        super("Golden Beetle", 'b', 25, status);
+        // this.behaviours.put(998, new FollowBehaviour());
+        // behaviours.put(999, new WanderBehaviour());
+        this.npcController = setBehaviourStyle();
+        npcController.newBehaviour(new WanderBehaviour(), 999);
+        npcController.newBehaviour(new FollowBehaviour(), 1);
+        npcController.newBehaviour(new ReproduceBehaviour(this), 2);
+    }
+
+    /**
      * Constructor for the Golden Beetle. Initializes its name, display character "b", its health and behaviours
      */
     public GoldenBeetle() {
-        super("Golden Beetle", 'b', 25);
-        this.behaviours.put(998, new FollowBehaviour());
-        behaviours.put(999, new WanderBehaviour());
-        this.npcController = new StandardNPCController();
+        super("Golden Beetle", 'b', 25, Status.NORMAL_BEHAVIOUR);
+        // this.behaviours.put(998, new FollowBehaviour());
+        // behaviours.put(999, new WanderBehaviour());
+        this.npcController = setBehaviourStyle();
+        npcController.newBehaviour(new WanderBehaviour(), 999);
+        npcController.newBehaviour(new FollowBehaviour(), 1);
+        npcController.newBehaviour(new ReproduceBehaviour(this), 2);
     }
 
     /**
@@ -66,13 +81,12 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         turnCounter++;
-        Location location = map.locationOf(this);
-        if (canReproduce(location)) {
-            reproduce(map, location);
-        }
+//        Location location = map.locationOf(this);
+//        if (canReproduce(location)) {
+//            reproduce(map, location);
+//        }
 
-        Action action = npcController.retrieveNextAction(this, map);
-        return action != null ? action : new DoNothingAction();
+        return npcController.retrieveNextAction(this, map); // null check already in method
     }
 
     /**
@@ -105,7 +119,7 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
             addWeaponActions(otherActor, this, direction, actions);
             addSpellActions( otherActor,this, actions);
         }
-        if (otherActor.hasCapability(Status.PLAYER)) {
+        if (otherActor.hasCapability(Status.PLAYABLE)) {
             actions.add(new EatAction(this));
         }
         return actions;
@@ -113,21 +127,22 @@ public class GoldenBeetle extends Actor implements Consumable, Reproducible
 
     /**
      * Checks whether the GoldenBeetle can reproduce.
-     * @param location location to check reproduction condition
+     * @param map location to check reproduction condition
      * @return true if can reproduce, else false
      */
     @Override
-    public boolean canReproduce(Location location) {
+    public boolean canReproduce(GameMap map) {
         return this.turnCounter % 5 == 0;
     }
 
     /**
      * Performs the reproduction process.
      * @param map the game map where reproduction occurs
-     * @param location location where it reproduces
+     * @param map  location where it reproduces
      */
     @Override
-    public void reproduce(GameMap map, Location location) {
+    public void reproduce(GameMap map) {
+        Location location = map.locationOf(this);
         location.addItem(new GoldenEgg());
     }
 }
