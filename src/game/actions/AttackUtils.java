@@ -11,10 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utility class for generating attack and spell actions.
+ * Utility class for generating attack with weapons and spell actions.
  */
 public class AttackUtils {
-
+    /**
+     * Select the correct weapon with a capability USABLE_WEAPON
+     * and use that weapon to perform the AttackAction.
+     *
+     * @param otherActor the actor who attacks
+     * @param actor the actor who is being attack
+     * @param direction the direction which the attack is made
+     * @param actions the ActionList where the AttackAction will be added
+     */
     public static void addWeaponActions(Actor otherActor, Actor actor, String direction, ActionList actions) {
         List<String> weaponNames = new ArrayList<>();
 
@@ -29,7 +37,14 @@ public class AttackUtils {
             }
         }
     }
-
+    /**
+     * Select the correct item with a capability MAGIC_SPELL
+     * and use that item to perform the CastSpellAction.
+     *
+     * @param otherActor the actor who casts the spell
+     * @param actor the actor who is being cast
+     * @param actions the ActionList where CastSpellAction will be added
+     */
     public static void addSpellActions(Actor otherActor, Actor actor, ActionList actions) {
         List<String> spellNames = new ArrayList<>();
         for (Item item : otherActor.getItemInventory()) {

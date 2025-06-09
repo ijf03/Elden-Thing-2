@@ -4,21 +4,24 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 
 /**
- * Interface for all spell-castable items.
+ * Interface for all magic items.
+ *
  */
 public interface Spell {
     /**
-     * Defines the behavior of casting a magical effect.
+     * Performs the spell’s action, applying its effects to the target.
      *
-     * @param caster the actor who casts the spell
+     * @param caster the actor casts the spell
      * @param target the actor who is affected
-     * @param map    the game map where casting happens
-     * @return a description of the result
+     * @param map the game map where casting happens
+     * @return a string describe the result
      */
     String cast(Actor caster, Actor target, GameMap map);
 
     /**
-     * @return the mana cost required to cast the spell
+     * Returns the amount of mana required to cast the spell with specific item.
+     *
+     * @return mana cost
      */
     int getManaCost();
 }

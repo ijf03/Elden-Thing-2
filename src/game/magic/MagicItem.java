@@ -4,18 +4,29 @@ import edu.monash.fit2099.engine.actors.Actor;
 
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.items.WeaponItem;
-
+/**
+ * Abstract base class for magical weapons that can be used both
+ * as standard weapons and as spells.
+ * Extends WeaponItem and implements Spell,
+ * with a capability of MAGIC_SPELL
+ *
+ * @see WeaponItem
+ * @see Spell
+ * @since 1.0
+ */
 public abstract class MagicItem extends WeaponItem implements Spell{
 
     private final int manaCost;
 
     /**
-     * @param name        Display name of the magic weapon
-     * @param displayChar Character used to render on the ground
-     * @param damage      Base damage dealt on hit
-     * @param verb        Verb (e.g., "strikes", "zaps")
-     * @param hitRate     Hit chance (0-100)
-     * @param manaCost    Mana cost to cast as a spell
+     * Constructor.
+     *
+     * @param name        name of the item
+     * @param displayChar character to use for display when item is on the ground
+     * @param damage      amount of damage this weapon does
+     * @param verb        verb to use for this weapon, e.g. "hits", "zaps"
+     * @param hitRate     the probability/chance to hit the target.
+     * @param manaCost    mana required to cast a spell using a specific weapon
      */
     protected MagicItem(String name, char displayChar, int damage, String verb, int hitRate, int manaCost) {
         super(name, displayChar, damage, verb, hitRate);
@@ -24,24 +35,29 @@ public abstract class MagicItem extends WeaponItem implements Spell{
     }
 
     /**
-     * @return mana cost required to cast this spell
+     * Returns the mana cost required.
+     *
+     * @return the mana cost
      */
     public int getManaCost() {
         return manaCost;
     }
 
     /**
-     * @return display name of this magic weapon
+     * Returns the ame of this magic weapon.
+     *
+     * @return the name of the item
      */
     public String getName() {
         return toString();
     }
     /**
-     * Casts this weapon as a spell effect, applying its special logic.
-     * @param caster the actor casting the spell
-     * @param target the actor receiving the effect
-     * @param map the game map context
-     * @return descriptive text of the effect
+     * Using the magic item to cast a spell and apply special effect to the target.
+     *
+     * @param caster the actor cast the spell
+     * @param target the actor affected by the spell
+     * @param map the current game map
+     * @return a string describe the spell’s outcome
      */
     public abstract String cast(Actor caster, Actor target, GameMap map);
 
