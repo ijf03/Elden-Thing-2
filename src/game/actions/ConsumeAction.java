@@ -2,22 +2,21 @@ package game.actions;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.items.Consumable;
 
 /**
- * Class representing the Eat Action.
+ * Class representing the Consume Action.
  * @author Sher Tan
  */
-public class EatAction extends Action {
+public class ConsumeAction extends Action {
     private Consumable consumable;
 
     /**
      * Constructor
      * @param consumable the entity to be consumed
      */
-    public EatAction(Consumable consumable) {
+    public ConsumeAction(Consumable consumable) {
         this.consumable = consumable;
     }
 
@@ -31,10 +30,10 @@ public class EatAction extends Action {
     }
 
     /**
-     * Performs the Eat Action.
+     * Performs the Consume Action.
      * @param actor The actor performing the action.
      * @param map The map the actor is on.
-     * @return
+     * @return a description of what consumable item was consumed.
      */
     @Override
     public String execute(Actor actor, GameMap map) {
@@ -44,12 +43,12 @@ public class EatAction extends Action {
     }
 
     /**
-     * Describe the eat action will be performed if this Action is chosen in the menu.
+     * Describe the consume action will be performed if this Action is chosen in the menu.
      * @param actor The actor performing the action.
-     * @return
+     * @return the consume action description to be displayed on the menu
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " eats " + getConsumable();
+        return actor + " consumes " + getConsumable();
     }
 }

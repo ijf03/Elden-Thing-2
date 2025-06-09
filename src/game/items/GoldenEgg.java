@@ -7,9 +7,8 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Hatchable;
-import game.actions.EatAction;
+import game.actions.ConsumeAction;
 import game.actors.GoldenBeetle;
-import game.actors.Player;
 import game.capabilities.Status;
 
 
@@ -83,7 +82,7 @@ public class GoldenEgg extends Item implements Hatchable, Consumable {
     @Override
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = new ActionList();
-        actions.add(new EatAction(this));
+        actions.add(new ConsumeAction(this));
         return actions;
     }
 
