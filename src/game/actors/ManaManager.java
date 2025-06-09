@@ -26,7 +26,7 @@ public class ManaManager {
      * Award mana when the player harvests or plants crops.
      * @param player the Player
      */
-    public static void onPlantOrHarvest(Player player) {
+    public static void onPlant(Player player) {
         player.addMana(3);
     }
 

@@ -32,7 +32,7 @@ public class Player extends Actor {
      */
     public Player(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
-        this.addAttribute(BaseActorAttributes.HEALTH, new BaseActorAttribute(10000));
+        this.addAttribute(BaseActorAttributes.HEALTH, new BaseActorAttribute(100));
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(200));
         this.addAttribute(BaseActorAttributes.MANA, new BaseActorAttribute(1000));
         //this.modifyAttribute(BaseActorAttributes.MANA, ActorAttributeOperations.UPDATE, 0);

@@ -41,7 +41,7 @@ public class PlantAction extends Action {
                 actor.removeItemFromInventory(seed);
                 seed.plantable.PlantAction(actor, map);
                 if (actor.hasCapability(Status.PLAYABLE)) {
-                    ManaManager.onPlantOrHarvest((Player) actor);
+                    ManaManager.onPlant((Player) actor);
                 }
                 return menuDescription(actor);
             }
