@@ -34,6 +34,7 @@ public class WanderBehaviour implements Behaviour {
     public Action getAction(Actor actor, GameMap map) {
         ArrayList<Action> actions = new ArrayList<>();
 
+        // checker for speed potion's effect on movement
         int steps = 1;
         if (actor.hasCapability(Status.SPEED)) {
             steps = 2;
@@ -41,7 +42,9 @@ public class WanderBehaviour implements Behaviour {
 
         if (steps > 1) {
             return new MoveActorMultipleStepAction(steps);
-        } else {
+        }
+        // normal movements
+        else {
             for (Exit exit : map.locationOf(actor).getExits()) {
                 Location destination = exit.getDestination();
                 if (destination.canActorEnter(actor)) {

@@ -14,5 +14,10 @@ public interface Speaker {
      * @return string that shows up when they are listened to
      */
     String ListenAction(Actor player, GameMap map);
+
+    /**
+     * Checks if an actor is currently able to speak.
+     * @return true if condition is met, otherwise false
+     */
     boolean canSpeak();
 }

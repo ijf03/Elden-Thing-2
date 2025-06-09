@@ -8,14 +8,28 @@ import edu.monash.fit2099.engine.positions.Location;
 
 import java.util.Random;
 
+/**
+ * Class representing the Move Multiple Steps Action.
+ * Allows actors to move more than 1 step per turn.
+ */
 public class MoveActorMultipleStepAction extends Action {
     private int steps;
     private Random random = new Random();
 
+    /**
+     * Constructor.
+     * @param steps the number of steps to move
+     */
     public MoveActorMultipleStepAction(int steps) {
         this.steps = steps;
     }
 
+    /**
+     * Performs the Move Action.
+     * @param actor The actor performing the action.
+     * @param map The map the actor is on.
+     * @return a description of the movements of the actor.
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
         StringBuffer result = new StringBuffer();
@@ -31,6 +45,7 @@ public class MoveActorMultipleStepAction extends Action {
                 }
             }
 
+            // no valid exits to move
             if (!moved) {
                 result.append("Can't move");
             }
@@ -38,6 +53,11 @@ public class MoveActorMultipleStepAction extends Action {
         return result.toString();
     }
 
+    /**
+     * Describe the movement of the actor when this action is performed.
+     * @param actor The actor performing the action
+     * @return the movement description to be displayed
+     */
     @Override
     public String menuDescription(Actor actor) {
         return actor + " moves " + steps + " steps";
