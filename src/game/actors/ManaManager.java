@@ -38,7 +38,7 @@ public class ManaManager {
         player.addMana(1);
     }
     /**
-     * Award passive mana when the player buy weapon from merchant..
+     * Award passive mana when the player buy weapon from merchant.
      * @param player the Player
      */
     public static void onBuy(Player player) {
