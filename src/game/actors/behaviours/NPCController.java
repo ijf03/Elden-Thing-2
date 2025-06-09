@@ -18,5 +18,10 @@ public interface NPCController {
      */
     Action retrieveNextAction(Actor actor, GameMap map);
 
+    /**
+     * NPCControllers need to decide which behaviour is chosen (can be random or priority based)
+     * @param behaviour to add to the behaviours pool the controller can choose from
+     * @param priority of the behaviour (if any)
+     */
     void newBehaviour(Behaviour behaviour, Integer priority);
 }

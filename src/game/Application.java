@@ -77,6 +77,7 @@ public class Application {
         gameMap.at(26,14).addActor(new Kale());
         gameMap.at(24,12).addActor(new Guts());
         gameMap.at(12,14).addActor(new GoldenBeetle(Status.NORMAL_BEHAVIOUR));
+        gameMap.at(20,7).addItem(new TeleportationCircle());
 
         world.run();
     }

@@ -16,10 +16,15 @@ import java.util.TreeMap;
  */
 public class StandardNPCController implements NPCController {
     /**
-     * A Hashmap storing all the behaviours
+     * A Treemap storing all the behaviours, preserves priority ordering
      */
     private Map<Integer, Behaviour> behaviours = new TreeMap<>();
 
+    /**
+     * Add behaviour to pool based on priority given
+     * @param behaviour to add to the behaviours pool the controller can choose from
+     * @param priority of the behaviour (if any)
+     */
     @Override
     public void newBehaviour(Behaviour behaviour, Integer priority) {
         this.behaviours.put(priority, behaviour);
