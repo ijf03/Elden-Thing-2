@@ -3,6 +3,7 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actors.ManaManager;
 import game.actors.Merchant;
 import game.actors.Player;
 import game.Sellable;
@@ -46,6 +47,9 @@ public class SellAction extends Action {
             if (item.isWeapon()) {
                 player.addItemToInventory(item.asItem());
             }
+            if (actor.hasCapability(Status.PLAYABLE)) {
+                ManaManager.onBuy((Player) actor);}
+
 
             // remove the item from merchant inventory
             merchant.removeItemFromInventory(item.asItem());
