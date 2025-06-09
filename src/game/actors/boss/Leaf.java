@@ -2,13 +2,11 @@ package game.actors.boss;
 
 import edu.monash.fit2099.engine.displays.Display;
 
-import java.util.Collections;
-import java.util.List;
-
-class Leaf implements Growable {
+public class Leaf extends BossPart implements Growable {
 
     @Override
-    public Growable growResult(Display display) {
+    public BossPartInterface grow(Display display) {
+        display.println("Leaf cannot grow further.");
         return null;
     }
 
@@ -22,13 +20,5 @@ class Leaf implements Growable {
         return 5;
     }
 
-    @Override
-    public int countLeaves() {
-        return 1;
-    }
 
-    @Override
-    public List<Growable> getChildren() {
-        return Collections.emptyList();
-    }
 }

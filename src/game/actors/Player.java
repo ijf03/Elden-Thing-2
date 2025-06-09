@@ -26,14 +26,16 @@ public class Player extends Actor {
     /**
      * Constructor.
      *
-     * @param name Name to call the player
+     * @param name        Name to call the player
      * @param displayChar Character to represent the player in the map
-     * @param hitPoints Player's starting health
+     * @param hitPoints   Player's starting health
      */
     public Player(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
-        this.addAttribute(BaseActorAttributes.HEALTH, new BaseActorAttribute(100));
+        this.addAttribute(BaseActorAttributes.HEALTH, new BaseActorAttribute(10000));
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(200));
+        this.addAttribute(BaseActorAttributes.MANA, new BaseActorAttribute(1000));
+        //this.modifyAttribute(BaseActorAttributes.MANA, ActorAttributeOperations.UPDATE, 0);
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Status.PLAYABLE);
         this.setIntrinsicWeapon(new BareFist());
@@ -49,7 +51,8 @@ public class Player extends Actor {
     public String toString() {
         return super.toString() +
                 " | Stamina: " + this.getAttribute(BaseActorAttributes.STAMINA) + "/" +
-                this.getAttributeMaximum(BaseActorAttributes.STAMINA);
+                this.getAttributeMaximum(BaseActorAttributes.STAMINA) + "/" +
+                " | Mana: " + this.getAttribute(BaseActorAttributes.MANA);
     }
 
     /**
@@ -63,10 +66,9 @@ public class Player extends Actor {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
-        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             actions.add(new AttackAction(this, direction));
         }
-
         return actions;
     }
 
@@ -85,6 +87,8 @@ public class Player extends Actor {
             display.println(FancyMessage.YOU_DIED);
             this.unconscious(map);
         }
+
+        ManaManager.onTurn(this);
 
         // Handle multi-turn Actions
         if (lastAction.getNextAction() != null)
@@ -105,6 +109,7 @@ public class Player extends Actor {
     public void restoreStamina(int amount) {
         this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, amount);
     }
+
     /**
      * Increases the player's maximum health.
      *
@@ -113,6 +118,7 @@ public class Player extends Actor {
     public void increaseMaxHp(int amount) {
         this.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, amount);
     }
+
     /**
      * Increases the player's maximum stamina.
      *
@@ -133,8 +139,14 @@ public class Player extends Actor {
     }
 
     private final Wallet wallet = new Wallet();
+
     public Wallet getWallet() {
         return wallet;
     }
-
+    /**
+     * Adds or subtracts mana. Negative amount spends mana.
+     */
+    public void addMana(int amount) {
+        modifyAttribute(BaseActorAttributes.MANA, ActorAttributeOperations.INCREASE, amount);
+    }
 }

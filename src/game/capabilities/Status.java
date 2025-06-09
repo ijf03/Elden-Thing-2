@@ -16,6 +16,8 @@ public enum Status {
     SELLER_SELLEN,
     SELLER_KALE,
     USABLE_WEAPON,
+    MAGIC_SPELL,
+    PLAYER,
     RANDOM_BEHAVIOUR,
     NORMAL_BEHAVIOUR
 }

@@ -5,9 +5,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import edu.monash.fit2099.engine.weapons.Weapon;
 import game.Sellable;
 import game.actions.*;
 import game.actors.behaviours.NPCController;
@@ -20,6 +18,9 @@ import game.weapons.Katana;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static game.actions.AttackUtils.addSpellActions;
+import static game.actions.AttackUtils.addWeaponActions;
 
 public class Sellen extends Actor implements Speaker, Merchant {
     /**
@@ -105,20 +106,8 @@ public class Sellen extends Actor implements Speaker, Merchant {
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             actions.add(new AttackAction(this, direction, otherActor.getIntrinsicWeapon()));
-
-            List<String> weaponNames = new ArrayList<>();
-
-            for (Item item : otherActor.getItemInventory()) {
-                if (item.hasCapability(Status.USABLE_WEAPON)) {
-                    Weapon weapon = (Weapon) item;
-                    String name = weapon.toString();
-
-                    if (!weaponNames.contains(name)) {
-                        actions.add(new AttackAction(this, direction, weapon));
-                        weaponNames.add(name);
-                    }
-                }
-            }
+            addWeaponActions(otherActor, this, direction, actions);
+            addSpellActions( otherActor,this, actions);
         }
             // Only can be listened to if the other actor is playable
             if (otherActor.hasCapability(Status.PLAYABLE)) {
