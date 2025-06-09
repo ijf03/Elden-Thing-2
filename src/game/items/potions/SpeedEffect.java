@@ -29,12 +29,12 @@ public class SpeedEffect extends StatusEffect {
     @Override
     public void tick(Location location, Actor actor) {
         counter.decreaseCounter();
-        System.out.println("speed counter" + this.counter.getTurnCounter());
+//        System.out.println("speed counter" + this.counter.getTurnCounter());
         if (!isActive()) {
             actor.removeStatusEffect(this);
             actor.removeCapability(Status.SPEED);
         } else {
-            System.out.println(actor + " has speed boost for " + this.counter.getTurnCounter());
+            System.out.println(actor + " has speed boost for " + this.counter.getTurnCounter() + " turns");
         }
     }
 

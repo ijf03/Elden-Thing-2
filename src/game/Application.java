@@ -98,7 +98,7 @@ public class Application {
 
 
         // Add the maps to the world
-        world.addGameMap(gameMap);
+//        world.addGameMap(gameMap); // already added on top
         world.addGameMap(limveldMap);
         // Add boss to limveld
         limveldMap.at(8,7).addActor(new BedOfChaos());

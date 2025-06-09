@@ -34,7 +34,7 @@ public class SpeakEffect extends StatusEffect {
             actor.removeStatusEffect(this);
             actor.removeCapability(Status.SPEAK);
         } else {
-            System.out.println(actor + " can speak for " + this.counter.getTurnCounter());
+            System.out.println(actor + " can speak for " + this.counter.getTurnCounter() + " turns");
         }
     }
 
