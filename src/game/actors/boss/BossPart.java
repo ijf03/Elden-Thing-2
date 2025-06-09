@@ -5,17 +5,28 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Base implementation of BossPart
- * manages child parts and aggregating their values
+ * Abstract class for boss parts of the BedOfChaos
+ * implements logic for managing child parts and aggregating attack and healing values
  */
 public abstract class BossPart implements BossPartInterface {
     private final List<BossPartInterface> children = new ArrayList<>();
 
+    /**
+     * Returns a list of child parts attached to this part
+     *
+     * @return List of BossPartInterface child components
+     */
     @Override
     public List<BossPartInterface> getChildren() {
         return Collections.unmodifiableList(children);
     }
 
+    /**
+     * Attaches a new child part to the current part
+     *
+     * @param child The BossPartInterface to add
+     * @throws IllegalArgumentException if child is null
+     */
     @Override
     public void addChild(BossPartInterface child) {
         if (child == null) {
@@ -23,12 +34,20 @@ public abstract class BossPart implements BossPartInterface {
         }
         children.add(child);
     }
-
+    /**
+     * Returns the attack bonus contributed by this part.
+     *
+     * @return Attack bonus
+     */
     @Override
     public int getAttackBonus() {
         return 0;
     }
-
+    /**
+     * Returns the healing amount contributed by this part when grown.
+     *
+     * @return Healing amount value
+     */
     @Override
     public int getHealingAmount() {
         return 0;

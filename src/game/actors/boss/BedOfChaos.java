@@ -26,8 +26,6 @@ import static game.actions.AttackUtils.addWeaponActions;
 public class BedOfChaos extends Actor {
 
     private static final int basedamage = 25;
-    private static final int baseAccuracy = 75;
-
     private final BossPartInterface chaosTree;
     private int currentTotalDamage;
     private final BossWeapon bossWeapon;
@@ -44,6 +42,17 @@ public class BedOfChaos extends Actor {
         this.setIntrinsicWeapon(bossWeapon);
     }
 
+    /**
+     * Determines and executes the BedOfChaos's action for the current turn
+     * If player is adjacent, the boss prepares an attack
+     * Otherwise, the boss grows a branch or leaf. This can potentially heal the boss
+     *
+     * @param actions List of actions available this turn
+     * @param lastAction The last action performed
+     * @param map The game map containing all actors and terrain
+     * @param display The game display for outputting messages
+     * @return The chosen Action for this turn
+     */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         //Check if there is a player adjacent (HOSTILE_TO_ENEMY)
@@ -82,7 +91,11 @@ public class BedOfChaos extends Actor {
         return new DoNothingAction();
     }
 
-
+    /**
+     * Calculates the total bonus attack damage provided by all branches and leaves
+     *
+     * @return The total accumulated attack bonus
+     */
     private int calculateBonus() {
         int total = 0;
         for (BossPartInterface part : chaosTree.getChildren()) {
@@ -91,6 +104,14 @@ public class BedOfChaos extends Actor {
         return total;
     }
 
+    /**
+     * Returns a list of actions that can performed on the Bed of Chaos
+     *
+     * @param otherActor The actor interacting with Bed of Chaos
+     * @param direction Direction relative to the actor
+     * @param map Game map
+     * @return List of allowable actions
+     */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
@@ -104,7 +125,9 @@ public class BedOfChaos extends Actor {
     }
 
     /**
-     * Returns the full current attack damage including tree bonuses.
+     * Return full current attack damage (base damage + bonus)
+     *
+     * @return The total attack damage for the next attack
      */
     public int getCurrentTotalDamage() {
         return currentTotalDamage;
@@ -112,7 +135,10 @@ public class BedOfChaos extends Actor {
 
 
     /**
-     * Counts the number of leaves in the tree.
+     * Recursively counts the number of leaf parts
+     *
+     * @param node The root of the tree
+     * @return The total number of leaf parts in the tree
      */
     private int countLeaves(BossPartInterface node) {
         if (node instanceof Leaf) return 1;
