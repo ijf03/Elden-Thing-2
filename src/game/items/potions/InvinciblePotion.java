@@ -30,7 +30,7 @@ public class InvinciblePotion extends Item implements Throwable {
     @Override
     public void throwed(Actor actor, Actor target) {
         this.invincibleEffect = new InvincibleEffect();
-//        actor.removeItemFromInventory(this);
+        actor.removeItemFromInventory(this);
         target.addStatusEffect(getEffect());
         target.addCapability(Status.INVINCIBLE);
     }

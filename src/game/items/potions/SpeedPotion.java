@@ -31,7 +31,7 @@ public class SpeedPotion extends Item implements Throwable {
     @Override
     public void throwed(Actor actor, Actor target) {
         this.speedEffect = new SpeedEffect();
-//        actor.removeItemFromInventory(this);
+        actor.removeItemFromInventory(this);
         target.addStatusEffect(getEffect());
         target.addCapability(Status.SPEED);
     }

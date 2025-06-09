@@ -31,7 +31,7 @@ public class SpeakPotion extends Item implements Throwable {
     @Override
     public void throwed(Actor actor, Actor target) {
         this.speakEffect = new SpeakEffect();
-//        actor.removeItemFromInventory(this);
+        actor.removeItemFromInventory(this);
         target.addStatusEffect(getEffect());
         target.addCapability(Status.SPEAK);
     }

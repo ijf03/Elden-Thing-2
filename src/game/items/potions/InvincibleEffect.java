@@ -12,7 +12,6 @@ import game.capabilities.Status;
  */
 public class InvincibleEffect extends StatusEffect {
     private Turns counter;
-    private boolean isActive;
 
     /**
      * Constructor.
@@ -20,7 +19,6 @@ public class InvincibleEffect extends StatusEffect {
     public InvincibleEffect() {
         super("Invincible");
         this.counter = new Turns(5);
-        this.isActive = true;
     }
 
     /**
