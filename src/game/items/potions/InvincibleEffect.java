@@ -36,7 +36,7 @@ public class InvincibleEffect extends StatusEffect {
             actor.removeStatusEffect(this);
             actor.removeCapability(Status.INVINCIBLE);
         } else {
-            System.out.println(actor + " is Invincible for " + this.counter.getTurnCounter());
+            System.out.println(actor + " is Invincible for " + this.counter.getTurnCounter() + " turns");
         }
     }
 

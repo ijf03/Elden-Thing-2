@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -32,21 +33,22 @@ public class MoveActorMultipleStepAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < steps; i++) {
-            boolean moved = false;
+            ArrayList<Exit> exits = new ArrayList<>();
             for (Exit exit : map.locationOf(actor).getExits()) {
                 Location destination = exit.getDestination();
                 if (destination.canActorEnter(actor)) {
-                    exit.getDestination().getMoveAction(actor, "around", exit.getHotKey()).execute(actor, map);
-                    result.append(actor).append(" moved around ").append(i+1).append(" steps").append("\n");
-                    moved = true;
-                    break;
+                    exits.add(exit);
                 }
             }
 
-            // no valid exits to move
-            if (!moved) {
+            if (!exits.isEmpty()) {
+                Exit location = exits.get(random.nextInt(exits.size()));
+                location.getDestination().getMoveAction(actor, "around", location.getHotKey()).execute(actor, map);
+                result.append(actor).append(" moved around ").append(i+1).append(" steps").append(i+1 == steps ? "" : "\n");
+            } else {
+                // no valid exits to move
                 result.append("Can't move");
             }
         }
