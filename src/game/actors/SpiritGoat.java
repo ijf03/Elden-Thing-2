@@ -51,6 +51,10 @@ public class SpiritGoat extends Creature implements Curable, Reproducible {
         this.reproduceCooldown = new Turns(0);
     }
 
+    /**
+     * Constructor if behaviour selection style is chosen
+     * @param status behaviour style
+     */
     public SpiritGoat(Status status) {
         super("SpiritGoat",'y', 50, status);
         this.turnCounter = new Turns(10);

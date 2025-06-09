@@ -49,6 +49,48 @@ public class Application {
         GameMap gameMap = new GameMap("Valley of the Inheritree", groundFactory, valleyMap);
         world.addGameMap(gameMap);
 
+        List<String> limveldStringArray = Arrays.asList(
+                ".............xxxx",
+                "..............xxx",
+                "................x",
+                ".................",
+                "................x",
+                "...............xx",
+                "..............xxx",
+                "..............xxx",
+                "..............xxx",
+                ".............xxxx",
+                ".............xxxx",
+                "....xxx.....xxxxx",
+                "....xxxx...xxxxxx"
+        );
+
+        GameMap limveldMap = new GameMap("Limveld", groundFactory, limveldStringArray);
+
+        // Initialise the teleportation circles
+        TeleportationCircle gameMapTeleportCircle = new TeleportationCircle();
+        TeleportationCircle limveldMapTeleportCircle = new TeleportationCircle();
+
+        // Establish the locations of each
+        Location gameMapTeleportCircleLocation = gameMap.at(25, 14);
+        Location limveldMapTeleportCircleLocation = limveldMap.at(7,7);
+
+        // Add the destinations you can teleport to via the respective circles
+        gameMapTeleportCircle.addDestination(limveldMapTeleportCircleLocation);
+        limveldMapTeleportCircle.addDestination(gameMapTeleportCircleLocation);
+
+        // Add the circles as items to the map
+        gameMapTeleportCircleLocation.addItem(gameMapTeleportCircle);
+        limveldMapTeleportCircleLocation.addItem(limveldMapTeleportCircle);
+
+
+
+        // Add the maps to the world
+        world.addGameMap(gameMap);
+        world.addGameMap(limveldMap);
+        // Add boss to limveld
+        limveldMap.at(8,7).addActor(new BedOfChaos());
+
         // BEHOLD, ELDEN THING!
         for (String line : FancyMessage.TITLE.split("\n")) {
             new Display().println(line);
@@ -67,7 +109,7 @@ public class Application {
         player.addItemToInventory(BloodroseSeed);
         player.addItemToInventory(new Talisman());
         player.addAttribute(STAMINA ,new BaseActorAttribute(200));
-        world.addPlayer(player, gameMap.at(21, 7));
+        world.addPlayer(player, gameMap.at(25, 13));
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
@@ -77,7 +119,6 @@ public class Application {
         gameMap.at(26,14).addActor(new Kale());
         gameMap.at(24,12).addActor(new Guts());
         gameMap.at(12,14).addActor(new GoldenBeetle(Status.NORMAL_BEHAVIOUR));
-        gameMap.at(20,7).addItem(new TeleportationCircle());
 
         world.run();
     }

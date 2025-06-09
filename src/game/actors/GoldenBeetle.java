@@ -42,8 +42,10 @@ public class GoldenBeetle extends Creature implements Consumable, Reproducible
      */
     private int turnCounter;
     /**
-     * Constructor for the Golden Beetle. Initializes its name, display character "b", its health and behaviours
+     * Constructor if behaviour selection style is chosen
+     * @param status behaviour style
      */
+
     public GoldenBeetle(Status status) {
         super("Golden Beetle", 'b', 25, status);
         // this.behaviours.put(998, new FollowBehaviour());
@@ -54,6 +56,9 @@ public class GoldenBeetle extends Creature implements Consumable, Reproducible
         npcController.newBehaviour(new ReproduceBehaviour(this), 2);
     }
 
+    /**
+     * Constructor for the Golden Beetle. Initializes its name, display character "b", its health and behaviours
+     */
     public GoldenBeetle() {
         super("Golden Beetle", 'b', 25, Status.NORMAL_BEHAVIOUR);
         // this.behaviours.put(998, new FollowBehaviour());

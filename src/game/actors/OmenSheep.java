@@ -47,9 +47,11 @@ public class OmenSheep extends Creature implements Curable, Reproducible {
     private Turns reproduceCounter;
     private final NPCController NPCController;
 
+    /**
+     * Constructor with all the initial behaviours
+     */
     public OmenSheep() {
         super("OmenSheep",'m', 75, Status.NORMAL_BEHAVIOUR);
-        //this.behaviours.put(999, new WanderBehaviour());
         this.turnCounter = new Turns(15);
         this.NPCController = new StandardNPCController();
         NPCController.newBehaviour(new WanderBehaviour(), 999);
@@ -57,6 +59,10 @@ public class OmenSheep extends Creature implements Curable, Reproducible {
         this.reproduceCounter = new Turns(7);
     }
 
+    /**
+     * Constructor if behaviour selection style is chosen
+     * @param status behaviour style
+     */
     public OmenSheep(Status status) {
         super("OmenSheep",'m', 75, status);
         //this.behaviours.put(999, new WanderBehaviour());
