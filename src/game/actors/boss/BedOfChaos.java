@@ -28,9 +28,6 @@ public class BedOfChaos extends Actor {
     private static final int basedamage = 25;
     private static final int baseAccuracy = 75;
 
-//    private final BossWeapon bossWeapon;
-//    private final Branch chaosTree;
-//    private int totalAttackDamage = basedamage;
     private final BossPartInterface chaosTree;
     private int currentTotalDamage;
     private final BossWeapon bossWeapon;
@@ -42,19 +39,30 @@ public class BedOfChaos extends Actor {
     public BedOfChaos() {
         super("Bed of Chaos", 'T', 1000);
         this.chaosTree = new Branch();
-        this.currentTotalDamage = chaosTree.getAttackBonus();
+        this.currentTotalDamage = basedamage;
         this.bossWeapon = new BossWeapon(this::getCurrentTotalDamage);
         this.setIntrinsicWeapon(bossWeapon);
     }
 
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        //Check if there is a player adjacent (HOSTILE_TO_ENEMY)
+        for (Exit exit : map.locationOf(this).getExits()) {
+            Actor target = exit.getDestination().getActor();
+            if (target != null && target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+                // ATTACK
+                currentTotalDamage = basedamage + calculateBonus();
+                display.println(this + " prepares an attack (Damage = " + currentTotalDamage + ")");
+                return new AttackAction(target, exit.getName(), bossWeapon);
+            }
+        }
 
+        // No player nearby then grow
         display.println(this + " is growing...");
-
+        int leavesBefore = countLeaves(chaosTree);
         int bonusBefore = calculateBonus();
 
-        int leavesBefore = countLeaves(chaosTree);
+        // Make sure we only grow one new part
         while (countLeaves(chaosTree) == leavesBefore) {
             if (chaosTree instanceof Growable) {
                 ((Growable) chaosTree).grow(display);
@@ -66,26 +74,14 @@ public class BedOfChaos extends Actor {
             display.println(this + " is healed for " + heal + " HP.");
             this.heal(heal);
         }
-        if (this.getAttribute(BaseActorAttributes.HEALTH) <= 0) {
-            display.println(this.unconscious(map));
-            return new DoNothingAction();
-        }
 
-        int bonusAfter= calculateBonus();
-        int bonusGained = bonusAfter - bonusBefore;
-        currentTotalDamage += bonusGained;
-
-        display.println(this + " prepares an attack (Damage = " + currentTotalDamage + ")");
-
-        for (Exit exit : map.locationOf(this).getExits()) {
-            Actor target = exit.getDestination().getActor();
-            if (target != null && target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-                return new AttackAction(target, exit.getName(), bossWeapon);
-            }
-        }
+        int bonusAfter = calculateBonus();
+        //currentTotalDamage as basedamage + bonus
+        currentTotalDamage = basedamage + bonusAfter;
 
         return new DoNothingAction();
     }
+
 
     private int calculateBonus() {
         int total = 0;
@@ -114,16 +110,6 @@ public class BedOfChaos extends Actor {
         return currentTotalDamage;
     }
 
-//    /**
-//     * Returns the bonus damage from current tree structure.
-//     */
-//    private int getCurrentAttackBonus() {
-//        int total = 0;
-//        for (Growable child : growthTree.getChildren()) {
-//            total += child.getAttackBonus();
-//        }
-//        return total;
-//    }
 
     /**
      * Counts the number of leaves in the tree.

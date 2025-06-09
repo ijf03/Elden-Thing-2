@@ -73,7 +73,7 @@ public class Application {
         player.addItemToInventory(InheritreeSeed);
         player.addItemToInventory(BloodroseSeed);
         player.addItemToInventory(new Talisman());
-        world.addPlayer(player, gameMap.at(21, 7));
+        world.addPlayer(player, gameMap.at(20, 7));
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
