@@ -16,7 +16,7 @@ public class ManaManager {
 
     /**
      * Award mana when the player talks to a merchant or listens.
-     * @param player the Player who talked
+     * @param player the Player
      */
     public static void onTalk(Player player) {
         player.addMana(3);
@@ -24,7 +24,7 @@ public class ManaManager {
 
     /**
      * Award mana when the player harvests or plants crops.
-     * @param player the Player who planted or harvested
+     * @param player the Player
      */
     public static void onPlantOrHarvest(Player player) {
         player.addMana(3);
@@ -32,9 +32,17 @@ public class ManaManager {
 
     /**
      * Award passive mana when the player does nothing.
-     * @param player the Player who idled
+     * @param player the Player
      */
     public static void onTurn(Player player) {
         player.addMana(1);
     }
+    /**
+     * Award passive mana when the player buy weapon from merchant..
+     * @param player the Player
+     */
+    public static void onBuy(Player player) {
+        player.addMana(10);
+    }
+
 }
