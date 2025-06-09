@@ -35,13 +35,11 @@ public class CastSpellAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         Integer currentMana = actor.getAttribute(BaseActorAttributes.MANA);
-        if (currentMana != null) {
-            int cost = item.getManaCost();
-            if (currentMana < cost) {
-                return actor + " does not have enough mana to cast " + item;
+        int cost = item.getManaCost();
+        if (currentMana < cost) {
+            return actor + " does not have enough mana to cast " + item;
             }
-            actor.modifyAttribute(BaseActorAttributes.MANA, ActorAttributeOperations.DECREASE, cost);
-        }
+        actor.modifyAttribute(BaseActorAttributes.MANA, ActorAttributeOperations.DECREASE, cost);
         return item.cast(actor, target, map);
     }
     /**
