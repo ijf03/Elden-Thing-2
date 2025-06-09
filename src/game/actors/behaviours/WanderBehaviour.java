@@ -6,6 +6,8 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actions.MoveActorMultipleStepAction;
+import game.capabilities.Status;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -32,19 +34,31 @@ public class WanderBehaviour implements Behaviour {
     public Action getAction(Actor actor, GameMap map) {
         ArrayList<Action> actions = new ArrayList<>();
 
-        for (Exit exit : map.locationOf(actor).getExits()) {
-            Location destination = exit.getDestination();
-            if (destination.canActorEnter(actor)) {
-                actions.add(exit.getDestination().getMoveAction(actor, "around", exit.getHotKey()));
-            }
+        // checker for speed potion's effect on movement
+        int steps = 1;
+        if (actor.hasCapability(Status.SPEED)) {
+            steps = 2;
         }
 
-        // assuming players will move before anyone else (first in actor list)
-        if (!actions.isEmpty()) {
-            return actions.get(random.nextInt(actions.size()));
+        if (steps > 1) {
+            return new MoveActorMultipleStepAction(steps);
         }
+        // normal movements
         else {
-            return null;
+            for (Exit exit : map.locationOf(actor).getExits()) {
+                Location destination = exit.getDestination();
+                if (destination.canActorEnter(actor)) {
+                    actions.add(exit.getDestination().getMoveAction(actor, "around", exit.getHotKey()));
+                }
+            }
+
+            // assuming players will move before anyone else (first in actor list)
+            if (!actions.isEmpty()) {
+                return actions.get(random.nextInt(actions.size()));
+            }
+            else {
+                return null;
+            }
         }
     }
 }

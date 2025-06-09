@@ -2,7 +2,6 @@ package game.actors;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
-import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
@@ -10,7 +9,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Reproducible;
 import game.actions.AttackAction;
-import game.actions.EatAction;
+import game.actions.ConsumeAction;
+import game.actions.ListenAction;
 import game.actors.behaviours.*;
 import game.capabilities.Status;
 import game.items.Consumable;
@@ -25,7 +25,7 @@ import static game.actions.AttackUtils.addWeaponActions;
 /**
  * GoldenBeetle with wandering behaviour and a follow behaviour to follow the player. It can also lay eggs and can be consumed for health and runes.
  */
-public class GoldenBeetle extends Creature implements Consumable, Reproducible
+public class GoldenBeetle extends Creature implements Consumable, Reproducible, Speaker
 {
 
     /**
@@ -120,7 +120,10 @@ public class GoldenBeetle extends Creature implements Consumable, Reproducible
             addSpellActions( otherActor,this, actions);
         }
         if (otherActor.hasCapability(Status.PLAYABLE)) {
-            actions.add(new EatAction(this));
+            actions.add(new ConsumeAction(this));
+        }
+        if (canSpeak()) {
+            actions.add(new ListenAction(this));
         }
         return actions;
     }
@@ -144,5 +147,49 @@ public class GoldenBeetle extends Creature implements Consumable, Reproducible
     public void reproduce(GameMap map) {
         Location location = map.locationOf(this);
         location.addItem(new GoldenEgg());
+    }
+
+    /**
+     * Hurts GoldenBeetle with the given damage points.
+     * @param damage the damage points that the actor receives
+     */
+    @Override
+    public void hurt(int damage) {
+        boolean isInvincible = false;
+        if (this.hasCapability(Status.INVINCIBLE)) {
+            isInvincible = true;
+        }
+
+        if (isInvincible) {
+            System.out.println(this + " is Invincible and can't be hurt!");
+        } else {
+            super.hurt(damage);
+        }
+    }
+
+    /**
+     * The rules for what the GoldenBeetle would say.
+     * @param player that listens to the speaker
+     * @param map where they are
+     * @return a string that displays their message
+     */
+    @Override
+    public String ListenAction(Actor player, GameMap map) {
+        String result;
+        if (this.turnCounter % 5 <= 2) {
+            result = "A beetle egg will be laid soon!";
+        } else {
+            result = "Safe travels friend.";
+        }
+        return this + "~~~ " + result;
+    }
+
+    /**
+     * Checks if GoldenBeetle is currently able to speak.
+     * @return true if condition is met, otherwise false
+     */
+    @Override
+    public boolean canSpeak() {
+        return this.hasCapability(Status.SPEAK);
     }
 }

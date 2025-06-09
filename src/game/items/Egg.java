@@ -9,7 +9,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.Hatchable;
 import game.Turns;
-import game.actions.EatAction;
+import game.actions.ConsumeAction;
 import game.actors.OmenSheep;
 
 /**
@@ -90,12 +90,12 @@ public class Egg extends Item implements Hatchable, Consumable {
      * Returns the list of actions that can be performed on this egg.
      * @param owner the actor that owns the item
      * @param map the map where the actor is performing the action on
-     * @return
+     * @return an unmodifiable list of Actions
      */
     @Override
     public ActionList allowableActions(Actor owner, GameMap map) {
         ActionList actions = super.allowableActions(owner, map);
-        actions.add(new EatAction(this));
+        actions.add(new ConsumeAction(this));
         return actions;
     }
 }

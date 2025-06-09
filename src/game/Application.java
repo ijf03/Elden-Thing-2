@@ -1,5 +1,6 @@
 package game;
 
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.*;
 import game.actors.*;
@@ -7,6 +8,9 @@ import game.actors.boss.BedOfChaos;
 import game.capabilities.Status;
 import game.items.Seed;
 import game.items.TeleportationCircle;
+import game.items.potions.InvinciblePotion;
+import game.items.potions.SpeakPotion;
+import game.items.potions.SpeedPotion;
 import game.terrain.*;
 import game.items.Talisman;
 import game.terrain.Blight;
@@ -21,6 +25,8 @@ import game.weapons.Broadsword;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import static edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes.STAMINA;
 
 /**
  * The main class to setup and run the game.
@@ -115,11 +121,14 @@ public class Application {
         player.addItemToInventory(BloodroseSeed);
         player.addItemToInventory(new Talisman());
         player.addAttribute(STAMINA ,new BaseActorAttribute(200));
+        player.addItemToInventory(new InvinciblePotion());
+        player.addItemToInventory(new SpeedPotion());
+        player.addItemToInventory(new SpeakPotion());
         world.addPlayer(player, gameMap.at(25, 13));
 
         // game setup
         gameMap.at(24, 11).addItem(new Talisman());
-        gameMap.at(19, 12).addActor(new SpiritGoat());
+        gameMap.at(26, 12).addActor(new SpiritGoat());
         gameMap.at(20, 13).addActor(new OmenSheep(Status.RANDOM_BEHAVIOUR));
         gameMap.at(25,12).addActor(new Sellen());
         gameMap.at(26,14).addActor(new Kale());

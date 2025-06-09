@@ -14,6 +14,7 @@ import game.Reproducible;
 import game.Turns;
 import game.actions.AttackAction;
 import game.actions.CureAction;
+import game.actions.ListenAction;
 import game.actors.behaviours.NPCController;
 import game.actors.behaviours.ReproduceBehaviour;
 import game.actors.behaviours.StandardNPCController;
@@ -32,7 +33,7 @@ import static game.actions.AttackUtils.addWeaponActions;
  * Class representing the NPC OmenSheep which roams around
  * @author Trinh Nguyen
  */
-public class OmenSheep extends Creature implements Curable, Reproducible {
+public class OmenSheep extends Creature implements Curable, Reproducible, Speaker {
 
     /**
      * A Hashmap storing all the behaviours
@@ -84,7 +85,9 @@ public class OmenSheep extends Creature implements Curable, Reproducible {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        turnCounter.decreaseCounter();
+        if (!this.hasCapability(Status.INVINCIBLE)) {
+            turnCounter.decreaseCounter();
+        }
 
         // reproduce egg
         reproduceCounter.decreaseCounter();
@@ -114,6 +117,9 @@ public class OmenSheep extends Creature implements Curable, Reproducible {
 
         if (otherActor.hasCapability(Status.CURE)){
             actions.add(new CureAction(this, map.locationOf(this), direction));
+        }
+        if (canSpeak()) {
+            actions.add(new ListenAction(this));
         }
         return actions;
     }
@@ -153,5 +159,49 @@ public class OmenSheep extends Creature implements Curable, Reproducible {
         reproduceCounter.resetTurnCounter();
         Location location = map.locationOf(this);
         location.addItem(new Egg(10));
+    }
+
+    /**
+     * Hurts OmenSheep with the given damage points.
+     * @param damage the damage points that the actor receives
+     */
+    @Override
+    public void hurt(int damage) {
+        boolean isInvincible = false;
+        if (this.hasCapability(Status.INVINCIBLE)) {
+            isInvincible = true;
+        }
+
+        if (isInvincible) {
+            System.out.println(this + " is Invincible and can't be hurt!");
+        } else {
+            super.hurt(damage);
+        }
+    }
+
+    /**
+     * The rules for what the OmenSheep would say.
+     * @param player that listens to the speaker
+     * @param map where they are
+     * @return a string that displays their message
+     */
+    @Override
+    public String ListenAction(Actor player, GameMap map) {
+        String result;
+        if (this.turnCounter.getTurnCounter() < 5) {
+            result = "The rot is unforgiving but I would hope you are not, please friend save me if not for a few days more.";
+        } else {
+            result = "Safe travels friend.";
+        }
+        return this + "~~~ " + result;
+    }
+
+    /**
+     * Checks if OmenSheep is currently able to speak.
+    * @return true if condition is met, otherwise false
+    */
+    @Override
+    public boolean canSpeak() {
+        return this.hasCapability(Status.SPEAK);
     }
 }

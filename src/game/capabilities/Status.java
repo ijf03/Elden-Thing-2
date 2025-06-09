@@ -19,6 +19,9 @@ public enum Status {
     MAGIC_SPELL,
     PLAYER,
     RANDOM_BEHAVIOUR,
-    NORMAL_BEHAVIOUR
+    NORMAL_BEHAVIOUR,
+    INVINCIBLE,
+    SPEED,
+    SPEAK
 }
 

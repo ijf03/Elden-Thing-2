@@ -76,6 +76,33 @@ public class Sellen extends Actor implements Speaker, Merchant {
     }
 
     /**
+     * Checks if Sellen is currently able to speak.
+     * @return always true
+     */
+    @Override
+    public boolean canSpeak() {
+        return true;
+    }
+
+    /**
+     * Hurts Sellen with the given damage points.
+     * @param damage the damage points that the actor receives
+     */
+    @Override
+    public void hurt(int damage) {
+        boolean isInvincible = false;
+        if (this.hasCapability(Status.INVINCIBLE)) {
+            isInvincible = true;
+        }
+
+        if (isInvincible) {
+            System.out.println(this + " is Invincible and can't be hurt!");
+        } else {
+            super.hurt(damage);
+        }
+    }
+
+    /**
      * At each turn, select a valid action to perform.
      *
      * @param actions    collection of possible Actions for this Actor
